@@ -2,277 +2,58 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Angebotskonfigurator – Entwurf</title>
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: white;
-    margin: 0;
-}
-
-.page {
-    display: none;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.page.active {
-    display: flex;
-}
-
-.logo img {
-    max-width: 200px;
-    margin-bottom: 25px;
-}
-
-button {
-    background: #e0e0e0;
-    border: none;
-    padding: 12px 24px;
-    margin: 6px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:hover {
-    background: #cfcfcf;
-}
-
-input {
-    padding: 8px;
-    margin-left: 10px;
-    width: 80px;
-    text-align: center;
-}
-
-.section {
-    margin: 10px 0;
-}
-</style>
-
-<script>
-let data = {
-    varianteA: 0,
-    varianteB: 0,
-    varianteC: 0,
-    option1: 0,
-    option2: 0,
-    option3: 0,
-    option4: 0
-};
-
-const prices = {
-    varianteA: 26.90,
-    varianteB: 27.40,
-    varianteC: 27.70,
-    option1: 6.90,
-    option2: 27.10,
-    option3: 343.00,
-    option4: 268.30
-};
-
-function showPage(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-
-    if (id === 'angebot') {
-        calculateTotal();
-    }
-}
-
-function updateValue(key, value) {
-    data[key] = parseFloat(value) || 0;
-}
-
-function calculateTotal() {
-    let total = 0;
-    for (let key in data) {
-        total += data[key] * prices[key];
-    }
-    document.getElementById('totalPrice').innerText =
-        total.toLocaleString('de-DE', { minimumFractionDigits: 2 }) + ' €';
-}
-function resetAll() {
-    // Alle gespeicherten Mengen zurücksetzen
-    for (let key in data) {
-        data[key] = 0;
-    }
-
-    // Alle Eingabefelder leeren
-    document.querySelectorAll('input').forEach(input => {
-        input.value = '';
-    });
-
-    // Preis zurücksetzen
-    document.getElementById('totalPrice').innerText = '0,00 €';
-
-    // Zur Startseite wechseln
-    showPage('marke');
-}
-const labels = {
-    varianteA: "Variante A - Tackerplatte WLG045 20-2 mm",
-    varianteB: "Variante B - Tackerplatte WLG045 20-3 mm",
-    varianteC: "Variante C - Tackerplatte WLG040 30-2 mm",
-    option1: "EPS-Platte 20 mm in WLG035",
-    option2: "Zement Heizestrich Flächen von 110 bis 119 m²",
-    option3: "Heizkreisverteiler HKV-D 2",
-    option4: "Heizkreisverteilerschrank 2 - 3 HK"
-};
-
-function calculateTotal() {
-    let total = 0;
-    let outputHtml = "";
-    
-    for (let key in data) {
-        let qty = data[key];
-        if (qty > 0) {
-            let lineTotal = qty * prices[key];
-            total += lineTotal;
-            outputHtml += `<p>${labels[key]} – Menge: ${qty} – ${prices[key].toLocaleString('de-DE', {minimumFractionDigits:2})} €/Einheit – Summe: ${lineTotal.toLocaleString('de-DE', {minimumFractionDigits:2})} €</p>`;
-        }
-    }
-    
-    document.getElementById('totalPrice').innerText =
-        total.toLocaleString('de-DE', { minimumFractionDigits: 2 }) + ' €';
-    
-    // gewählte Punkte in Angebot darstellen
-    document.getElementById('selectedItems').innerHTML = outputHtml || "<p>Keine Positionen gewählt.</p>";
-}
-function sendEmail() {
-    let subject = encodeURIComponent("Ihr Angebot");
-    let body = "Sehr geehrte/r Kunde,\n\nHier ist Ihr Angebot:\n\n";
-
-    // Alle gewählten Positionen anhängen
-    for (let key in data) {
-        if (data[key] > 0) {
-            let lineTotal = data[key] * prices[key];
-            body += `${labels[key]} – Menge: ${data[key]} – ${prices[key].toLocaleString('de-DE', {minimumFractionDigits:2})} €/Einheit – Summe: ${lineTotal.toLocaleString('de-DE', {minimumFractionDigits:2})} €\n`;
-        }
-    }
-
-    body += `\nGesamtpreis: ${document.getElementById('totalPrice').innerText}\n\n(freibleibend)\n\nMit freundlichen Grüßen`;
-
-    // mailto-Link öffnen
-    window.location.href = `mailto:?subject=${subject}&body=${encodeURIComponent(body)}`;
-}
-</script>
+<title>Kunden – Preis – Kalkulator</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- MARKEN -->
-<div class="page active" id="marke">
-    <div class="logo"><img src="logo.png"></div>
-    <h2>Marke auswählen</h2>
-    <button onclick="showPage('ausf')">Hausmarke</button>
-    <button onclick="showPage('ausf')">Uponor</button>
-    <button onclick="showPage('ausf')">Roth</button>
-    <button onclick="showPage('ausf')">Norit</button>
+<img src="logo.png" class="logo">
+
+<!-- Countdown -->
+<div id="timer">Logout in: 10:00</div>
+
+<!-- SEITE 1: LOGIN -->
+<div class="page active" id="page-login">
+    <h2>Login</h2>
+
+    <input id="loginUser" placeholder="Nutzername">
+    <input id="loginPass" type="password" placeholder="Passwort">
+
+    <div class="error" id="loginError"></div>
+
+    <button onclick="login()">Anmelden</button>
+
+    <button onclick="forgotPassword()">Passwort vergessen</button>
+    <button onclick="goToChange()">Passwort ändern</button>
 </div>
 
-<!-- AUSFÜHRUNG -->
-<div class="page" id="ausf">
-    <div class="logo"><img src="logo.png"></div>
-    <h2>Ausführung</h2>
-    <button onclick="showPage('varianten')">Tackersystem liefern und montieren</button>
-    <button onclick="showPage('varianten')">Klettsystem liefern und montieren</button>
-    <button onclick="showPage('varianten')">Trockenbausystem</button>
-    <button onclick="showPage('marke')">Zurück</button>
+<!-- SEITE 2: PASSWORT ÄNDERN -->
+<div class="page" id="page-change">
+    <h2>Passwort ändern</h2>
+
+    <input id="oldPass" type="password" placeholder="Altes Passwort">
+    <input id="newPass1" type="password" placeholder="Neues Passwort">
+    <input id="newPass2" type="password" placeholder="Neues Passwort wiederholen">
+
+    <div class="error" id="changeError"></div>
+
+    <button onclick="savePassword()">Speichern</button>
+    <button onclick="showPage('page-login')">Abbrechen</button>
 </div>
 
-<!-- VARIANTEN -->
-<div class="page" id="varianten">
-    <div class="logo"><img src="logo.png"></div>
-    <h2>Varianten</h2>
+<!-- SEITE 3: AUSWAHL -->
+<div class="page" id="page-select">
+    <h2>Bitte auswählen</h2>
 
-    <div class="section">
-        Variante A - Tackerplatte WLG045 20-2 mm – 26,90 €/m²
-        <input oninput="updateValue('varianteA', this.value)" placeholder="m²">
-    </div>
+    <button onclick="alert('Weiter zu Seite 4')">KV</button>
+    <button onclick="alert('Weiter zu Seite 5')">Anfrage an NDF</button>
 
-    <div class="section">
-        Variante B - Tackerplatte WLG045 20-3 mm – 27,40 €/m²
-        <input oninput="updateValue('varianteB', this.value)" placeholder="m²">
-    </div>
-
-    <div class="section">
-        Variante C - Tackerplatte WLG040 30-2 mm – 27,70 €/m²
-        <input oninput="updateValue('varianteC', this.value)" placeholder="m²">
-    </div>
-
-    <button onclick="showPage('angebot')">Direkt zum Angebot</button>
-    <button onclick="showPage('optionen')">Weiter zu Optionen</button>
-    <button onclick="showPage('ausf')">Zurück</button>
+    <p class="hint">
+        KV = Kostenvoranschlag – die schnelle und direkte Ermittlung eines Richtpreises für den Kunden<br><br>
+        Anfrage an NDF – Ermittlung eines Richtpreises für den Kunden, jedoch mit der Möglichkeit ein qualifiziertes Angebot von NDF per Mail anzufragen.
+    </p>
 </div>
 
-<!-- OPTIONEN MENU -->
-<div class="page" id="optionen">
-    <div class="logo"><img src="logo.png"></div>
-    <h2>Optionen</h2>
-    <button onclick="showPage('opt1')">Unterdämmung Tacker- und Klettsystem</button>
-    <button onclick="showPage('opt2')">Estrich</button>
-    <button onclick="showPage('opt3')">Heizkreisverteiler</button>
-    <button onclick="showPage('opt4')">Heizkreisverteilerschränke</button>
-    <button onclick="showPage('varianten')">Zurück</button>
-</div>
-
-<!-- OPTION 1 -->
-<div class="page" id="opt1">
-    <div class="logo"><img src="logo.png"></div>
-    <h2>EPS-Platte 20 mm in WLG035 – 6,90 €/m²</h2>
-    <input oninput="updateValue('option1', this.value)" placeholder="m²">
-    <button onclick="showPage('angebot')">Direkt zum Angebot</button>
-    <button onclick="showPage('optionen')">Zurück</button>
-</div>
-
-<!-- OPTION 2 -->
-<div class="page" id="opt2">
-    <div class="logo"><img src="logo.png"></div>
-    <h2>Zement Heizestrich Flächen von 110 bis 119 m² – 27,10 €/m²</h2>
-    <input oninput="updateValue('option2', this.value)" placeholder="m²">
-    <button onclick="showPage('angebot')">Direkt zum Angebot</button>
-    <button onclick="showPage('optionen')">Zurück</button>
-</div>
-
-<!-- OPTION 3 -->
-<div class="page" id="opt3">
-    <div class="logo"><img src="logo.png"></div>
-    <h2>Heizkreisverteiler HKV-D 2 – 343,00 €/Stk.</h2>
-    <input oninput="updateValue('option3', this.value)" placeholder="Stk.">
-    <button onclick="showPage('angebot')">Direkt zum Angebot</button>
-    <button onclick="showPage('optionen')">Zurück</button>
-</div>
-
-<!-- OPTION 4 -->
-<div class="page" id="opt4">
-    <div class="logo"><img src="logo.png"></div>
-    <h2>Heizkreisverteilerschrank 2 - 3 HK – 268,30 €/Stk.</h2>
-    <input oninput="updateValue('option4', this.value)" placeholder="Stk.">
-    <button onclick="showPage('angebot')">Direkt zum Angebot</button>
-    <button onclick="showPage('optionen')">Zurück</button>
-</div>
-
-<!-- ANGEBOT -->
-<div class="page" id="angebot">
-    <div class="logo"><img src="logo.png"></div>
-    <h2>Ihr Angebot</h2>
-
-<div id="selectedItems" style="text-align:left; max-width:500px; margin-bottom:20px;">
-    <!-- Hier werden die gewählten Punkte angezeigt -->
-</div>
-
-<p><strong>Gesamtpreis:</strong></p>
-<h1 id="totalPrice">0,00 €</h1>
-<p>(freibleibend)</p>
-
-
-    <button onclick="sendEmail()">Angebot per E-Mail senden</button>
-    <button onclick="resetAll()">Zurück zum Start</button>
-
-</div>
-
+<script src="app.js"></script>
 </body>
 </html>
