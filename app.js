@@ -450,71 +450,83 @@ function goToAngebot() {
     }
 }
 
-async function loadPage40() {
+function loadPage40() {
     const container = document.getElementById("summary-content");
     const hinweiseContainer = document.getElementById("hinweise-content");
 
+    // Leeren
     container.innerHTML = "";
     hinweiseContainer.innerHTML = "";
 
     let gesamt = 0;
 
-    // Alle Seiten mit Mengen
-    const seiten = [
-        { key: "page14Data", csv: "ndf1.csv" },
-        { key: "page143Data", csv: "ndf3.csv" }
-    ];
+    // Alle Seiten, die Mengen haben: page14, page-14-2, page-14-3 ...
+    const seitenIds = ["page14Data", "page142Data", "page143Data"]; // Erweiterbar
 
-    for (let seite of seiten) {
-        const data = JSON.parse(localStorage.getItem(seite.key) || "{}");
-        const csvText = await fetch(seite.csv).then(r => r.text());
-        const lines = csvText.split("\n").slice(1);
+    seitenIds.forEach(seiteKey => {
+        const data = JSON.parse(localStorage.getItem(seiteKey) || "{}");
 
-        lines.forEach((line, index) => {
-            if (!line.trim()) return;
-            const cols = line.split(";");
-            const colA = cols[0]?.trim();
-            const colB = cols[1]?.trim();
-            const colC = cols[2]?.trim();
-            const colD = parseFloat(cols[3]?.replace(",", ".") || 0);
-            const menge = parseFloat(data[index] || 0);
+        const csvFile = seiteKey === "page14Data" ? "ndf1.csv" :
+                        seiteKey === "page142Data" ? "ndf2.csv" :
+                        "ndf3.csv";
 
-            if (colA !== "Titel" && colA !== "Untertitel" && colA !== "Zwischentitel" && menge > 0) {
-                const zeile = document.createElement("div");
-                zeile.className = "row summary-row";
-                zeile.innerHTML = `
-                    <div class="col-a">${colA}</div>
-                    <div class="col-b">${colB}</div>
-                    <div class="col-c">${colC}</div>
-                    <div class="col-d">${colD.toLocaleString("de-DE",{minimumFractionDigits:2})} €</div>
-                    <div class="col-e">${(menge * colD).toLocaleString("de-DE",{minimumFractionDigits:2})} €</div>
-                `;
-                container.appendChild(zeile);
-                gesamt += menge * colD;
-            }
+        fetch(csvFile)
+        .then(res => res.text())
+        .then(csvText => {
+            const lines = csvText.split("\n").slice(1);
+
+            lines.forEach((line, index) => {
+                if (!line.trim()) return;
+
+                const cols = line.split(";");
+                const colA = cols[0]?.trim();
+                const colB = cols[1]?.trim();
+                const colC = cols[2]?.trim();
+                const colD = cols[3]?.trim();
+
+                const menge = parseFloat(data[index] || 0);
+                const preis = parseFloat(colD?.replace(",", ".") || 0);
+
+                if (colA !== "Titel" && colA !== "Untertitel" && colA !== "Zwischentitel" && menge > 0) {
+                    const zeile = document.createElement("div");
+                    zeile.className = "row summary-row";
+                    zeile.innerHTML = `
+                        <div class="col-a">${colA}</div>
+                        <div class="col-b">${colB}</div>
+                        <div class="col-c">${colC}</div>
+                        <div class="col-d">${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €</div>
+                        <div class="col-e">${(menge * preis).toLocaleString("de-DE",{minimumFractionDigits:2})} €</div>
+                    `;
+                    container.appendChild(zeile);
+                    gesamt += menge * preis;
+                }
+            });
+
+            // Angebotspreis aktualisieren
+            document.getElementById("angebotspreis").innerText =
+                "Angebotspreis: " + gesamt.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
         });
-    }
-
-    // Angebotspreis setzen
-    document.getElementById("angebotspreis").innerText =
-        "Angebotspreis: " + gesamt.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
-
-    // Allgemeine Hinweise aus ndf4.csv
-    const hinweisCsv = await fetch("ndf4.csv").then(r => r.text());
-    let html = "";
-    hinweisCsv.split("\n").slice(1).forEach(line => {
-        if (!line.trim()) return;
-        const cols = line.split(";");
-        const colA = cols[0]?.trim();
-        const colB = cols[1]?.trim();
-        if (colA === "Titel") html += `<div class="title">${colB}</div>`;
-        else if (colA === "Untertitel") html += `<div class="subtitle">${colB}</div>`;
-        else if (colA === "Zwischentitel") html += `<div class="midtitle">${colB}</div>`;
-        else html += `<div class="hinweis-row">${colB}</div>`;
     });
-    hinweiseContainer.innerHTML = html;
-}
 
+    // Allgemeine Hinweise aus ndf4.csv laden
+    fetch("ndf4.csv")
+        .then(res => res.text())
+        .then(csvText => {
+            const lines = csvText.split("\n").slice(1);
+            let html = "";
+            lines.forEach(line => {
+                if (!line.trim()) return;
+                const cols = line.split(";");
+                const colA = cols[0]?.trim();
+                const colB = cols[1]?.trim();
+                if (colA === "Titel") html += `<div class="title">${colB}</div>`;
+                else if (colA === "Untertitel") html += `<div class="subtitle">${colB}</div>`;
+                else if (colA === "Zwischentitel") html += `<div class="midtitle">${colB}</div>`;
+                else html += `<div class="hinweis-row">${colB}</div>`;
+            });
+            hinweiseContainer.innerHTML = html;
+        });
+}
 function direktZumAngebot() {
     const fields = [
         "pj-contact", "pj-number", "shk-name", "shk-contact",
