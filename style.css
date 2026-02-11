@@ -58,3 +58,50 @@ button:hover {
     right: 15px;
     font-size: 14px;
 }
+/* ================================
+   PREIS-TABELLE (Seite 14)
+================================ */
+
+#page14-content {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    text-align: left;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 160px 4fr 100px 100px 120px 120px;
+    gap: 15px;
+    margin-bottom: 12px;
+    align-items: center;
+}
+
+.col-a { font-weight: bold; }
+.col-c, .col-d, .col-e { text-align: right; }
+.col-e { font-weight: bold; }
+
+.title { font-weight: bold; font-size: 24px; margin-top: 25px; }
+.subtitle { font-weight: bold; font-size: 18px; margin-top: 20px; }
+.midtitle { font-weight: bold; font-size: 16px; margin-top: 15px; }
+
+input.menge-input {
+    background-color: #fff8dc;
+    padding: 5px;
+    width: 80px;
+    text-align: center;
+}
+
+/* Smartphone */
+@media (max-width: 600px) {
+    .row { display: block; }
+
+    .row > div, .row > input {
+        display: block;
+        width: 100%;
+        text-align: left;
+        margin-bottom: 5px;
+    }
+
+    input.menge-input { width: 100%; }
+}

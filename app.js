@@ -21,6 +21,10 @@ fetch("users.csv")
 function showPage(id) {
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
     document.getElementById(id).classList.add("active");
+
+    if (id === "page-14") {
+        loadPage14();
+    }
 }
 
 function login() {
@@ -105,5 +109,176 @@ function startTimer() {
     }, 1000);
 }
 
+// Funktion zur Prüfung der Pflichteingaben auf Seite 5
+function submitPage5() {
+    const fields = [
+        {id: "pj-contact", name: "Ansprechpartner bei PJ"},
+        {id: "pj-number", name: "SHK – PJ-Kunden-Nr."},
+        {id: "shk-name", name: "SHK Name/Firma"},
+        {id: "shk-contact", name: "SHK Ansprechpartner"},
+        {id: "shk-email", name: "SHK E-Mail"},
+        {id: "shk-phone", name: "SHK Telefon-Nr."},
+        {id: "site-address", name: "Adresse Baustelle"},
+        {id: "execution-date", name: "Gewünschter Ausführungstermin"}
+    ];
+
+    let missing = [];
+
+    fields.forEach(f => {
+        const val = document.getElementById(f.id).value.trim();
+        if (!val) missing.push(f.name);
+    });
+
+    const errorDiv = document.getElementById("page5-error");
+
+    if (missing.length > 0) {
+        errorDiv.innerText = "Bitte folgende Felder ausfüllen:\n" + missing.join(", ");
+        return;
+    }
+
+    errorDiv.innerText = "";
+
+    // Daten können hier gespeichert oder weitergeleitet werden
+    // z.B. localStorage, JSON-Objekt oder später für PDF/Email
+
+    alert("Daten gespeichert! Weiter zu Seite 6 oder KV-Berechnung.");
+    // Beispiel: Weiterleitung auf Seite 6
+    // showPage("page-6");
+}
+/* ===================================
+   SEITE 14 – CSV LADEN + SPEICHERN
+=================================== */
+
+let page14Loaded = false;
+
+function loadPage14() {
+
+    if (page14Loaded) return; // nicht doppelt laden
+    page14Loaded = true;
+
+    fetch("ndf1.csv")
+        .then(response => response.text())
+        .then(data => {
+
+            const lines = data.split("\n").slice(1);
+            const container = document.getElementById("page14-content");
+
+            let html = "";
+            let gespeicherteWerte = JSON.parse(localStorage.getItem("page14Data") || "{}");
+
+            lines.forEach((line, index) => {
+
+                if (!line.trim()) return;
+
+                const cols = line.split(";");
+                const colA = cols[0]?.trim();
+                const colB = cols[1]?.trim();
+                const colC = cols[2]?.trim();
+                const colD = cols[3]?.trim();
+
+                if (colA === "Titel") {
+                    html += `<div class="title">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Untertitel") {
+                    html += `<div class="subtitle">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Zwischentitel") {
+                    html += `<div class="midtitle">${colB}</div>`;
+                    return;
+                }
+
+                const preisVorhanden = colD && !isNaN(parseFloat(colD.replace(",", ".")));
+
+                if (preisVorhanden) {
+
+                    const preis = parseFloat(colD.replace(",", "."));
+                    const gespeicherteMenge = gespeicherteWerte[index] || 0;
+
+                    html += `
+                    <div class="row">
+                        <div class="col-a">${colA}</div>
+                        <div class="col-b">${colB}</div>
+                        <div class="col-c">${colC}</div>
+                        <input class="menge-input" 
+                               type="number" min="0" step="any"
+                               value="${gespeicherteMenge}"
+                               oninput="calcRowPage14(this,${preis},${index})">
+                        <div class="col-d">${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €</div>
+                        <div class="col-e">0,00 €</div>
+                    </div>`;
+                } else {
+
+                    html += `
+                    <div class="row no-price">
+                        <div class="col-a">${colA}</div>
+                        <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
+                    </div>`;
+                }
+            });
+
+            html += `<div id="gesamtSumme14" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+
+            container.innerHTML = html;
+
+            berechneGesamt14();
+        });
+}
+
+function calcRowPage14(input, preisWert, index) {
+
+    const row = input.parentElement;
+    const ergebnis = row.querySelector(".col-e");
+    const menge = parseFloat(input.value.replace(",", ".")) || 0;
+
+    const wert = menge * preisWert;
+
+    ergebnis.innerText =
+        wert.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+
+    let gespeicherteWerte =
+        JSON.parse(localStorage.getItem("page14Data") || "{}");
+
+    gespeicherteWerte[index] = menge;
+
+    localStorage.setItem("page14Data",
+        JSON.stringify(gespeicherteWerte));
+
+    berechneGesamt14();
+}
+
+function berechneGesamt14() {
+
+    let sum = 0;
+
+    document.querySelectorAll("#page-14 .col-e")
+        .forEach(el => {
+
+            const wert =
+                parseFloat(
+                    el.innerText
+                        .replace("€","")
+                        .replace(".","")
+                        .replace(",",".")
+                        .trim()
+                ) || 0;
+
+            sum += wert;
+        });
+
+    const gesamtDiv =
+        document.getElementById("gesamtSumme14");
+
+    if (gesamtDiv) {
+        gesamtDiv.innerText =
+            "Gesamtsumme: " +
+            sum.toLocaleString("de-DE",
+                {minimumFractionDigits:2}) + " €";
+    }
+}
+
 document.body.addEventListener("mousemove", () => remaining = 600);
 document.body.addEventListener("keydown", () => remaining = 600);
+
+
