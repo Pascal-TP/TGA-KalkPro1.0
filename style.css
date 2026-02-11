@@ -63,7 +63,14 @@ button:hover {
    PREIS-TABELLE (Seite 14)
 ================================ */
 
-/* Überschriften und Gesamtsumme auf Seite 14 zentrieren */
+/* Container */
+#page14-content {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Titel/Untertitel/Zwischentitel und Gesamtsumme zentrieren */
 #page14-content .title,
 #page14-content .subtitle,
 #page14-content .midtitle,
@@ -71,7 +78,7 @@ button:hover {
     text-align: center;
 }
 
-/* Alle Zeilen mit Preisen bleiben links/rechts wie gehabt */
+/* Zeilen als Grid – links/rechts wie gehabt */
 #page14-content .row {
     display: grid;
     grid-template-columns: 160px 4fr 100px 100px 120px 120px;
@@ -80,30 +87,14 @@ button:hover {
     align-items: center;
 }
 
-#page14-content .col-a {
-    text-align: left;
-    font-weight: bold;
-}
-
-#page14-content .col-b {
-    text-align: left;
-    padding-left: 5px;
-}
-
+#page14-content .col-a { text-align: left; font-weight: bold; }
+#page14-content .col-b { text-align: left; padding-left: 5px; }
 #page14-content .col-c,
 #page14-content .col-d,
-#page14-content .col-e {
-    text-align: right;
-}
+#page14-content .col-e { text-align: right; }
+#page14-content .col-e { font-weight: bold; }
 
-#page14-content .col-e {
-    font-weight: bold;
-}
-
-.title { font-weight: bold; font-size: 24px; margin-top: 25px; }
-.subtitle { font-weight: bold; font-size: 18px; margin-top: 20px; }
-.midtitle { font-weight: bold; font-size: 16px; margin-top: 15px; }
-
+/* Eingabefelder */
 input.menge-input {
     background-color: #fff8dc;
     padding: 5px;
@@ -113,9 +104,10 @@ input.menge-input {
 
 /* Smartphone */
 @media (max-width: 600px) {
-    .row { display: block; }
+    #page14-content .row { display: block; }
 
-    .row > div, .row > input {
+    #page14-content .row > div,
+    #page14-content .row > input {
         display: block;
         width: 100%;
         text-align: left;
@@ -125,7 +117,9 @@ input.menge-input {
     input.menge-input { width: 100%; }
 }
 
-/* Für Seite 14.3 */
+/* ================================
+   PREIS-TABELLE (Seite 14.3)
+================================ */
 #content-14-3 {
     max-width: 1200px;
     margin: auto;
