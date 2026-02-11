@@ -462,7 +462,6 @@ async function loadPage40() {
     const seiten = [
         { key: "page14Data", csv: "ndf1.csv" },
         { key: "page143Data", csv: "ndf3.csv" }
-        // weitere Seiten später hinzufügen
     ];
 
     for (let seite of seiten) {
@@ -495,6 +494,24 @@ async function loadPage40() {
         });
     }
 
+    document.getElementById("angebotspreis").innerText =
+        "Angebotspreis: " + gesamt.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+
+    // Allgemeine Hinweise aus ndf4.csv laden
+    const hinweisCsv = await fetch("ndf4.csv").then(r => r.text());
+    let html = "";
+    hinweisCsv.split("\n").slice(1).forEach(line => {
+        if (!line.trim()) return;
+        const cols = line.split(";");
+        const colA = cols[0]?.trim();
+        const colB = cols[1]?.trim();
+        if (colA === "Titel") html += `<div class="title">${colB}</div>`;
+        else if (colA === "Untertitel") html += `<div class="subtitle">${colB}</div>`;
+        else if (colA === "Zwischentitel") html += `<div class="midtitle">${colB}</div>`;
+        else html += `<div class="hinweis-row">${colB}</div>`;
+    });
+    hinweiseContainer.innerHTML = html;
+}
     // Angebotspreis einmalig setzen
     document.getElementById("angebotspreis").innerText =
         "Angebotspreis: " + gesamt.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
