@@ -421,6 +421,140 @@ function berechneGesamt143() {
     }
 }
 
+function goToAngebot() {
+    // Prüfen, ob die Pflichtfelder auf Seite 5 ausgefüllt sind
+    const fields = [
+        "pj-contact",
+        "pj-number",
+        "shk-name",
+        "shk-contact",
+        "shk-email",
+        "shk-phone",
+        "site-address",
+        "execution-date"
+    ];
+
+    let allFilled = fields.every(id => {
+        const val = document.getElementById(id)?.value.trim();
+        return val && val !== "";
+    });
+
+    if (allFilled) {
+        showPage("page-40"); // Alle Felder ausgefüllt → Seite 40
+    } else {
+        showPage("page-41"); // Felder fehlen → Seite 41
+    }
+}
+function loadPage40() {
+    const container = document.getElementById("summary-content");
+    const hinweiseContainer = document.getElementById("hinweise-content");
+
+    // Leeren
+    container.innerHTML = "";
+    hinweiseContainer.innerHTML = "";
+
+    let gesamt = 0;
+
+    // Alle Seiten, die Mengen haben: page14, page-14-2, page-14-3 ...
+    const seitenIds = ["page14Data", "page142Data", "page143Data"]; // Erweiterbar
+
+    seitenIds.forEach(seiteKey => {
+        const data = JSON.parse(localStorage.getItem(seiteKey) || "{}");
+
+        const csvFile = seiteKey === "page14Data" ? "ndf1.csv" :
+                        seiteKey === "page142Data" ? "ndf2.csv" :
+                        "ndf3.csv";
+
+        fetch(csvFile)
+        .then(res => res.text())
+        .then(csvText => {
+            const lines = csvText.split("\n").slice(1);
+
+            lines.forEach((line, index) => {
+                if (!line.trim()) return;
+
+                const cols = line.split(";");
+                const colA = cols[0]?.trim();
+                const colB = cols[1]?.trim();
+                const colC = cols[2]?.trim();
+                const colD = cols[3]?.trim();
+
+                const menge = parseFloat(data[index] || 0);
+                const preis = parseFloat(colD?.replace(",", ".") || 0);
+
+                if (colA !== "Titel" && colA !== "Untertitel" && colA !== "Zwischentitel" && menge > 0) {
+                    const zeile = document.createElement("div");
+                    zeile.className = "row summary-row";
+                    zeile.innerHTML = `
+                        <div class="col-a">${colA}</div>
+                        <div class="col-b">${colB}</div>
+                        <div class="col-c">${colC}</div>
+                        <div class="col-d">${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €</div>
+                        <div class="col-e">${(menge * preis).toLocaleString("de-DE",{minimumFractionDigits:2})} €</div>
+                    `;
+                    container.appendChild(zeile);
+                    gesamt += menge * preis;
+                }
+            });
+
+            // Angebotspreis aktualisieren
+            document.getElementById("angebotspreis").innerText =
+                "Angebotspreis: " + gesamt.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+        });
+    });
+
+    // Allgemeine Hinweise aus ndf4.csv laden
+    fetch("ndf4.csv")
+        .then(res => res.text())
+        .then(csvText => {
+            const lines = csvText.split("\n").slice(1);
+            let html = "";
+            lines.forEach(line => {
+                if (!line.trim()) return;
+                const cols = line.split(";");
+                const colA = cols[0]?.trim();
+                const colB = cols[1]?.trim();
+                if (colA === "Titel") html += `<div class="title">${colB}</div>`;
+                else if (colA === "Untertitel") html += `<div class="subtitle">${colB}</div>`;
+                else if (colA === "Zwischentitel") html += `<div class="midtitle">${colB}</div>`;
+                else html += `<div class="hinweis-row">${colB}</div>`;
+            });
+            hinweiseContainer.innerHTML = html;
+        });
+}
+function printPage40() {
+    const printContents = document.getElementById("page-40").cloneNode(true);
+    // Buttons entfernen
+    printContents.querySelectorAll("button").forEach(b => b.remove());
+
+    const w = window.open("", "PRINT", "height=600,width=800");
+    w.document.write("<html><head><title>Kostenvoranschlag</title>");
+    w.document.write('<link rel="stylesheet" href="style.css">');
+    w.document.write("</head><body>");
+    w.document.write(printContents.innerHTML);
+    w.document.write("</body></html>");
+    w.document.close();
+    w.focus();
+    w.print();
+    w.close();
+}
+
+function sendMailPage40() {
+    const subject = `Schon Kostenvoranschlag NDF - ${new Date().toLocaleDateString("de-DE")}`;
+    const body = encodeURIComponent(document.getElementById("page-40").innerText);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+}
+
+function clearInputs() {
+    // Alle Eingaben löschen
+    localStorage.removeItem("page14Data");
+    localStorage.removeItem("page142Data");
+    localStorage.removeItem("page143Data");
+    localStorage.removeItem("angebotSummen");
+    // Zurück zu Seite 3
+    showPage("page-3");
+}
+
 document.body.addEventListener("mousemove", () => remaining = 600);
 document.body.addEventListener("keydown", () => remaining = 600);
 

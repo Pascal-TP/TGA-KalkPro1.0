@@ -146,7 +146,7 @@
     <div class="button-bar">
         <button onclick="showPage('page-14-1')">Zurück</button>
         <button onclick="showPage('page-18')">Weiter</button>
-        <button onclick="showPage('page-40')">Direkt zum Angebot</button>
+        <button onclick="goToAngebot()">Direkt zum Angebot</button>
     </div>
 </div>
 <!-- SEITE 14.1: AUSWAHL MARKE -->
@@ -169,9 +169,31 @@
 <div class="button-bar">
                 <button onclick="showPage('page-14-1')">Zurück</button>
                 <button onclick="showPage('page-18')">Weiter</button>
-                <button onclick="showPage('page-40')">Direkt zum Angebot</button>
+                <button onclick="goToAngebot()">Direkt zum Angebot</button>
                </div>
 
+</div>
+<!-- SEITE 40: KOSTENVORANSCHLAG -->
+<div class="page" id="page-40">
+    <h2>Kostenvoranschlag</h2>
+
+    <!-- Zusammenfassung der Mengen -->
+    <div id="summary-content"></div>
+
+    <!-- Gesamtsumme / Angebotspreis -->
+    <div id="angebotspreis" class="gesamt">Angebotspreis: 0,00 €</div>
+    <div style="text-align:center; margin-bottom:20px;">(netto, freibleibend)</div>
+
+    <!-- Allgemeine Hinweise aus CSV -->
+    <div id="hinweise-content"></div>
+
+    <!-- Buttons -->
+    <div class="button-bar">
+        <button onclick="showPage('page-3')">Zurück</button>
+        <button onclick="printPage40()">Drucken / speichern als PDF</button>
+        <button onclick="sendMailPage40()">Senden als Mail</button>
+        <button onclick="clearInputs()">Eingaben löschen</button>
+    </div>
 </div>
 
 <script src="app.js"></script>
