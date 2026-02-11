@@ -25,6 +25,9 @@ function showPage(id) {
     if (id === "page-14") {
         loadPage14();
     }
+if (id === "page-14-3") {
+        loadPage143();
+    }
 }
 
 function login() {
@@ -276,6 +279,140 @@ function berechneGesamt14() {
             sum.toLocaleString("de-DE",
                 {minimumFractionDigits:2}) + " €";
     }
+}
+// -----------------------------
+// SEITE 14.3 – ROTH (ndf3.csv)
+// -----------------------------
+function loadPage143() {
+
+  const container = document.getElementById("content-14-3");
+  if (!container) return;
+
+  // Falls schon geladen → nicht nochmal laden
+  if (container.innerHTML.trim() !== "") return;
+
+  fetch("ndf3.csv")
+    .then(response => response.text())
+    .then(data => {
+
+      const lines = data.split("\n").slice(1);
+      let html = "";
+
+      lines.forEach((line, index) => {
+        if (!line.trim()) return;
+
+        const cols = line.split(";");
+        const colA = cols[0]?.trim();
+        const colB = cols[1]?.trim();
+        const colC = cols[2]?.trim();
+        const colD = cols[3]?.trim();
+
+        // TITEL / UNTERTITEL / ZWISCHENTITEL
+        if (colA === "Titel") {
+          html += `<div class="title">${colB}</div>`;
+          return;
+        }
+        if (colA === "Untertitel") {
+          html += `<div class="subtitle">${colB}</div>`;
+          return;
+        }
+        if (colA === "Zwischentitel") {
+          html += `<div class="midtitle">${colB}</div>`;
+          return;
+        }
+
+        const preisVorhanden = colD && !isNaN(parseFloat(colD.replace(",", ".")));
+
+        if (preisVorhanden) {
+
+          const preis = parseFloat(colD.replace(",", "."));
+          const savedValue = localStorage.getItem("page143_" + index) || "0";
+
+          html += `<div class="row">
+                      <div class="col-a">${colA}</div>
+                      <div class="col-b">${colB}</div>
+                      <div class="col-c">${colC}</div>
+
+                      <input class="menge-input" type="number" min="0" step="any"
+                             value="${savedValue}"
+                             oninput="calcRow143(this, ${preis}, ${index})">
+
+                      <div class="col-d">
+                        ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
+                      </div>
+
+                      <div class="col-e">0,00 €</div>
+                   </div>`;
+        } else {
+
+          html += `<div class="row no-price">
+                      <div class="col-a">${colA}</div>
+                      <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
+                   </div>`;
+        }
+      });
+
+      html += `<div id="gesamtSumme143" class="gesamt">
+                Gesamtsumme: 0,00 €
+               </div>`;
+
+      html += `<div class="button-bar">
+                <button onclick="showPage('page-14-1')">Zurück</button>
+                <button onclick="showPage('page-18')">Weiter</button>
+                <button onclick="showPage('page-40')">Direkt zum Angebot</button>
+               </div>`;
+
+      container.innerHTML = html;
+
+      berechneGesamt143();
+    });
+}
+
+
+// Berechnung einzelner Zeilen
+function calcRow143(input, preisWert, index) {
+
+  const row = input.parentElement;
+  const ergebnis = row.querySelector(".col-e");
+
+  const menge = parseFloat(input.value.replace(",", ".")) || 0;
+
+  const sum = menge * preisWert;
+
+  ergebnis.innerText =
+    sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+
+  localStorage.setItem("page143_" + index, input.value);
+
+  berechneGesamt143();
+}
+
+
+// Gesamtsumme
+function berechneGesamt143() {
+
+  let sum = 0;
+
+  document.querySelectorAll("#page-14-3 .col-e").forEach(el => {
+
+    const wert = parseFloat(
+      el.innerText.replace("€","")
+                 .replace(/\./g,"")
+                 .replace(",",".")
+                 .trim()
+    ) || 0;
+
+    sum += wert;
+  });
+
+  const gesamtDiv = document.getElementById("gesamtSumme143");
+
+  if (gesamtDiv) {
+    gesamtDiv.innerText =
+      "Gesamtsumme: " +
+      sum.toLocaleString("de-DE",{minimumFractionDigits:2}) +
+      " €";
+  }
 }
 
 document.body.addEventListener("mousemove", () => remaining = 600);
