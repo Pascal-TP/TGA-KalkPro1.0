@@ -546,25 +546,6 @@ function direktZumAngebot() {
 }
 
 
-    // Allgemeine Hinweise aus ndf4.csv laden
-    fetch("ndf4.csv")
-        .then(res => res.text())
-        .then(csvText => {
-            const lines = csvText.split("\n").slice(1);
-            let html = "";
-            lines.forEach(line => {
-                if (!line.trim()) return;
-                const cols = line.split(";");
-                const colA = cols[0]?.trim();
-                const colB = cols[1]?.trim();
-                if (colA === "Titel") html += `<div class="title">${colB}</div>`;
-                else if (colA === "Untertitel") html += `<div class="subtitle">${colB}</div>`;
-                else if (colA === "Zwischentitel") html += `<div class="midtitle">${colB}</div>`;
-                else html += `<div class="hinweis-row">${colB}</div>`;
-            });
-            hinweiseContainer.innerHTML = html;
-        });
-}
 function printPage40() {
     const printContents = document.getElementById("page-40").cloneNode(true);
     // Buttons entfernen
