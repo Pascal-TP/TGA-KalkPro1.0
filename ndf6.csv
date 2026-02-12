@@ -5,14 +5,14 @@ Untertitel;als Frässystem liefern und montieren;;
 H54NO0100 01;- Frässystem mit 10 cm VA, Heizfläche Standardgröße mit Alu-Verbundrohr 16x2 mm;€/m²;49,8
 ;;;
 Untertitel;Baustelleneinrichtung (Frässystem);;
-H54NO6000 01;Einrichtung der Baustelle;pro Einsatz;292,5
+H54NO6000 01;Einrichtung der Baustelle;€/Einsatz;292,5
 ;;;
 Untertitel;Mehrpreis Etagenzuschuss (Frässystem);;
 ;-gilt nicht fürs Erdgeschoss;;
-H54NO6005 01;Etagenzuschuss;pauschal;111,2
+H54NO6005 01;Etagenzuschuss;€ pauschal;111,2
 ;;;
 Untertitel;Entsorgungspauschale (Frässystem);;
-H54NO6010 01;Entsorgung Bauschutt;pauschal;345,2
+H54NO6010 01;Entsorgung Bauschutt;€ pauschal;345,2
 ;;;
 Untertitel;Versiegelungspauschale (Frässystem);;
 H54NO6015 01;Unterboden mit einem Dispersionsvorstrich grundieren, sowie Fräskanäle mit standfester Spachtelmasse vollständig schließ;€/m²;16

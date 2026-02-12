@@ -43,6 +43,12 @@ function showPage(id) {
     if (id === "page-20") {
         loadPage20();
     }
+    if (id === "page-21") {
+        loadPage20();
+    }
+    if (id === "page-22") {
+        loadPage20();
+    }
 
 }
 
@@ -510,6 +516,8 @@ if (angebotTyp === "anfrage") {
         { key: "page8Data", csv: "ndf6.csv" },
         { key: "page18Data", csv: "ndf7.csv" },
         { key: "page20Data", csv: "ndf8.csv" },
+        { key: "page21Data", csv: "ndf9.csv" },
+        { key: "page22Data", csv: "ndf10.csv" },
         { key: "page143Data", csv: "ndf3.csv" }
     ];
 
@@ -680,6 +688,9 @@ function clearInputs() {
         "content-14-2",
         "content-8",
         "content-18",
+        "content-20",
+        "content-21",
+        "content-22",
         "summary-content",
         "hinweise-content"
     ];
@@ -709,6 +720,12 @@ function clearInputs() {
 
     const sum20 = document.getElementById("gesamtSumme20");
     if (sum20) sum20.innerText = "Gesamtsumme Angebot: 0,00 €";
+
+    const sum21 = document.getElementById("gesamtSumme21");
+    if (sum21) sum21.innerText = "Gesamtsumme Angebot: 0,00 €";
+
+    const sum22 = document.getElementById("gesamtSumme22");
+    if (sum22) sum22.innerText = "Gesamtsumme Angebot: 0,00 €";
 
     // Flags zurücksetzen, damit Seiten neu aus CSV geladen werden
     page14Loaded = false;
@@ -1097,7 +1114,7 @@ function loadPage20() {
 
     if (container.innerHTML.trim() !== "") return;
 
-    fetch("ndf7.csv")
+    fetch("ndf8.csv")
         .then(response => response.text())
         .then(data => {
 
@@ -1210,6 +1227,251 @@ function berechneGesamt20() {
     }
 }
 
+// -----------------------------
+// SEITE 21 – Dienstleistungen (ndf9.csv)
+// -----------------------------
+function loadPage21() {
+
+    const container = document.getElementById("content-21");
+    if (!container) return;
+
+    if (container.innerHTML.trim() !== "") return;
+
+    fetch("ndf9.csv")
+        .then(response => response.text())
+        .then(data => {
+
+            const lines = data.split("\n").slice(1);
+            let html = "";
+
+            const gespeicherteWerte =
+                JSON.parse(localStorage.getItem("page21Data") || "{}");
+
+            lines.forEach((line, index) => {
+                if (!line.trim()) return;
+
+                const cols = line.split(";");
+                const colA = cols[0]?.trim();
+                const colB = cols[1]?.trim();
+                const colC = cols[2]?.trim();
+                const colD = cols[3]?.trim();
+
+                if (colA === "Titel") {
+                    html += `<div class="title">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Untertitel") {
+                    html += `<div class="subtitle">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Zwischentitel") {
+                    html += `<div class="midtitle">${colB}</div>`;
+                    return;
+                }
+
+                const preis = parseFloat(colD?.replace(",", "."));
+                if (!isNaN(preis)) {
+
+                    const menge = gespeicherteWerte[index] || 0;
+
+                    html += `
+                        <div class="row">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b">${colB}</div>
+                            <div class="col-c">${colC}</div>
+
+                            <input class="menge-input"
+                                   type="number" min="0" step="any"
+                                   value="${menge}"
+                                   oninput="calcRow21(this, ${preis}, ${index})">
+
+                            <div class="col-d">
+                                ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
+                            </div>
+
+                            <div class="col-e">0,00 €</div>
+                        </div>`;
+                } else {
+                    html += `
+                        <div class="row no-price">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
+                        </div>`;
+                }
+            });
+
+            html += `<div id="gesamtSumme21" class="gesamt">
+                        Gesamtsumme: 0,00 €
+                     </div>`;
+
+            container.innerHTML = html;
+            berechneGesamt21();
+        });
+}
+function calcRow21(input, preis, index) {
+
+    const row = input.parentElement;
+    const ergebnis = row.querySelector(".col-e");
+    const menge = parseFloat(input.value.replace(",", ".")) || 0;
+
+    const sum = menge * preis;
+    ergebnis.innerText =
+        sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+
+    let gespeicherteWerte =
+        JSON.parse(localStorage.getItem("page21Data") || "{}");
+
+    gespeicherteWerte[index] = menge;
+    localStorage.setItem("page21Data", JSON.stringify(gespeicherteWerte));
+
+    berechneGesamt21();
+}
+function berechneGesamt21() {
+
+    let sum = 0;
+
+    document.querySelectorAll("#page-21 .col-e").forEach(el => {
+        const wert = parseFloat(
+            el.innerText.replace("€","")
+                       .replace(/\./g,"")
+                       .replace(",",".")
+                       .trim()
+        ) || 0;
+        sum += wert;
+    });
+
+    saveSeitenSumme("page-21", sum);
+
+    const gesamtDiv = document.getElementById("gesamtSumme21");
+    if (gesamtDiv) {
+        gesamtDiv.innerText =
+            "Gesamtsumme Angebot: " +
+            getGesamtAngebotssumme().toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+    }
+}
+
+// -----------------------------
+// SEITE 22 – Zuschläge (ndf10.csv)
+// -----------------------------
+function loadPage22() {
+
+    const container = document.getElementById("content-22");
+    if (!container) return;
+
+    if (container.innerHTML.trim() !== "") return;
+
+    fetch("ndf10.csv")
+        .then(response => response.text())
+        .then(data => {
+
+            const lines = data.split("\n").slice(1);
+            let html = "";
+
+            const gespeicherteWerte =
+                JSON.parse(localStorage.getItem("page22Data") || "{}");
+
+            lines.forEach((line, index) => {
+                if (!line.trim()) return;
+
+                const cols = line.split(";");
+                const colA = cols[0]?.trim();
+                const colB = cols[1]?.trim();
+                const colC = cols[2]?.trim();
+                const colD = cols[3]?.trim();
+
+                if (colA === "Titel") {
+                    html += `<div class="title">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Untertitel") {
+                    html += `<div class="subtitle">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Zwischentitel") {
+                    html += `<div class="midtitle">${colB}</div>`;
+                    return;
+                }
+
+                const preis = parseFloat(colD?.replace(",", "."));
+                if (!isNaN(preis)) {
+
+                    const menge = gespeicherteWerte[index] || 0;
+
+                    html += `
+                        <div class="row">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b">${colB}</div>
+                            <div class="col-c">${colC}</div>
+
+                            <input class="menge-input"
+                                   type="number" min="0" step="any"
+                                   value="${menge}"
+                                   oninput="calcRow22(this, ${preis}, ${index})">
+
+                            <div class="col-d">
+                                ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
+                            </div>
+
+                            <div class="col-e">0,00 €</div>
+                        </div>`;
+                } else {
+                    html += `
+                        <div class="row no-price">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
+                        </div>`;
+                }
+            });
+
+            html += `<div id="gesamtSumme22" class="gesamt">
+                        Gesamtsumme: 0,00 €
+                     </div>`;
+
+            container.innerHTML = html;
+            berechneGesamt22();
+        });
+}
+function calcRow22(input, preis, index) {
+
+    const row = input.parentElement;
+    const ergebnis = row.querySelector(".col-e");
+    const menge = parseFloat(input.value.replace(",", ".")) || 0;
+
+    const sum = menge * preis;
+    ergebnis.innerText =
+        sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+
+    let gespeicherteWerte =
+        JSON.parse(localStorage.getItem("page22Data") || "{}");
+
+    gespeicherteWerte[index] = menge;
+    localStorage.setItem("page22Data", JSON.stringify(gespeicherteWerte));
+
+    berechneGesamt22();
+}
+function berechneGesamt22() {
+
+    let sum = 0;
+
+    document.querySelectorAll("#page-22 .col-e").forEach(el => {
+        const wert = parseFloat(
+            el.innerText.replace("€","")
+                       .replace(/\./g,"")
+                       .replace(",",".")
+                       .trim()
+        ) || 0;
+        sum += wert;
+    });
+
+    saveSeitenSumme("page-22", sum);
+
+    const gesamtDiv = document.getElementById("gesamtSumme22");
+    if (gesamtDiv) {
+        gesamtDiv.innerText =
+            "Gesamtsumme Angebot: " +
+            getGesamtAngebotssumme().toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+    }
+}
 
 document.body.addEventListener("mousemove", () => remaining = 600);
 document.body.addEventListener("keydown", () => remaining = 600);
