@@ -64,6 +64,21 @@ function showPage(id) {
     if (id === "page-25") {
         loadPage25();
     }
+    if (id === "page-27") {
+        loadPage27();
+    }
+    if (id === "page-28") {
+        loadPage28();
+    }
+    if (id === "page-30") {
+        loadPage30();
+    }
+    if (id === "page-31") {
+        loadPage31();
+    }
+    if (id === "page-32") {
+        loadPage32();
+    }
 
 }
 
@@ -538,6 +553,11 @@ if (angebotTyp === "anfrage") {
         { key: "page23Data", csv: "ndf12.csv" },
         { key: "page24Data", csv: "ndf13.csv" },
         { key: "page25Data", csv: "ndf14.csv" },
+        { key: "page27Data", csv: "ndf15.csv" },
+        { key: "page28Data", csv: "ndf16.csv" },
+        { key: "page30Data", csv: "ndf17.csv" },
+        { key: "page31Data", csv: "ndf18.csv" },
+        { key: "page32Data", csv: "ndf19.csv" },
         { key: "page143Data", csv: "ndf3.csv" }
     ];
 
@@ -716,6 +736,11 @@ function clearInputs() {
         "content-23",
 	"content-24",
         "content-25",
+        "content-27",
+        "content-28",
+        "content-30",
+	"content-31",
+        "content-32",
         "summary-content",
         "hinweise-content"
     ];
@@ -766,6 +791,21 @@ function clearInputs() {
 
     const sum25 = document.getElementById("gesamtSumme25");
     if (sum25) sum25.innerText = "Gesamtsumme Angebot: 0,00 €";
+
+    const sum27 = document.getElementById("gesamtSumme27");
+    if (sum27) sum27.innerText = "Gesamtsumme Angebot: 0,00 €";
+
+    const sum28 = document.getElementById("gesamtSumme28");
+    if (sum28) sum28.innerText = "Gesamtsumme Angebot: 0,00 €";
+
+    const sum30 = document.getElementById("gesamtSumme30");
+    if (sum30) sum30.innerText = "Gesamtsumme Angebot: 0,00 €";
+
+    const sum31 = document.getElementById("gesamtSumme31");
+    if (sum31) sum31.innerText = "Gesamtsumme Angebot: 0,00 €";
+
+    const sum32 = document.getElementById("gesamtSumme32");
+    if (sum32) sum32.innerText = "Gesamtsumme Angebot: 0,00 €";
 
     // Flags zurücksetzen, damit Seiten neu aus CSV geladen werden
     page14Loaded = false;
@@ -2120,6 +2160,621 @@ function berechneGesamt25() {
     saveSeitenSumme("page-25", sum);
 
     const gesamtDiv = document.getElementById("gesamtSumme25");
+    if (gesamtDiv) {
+        gesamtDiv.innerText =
+            "Gesamtsumme Angebot: " +
+            getGesamtAngebotssumme().toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+    }
+}
+
+// -----------------------------
+// SEITE 27 – Klettsystem Handelsmarke (ndf15.csv)
+// -----------------------------
+function loadPage27() {
+
+    const container = document.getElementById("content-27");
+    if (!container) return;
+
+    if (container.innerHTML.trim() !== "") return;
+
+    fetch("ndf15.csv")
+        .then(response => response.text())
+        .then(data => {
+
+            const lines = data.split("\n").slice(1);
+            let html = "";
+
+            const gespeicherteWerte =
+                JSON.parse(localStorage.getItem("page27Data") || "{}");
+
+            lines.forEach((line, index) => {
+                if (!line.trim()) return;
+
+                const cols = line.split(";");
+                const colA = cols[0]?.trim();
+                const colB = cols[1]?.trim();
+                const colC = cols[2]?.trim();
+                const colD = cols[3]?.trim();
+
+                if (colA === "Titel") {
+                    html += `<div class="title">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Untertitel") {
+                    html += `<div class="subtitle">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Zwischentitel") {
+                    html += `<div class="midtitle">${colB}</div>`;
+                    return;
+                }
+
+                const preis = parseFloat(colD?.replace(",", "."));
+                if (!isNaN(preis)) {
+
+                    const menge = gespeicherteWerte[index] || 0;
+
+                    html += `
+                        <div class="row">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b">${colB}</div>
+                            <div class="col-c">${colC}</div>
+
+                            <input class="menge-input"
+                                   type="number" min="0" step="any"
+                                   value="${menge}"
+                                   oninput="calcRow27(this, ${preis}, ${index})">
+
+                            <div class="col-d">
+                                ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
+                            </div>
+
+                            <div class="col-e">0,00 €</div>
+                        </div>`;
+                } else {
+                    html += `
+                        <div class="row no-price">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
+                        </div>`;
+                }
+            });
+
+            html += `<div id="gesamtSumme27" class="gesamt">
+                        Gesamtsumme: 0,00 €
+                     </div>`;
+
+            container.innerHTML = html;
+            berechneGesamt27();
+        });
+}
+function calcRow27(input, preis, index) {
+
+    const row = input.parentElement;
+    const ergebnis = row.querySelector(".col-e");
+    const menge = parseFloat(input.value.replace(",", ".")) || 0;
+
+    const sum = menge * preis;
+    ergebnis.innerText =
+        sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+
+    let gespeicherteWerte =
+        JSON.parse(localStorage.getItem("page27Data") || "{}");
+
+    gespeicherteWerte[index] = menge;
+    localStorage.setItem("page27Data", JSON.stringify(gespeicherteWerte));
+
+    berechneGesamt27();
+}
+function berechneGesamt27() {
+
+    let sum = 0;
+
+    document.querySelectorAll("#page-27 .col-e").forEach(el => {
+        const wert = parseFloat(
+            el.innerText.replace("€","")
+                       .replace(/\./g,"")
+                       .replace(",",".")
+                       .trim()
+        ) || 0;
+        sum += wert;
+    });
+
+    saveSeitenSumme("page-27", sum);
+
+    const gesamtDiv = document.getElementById("gesamtSumme27");
+    if (gesamtDiv) {
+        gesamtDiv.innerText =
+            "Gesamtsumme Angebot: " +
+            getGesamtAngebotssumme().toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+    }
+}
+
+// -----------------------------
+// SEITE 28 – Klettsystem Uponor (ndf16.csv)
+// -----------------------------
+function loadPage28() {
+
+    const container = document.getElementById("content-28");
+    if (!container) return;
+
+    if (container.innerHTML.trim() !== "") return;
+
+    fetch("ndf16.csv")
+        .then(response => response.text())
+        .then(data => {
+
+            const lines = data.split("\n").slice(1);
+            let html = "";
+
+            const gespeicherteWerte =
+                JSON.parse(localStorage.getItem("page28Data") || "{}");
+
+            lines.forEach((line, index) => {
+                if (!line.trim()) return;
+
+                const cols = line.split(";");
+                const colA = cols[0]?.trim();
+                const colB = cols[1]?.trim();
+                const colC = cols[2]?.trim();
+                const colD = cols[3]?.trim();
+
+                if (colA === "Titel") {
+                    html += `<div class="title">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Untertitel") {
+                    html += `<div class="subtitle">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Zwischentitel") {
+                    html += `<div class="midtitle">${colB}</div>`;
+                    return;
+                }
+
+                const preis = parseFloat(colD?.replace(",", "."));
+                if (!isNaN(preis)) {
+
+                    const menge = gespeicherteWerte[index] || 0;
+
+                    html += `
+                        <div class="row">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b">${colB}</div>
+                            <div class="col-c">${colC}</div>
+
+                            <input class="menge-input"
+                                   type="number" min="0" step="any"
+                                   value="${menge}"
+                                   oninput="calcRow28(this, ${preis}, ${index})">
+
+                            <div class="col-d">
+                                ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
+                            </div>
+
+                            <div class="col-e">0,00 €</div>
+                        </div>`;
+                } else {
+                    html += `
+                        <div class="row no-price">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
+                        </div>`;
+                }
+            });
+
+            html += `<div id="gesamtSumme28" class="gesamt">
+                        Gesamtsumme: 0,00 €
+                     </div>`;
+
+            container.innerHTML = html;
+            berechneGesamt28();
+        });
+}
+function calcRow28(input, preis, index) {
+
+    const row = input.parentElement;
+    const ergebnis = row.querySelector(".col-e");
+    const menge = parseFloat(input.value.replace(",", ".")) || 0;
+
+    const sum = menge * preis;
+    ergebnis.innerText =
+        sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+
+    let gespeicherteWerte =
+        JSON.parse(localStorage.getItem("page28Data") || "{}");
+
+    gespeicherteWerte[index] = menge;
+    localStorage.setItem("page28Data", JSON.stringify(gespeicherteWerte));
+
+    berechneGesamt28();
+}
+function berechneGesamt28() {
+
+    let sum = 0;
+
+    document.querySelectorAll("#page-28 .col-e").forEach(el => {
+        const wert = parseFloat(
+            el.innerText.replace("€","")
+                       .replace(/\./g,"")
+                       .replace(",",".")
+                       .trim()
+        ) || 0;
+        sum += wert;
+    });
+
+    saveSeitenSumme("page-28", sum);
+
+    const gesamtDiv = document.getElementById("gesamtSumme28");
+    if (gesamtDiv) {
+        gesamtDiv.innerText =
+            "Gesamtsumme Angebot: " +
+            getGesamtAngebotssumme().toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+    }
+}
+
+// -----------------------------
+// SEITE 30 – Noppensystem Handelsmarke (ndf17.csv)
+// -----------------------------
+function loadPage30() {
+
+    const container = document.getElementById("content-30");
+    if (!container) return;
+
+    if (container.innerHTML.trim() !== "") return;
+
+    fetch("ndf17.csv")
+        .then(response => response.text())
+        .then(data => {
+
+            const lines = data.split("\n").slice(1);
+            let html = "";
+
+            const gespeicherteWerte =
+                JSON.parse(localStorage.getItem("page30Data") || "{}");
+
+            lines.forEach((line, index) => {
+                if (!line.trim()) return;
+
+                const cols = line.split(";");
+                const colA = cols[0]?.trim();
+                const colB = cols[1]?.trim();
+                const colC = cols[2]?.trim();
+                const colD = cols[3]?.trim();
+
+                if (colA === "Titel") {
+                    html += `<div class="title">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Untertitel") {
+                    html += `<div class="subtitle">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Zwischentitel") {
+                    html += `<div class="midtitle">${colB}</div>`;
+                    return;
+                }
+
+                const preis = parseFloat(colD?.replace(",", "."));
+                if (!isNaN(preis)) {
+
+                    const menge = gespeicherteWerte[index] || 0;
+
+                    html += `
+                        <div class="row">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b">${colB}</div>
+                            <div class="col-c">${colC}</div>
+
+                            <input class="menge-input"
+                                   type="number" min="0" step="any"
+                                   value="${menge}"
+                                   oninput="calcRow30(this, ${preis}, ${index})">
+
+                            <div class="col-d">
+                                ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
+                            </div>
+
+                            <div class="col-e">0,00 €</div>
+                        </div>`;
+                } else {
+                    html += `
+                        <div class="row no-price">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
+                        </div>`;
+                }
+            });
+
+            html += `<div id="gesamtSumme30" class="gesamt">
+                        Gesamtsumme: 0,00 €
+                     </div>`;
+
+            container.innerHTML = html;
+            berechneGesamt30();
+        });
+}
+function calcRow30(input, preis, index) {
+
+    const row = input.parentElement;
+    const ergebnis = row.querySelector(".col-e");
+    const menge = parseFloat(input.value.replace(",", ".")) || 0;
+
+    const sum = menge * preis;
+    ergebnis.innerText =
+        sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+
+    let gespeicherteWerte =
+        JSON.parse(localStorage.getItem("page30Data") || "{}");
+
+    gespeicherteWerte[index] = menge;
+    localStorage.setItem("page30Data", JSON.stringify(gespeicherteWerte));
+
+    berechneGesamt30();
+}
+function berechneGesamt30() {
+
+    let sum = 0;
+
+    document.querySelectorAll("#page-30 .col-e").forEach(el => {
+        const wert = parseFloat(
+            el.innerText.replace("€","")
+                       .replace(/\./g,"")
+                       .replace(",",".")
+                       .trim()
+        ) || 0;
+        sum += wert;
+    });
+
+    saveSeitenSumme("page-30", sum);
+
+    const gesamtDiv = document.getElementById("gesamtSumme30");
+    if (gesamtDiv) {
+        gesamtDiv.innerText =
+            "Gesamtsumme Angebot: " +
+            getGesamtAngebotssumme().toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+    }
+}
+
+// -----------------------------
+// SEITE 31 – Noppensystem Uponor (ndf18.csv)
+// -----------------------------
+function loadPage31() {
+
+    const container = document.getElementById("content-31");
+    if (!container) return;
+
+    if (container.innerHTML.trim() !== "") return;
+
+    fetch("ndf18.csv")
+        .then(response => response.text())
+        .then(data => {
+
+            const lines = data.split("\n").slice(1);
+            let html = "";
+
+            const gespeicherteWerte =
+                JSON.parse(localStorage.getItem("page31Data") || "{}");
+
+            lines.forEach((line, index) => {
+                if (!line.trim()) return;
+
+                const cols = line.split(";");
+                const colA = cols[0]?.trim();
+                const colB = cols[1]?.trim();
+                const colC = cols[2]?.trim();
+                const colD = cols[3]?.trim();
+
+                if (colA === "Titel") {
+                    html += `<div class="title">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Untertitel") {
+                    html += `<div class="subtitle">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Zwischentitel") {
+                    html += `<div class="midtitle">${colB}</div>`;
+                    return;
+                }
+
+                const preis = parseFloat(colD?.replace(",", "."));
+                if (!isNaN(preis)) {
+
+                    const menge = gespeicherteWerte[index] || 0;
+
+                    html += `
+                        <div class="row">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b">${colB}</div>
+                            <div class="col-c">${colC}</div>
+
+                            <input class="menge-input"
+                                   type="number" min="0" step="any"
+                                   value="${menge}"
+                                   oninput="calcRow31(this, ${preis}, ${index})">
+
+                            <div class="col-d">
+                                ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
+                            </div>
+
+                            <div class="col-e">0,00 €</div>
+                        </div>`;
+                } else {
+                    html += `
+                        <div class="row no-price">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
+                        </div>`;
+                }
+            });
+
+            html += `<div id="gesamtSumme31" class="gesamt">
+                        Gesamtsumme: 0,00 €
+                     </div>`;
+
+            container.innerHTML = html;
+            berechneGesamt31();
+        });
+}
+function calcRow31(input, preis, index) {
+
+    const row = input.parentElement;
+    const ergebnis = row.querySelector(".col-e");
+    const menge = parseFloat(input.value.replace(",", ".")) || 0;
+
+    const sum = menge * preis;
+    ergebnis.innerText =
+        sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+
+    let gespeicherteWerte =
+        JSON.parse(localStorage.getItem("page31Data") || "{}");
+
+    gespeicherteWerte[index] = menge;
+    localStorage.setItem("page31Data", JSON.stringify(gespeicherteWerte));
+
+    berechneGesamt31();
+}
+function berechneGesamt31() {
+
+    let sum = 0;
+
+    document.querySelectorAll("#page-31 .col-e").forEach(el => {
+        const wert = parseFloat(
+            el.innerText.replace("€","")
+                       .replace(/\./g,"")
+                       .replace(",",".")
+                       .trim()
+        ) || 0;
+        sum += wert;
+    });
+
+    saveSeitenSumme("page-31", sum);
+
+    const gesamtDiv = document.getElementById("gesamtSumme31");
+    if (gesamtDiv) {
+        gesamtDiv.innerText =
+            "Gesamtsumme Angebot: " +
+            getGesamtAngebotssumme().toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+    }
+}
+
+// -----------------------------
+// SEITE 32 – Noppensystem Roth (ndf19.csv)
+// -----------------------------
+function loadPage32() {
+
+    const container = document.getElementById("content-32");
+    if (!container) return;
+
+    if (container.innerHTML.trim() !== "") return;
+
+    fetch("ndf19.csv")
+        .then(response => response.text())
+        .then(data => {
+
+            const lines = data.split("\n").slice(1);
+            let html = "";
+
+            const gespeicherteWerte =
+                JSON.parse(localStorage.getItem("page32Data") || "{}");
+
+            lines.forEach((line, index) => {
+                if (!line.trim()) return;
+
+                const cols = line.split(";");
+                const colA = cols[0]?.trim();
+                const colB = cols[1]?.trim();
+                const colC = cols[2]?.trim();
+                const colD = cols[3]?.trim();
+
+                if (colA === "Titel") {
+                    html += `<div class="title">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Untertitel") {
+                    html += `<div class="subtitle">${colB}</div>`;
+                    return;
+                }
+                if (colA === "Zwischentitel") {
+                    html += `<div class="midtitle">${colB}</div>`;
+                    return;
+                }
+
+                const preis = parseFloat(colD?.replace(",", "."));
+                if (!isNaN(preis)) {
+
+                    const menge = gespeicherteWerte[index] || 0;
+
+                    html += `
+                        <div class="row">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b">${colB}</div>
+                            <div class="col-c">${colC}</div>
+
+                            <input class="menge-input"
+                                   type="number" min="0" step="any"
+                                   value="${menge}"
+                                   oninput="calcRow32(this, ${preis}, ${index})">
+
+                            <div class="col-d">
+                                ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
+                            </div>
+
+                            <div class="col-e">0,00 €</div>
+                        </div>`;
+                } else {
+                    html += `
+                        <div class="row no-price">
+                            <div class="col-a">${colA}</div>
+                            <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
+                        </div>`;
+                }
+            });
+
+            html += `<div id="gesamtSumme32" class="gesamt">
+                        Gesamtsumme: 0,00 €
+                     </div>`;
+
+            container.innerHTML = html;
+            berechneGesamt32();
+        });
+}
+function calcRow32(input, preis, index) {
+
+    const row = input.parentElement;
+    const ergebnis = row.querySelector(".col-e");
+    const menge = parseFloat(input.value.replace(",", ".")) || 0;
+
+    const sum = menge * preis;
+    ergebnis.innerText =
+        sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+
+    let gespeicherteWerte =
+        JSON.parse(localStorage.getItem("page32Data") || "{}");
+
+    gespeicherteWerte[index] = menge;
+    localStorage.setItem("page32Data", JSON.stringify(gespeicherteWerte));
+
+    berechneGesamt32();
+}
+function berechneGesamt32() {
+
+    let sum = 0;
+
+    document.querySelectorAll("#page-32 .col-e").forEach(el => {
+        const wert = parseFloat(
+            el.innerText.replace("€","")
+                       .replace(/\./g,"")
+                       .replace(",",".")
+                       .trim()
+        ) || 0;
+        sum += wert;
+    });
+
+    saveSeitenSumme("page-32", sum);
+
+    const gesamtDiv = document.getElementById("gesamtSumme32");
     if (gesamtDiv) {
         gesamtDiv.innerText =
             "Gesamtsumme Angebot: " +
