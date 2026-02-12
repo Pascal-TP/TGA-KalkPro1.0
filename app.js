@@ -44,10 +44,10 @@ function showPage(id) {
         loadPage20();
     }
     if (id === "page-21") {
-        loadPage20();
+        loadPage21();
     }
     if (id === "page-22") {
-        loadPage20();
+        loadPage22();
     }
 
 }
