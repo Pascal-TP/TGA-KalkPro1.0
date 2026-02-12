@@ -33,13 +33,21 @@ button {
     background: #0b2a4a;
     color: white;
     border: none;
-    padding: 12px 20px;
+    padding: 12px 22px;
     margin: 6px;
     cursor: pointer;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: 0.2s ease;
 }
 
 button:hover {
     background: #163f6f;
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0px);
 }
 
 .error {
@@ -62,9 +70,9 @@ button:hover {
 /* ================================
    TITEL / UNTERTITEL / ZWISCHENTITEL – global
 ================================ */
-.title { font-weight: bold; font-size: 24px; margin-top: 25px; }
-.subtitle { font-weight: bold; font-size: 18px; margin-top: 20px; }
-.midtitle { font-weight: bold; font-size: 16px; margin-top: 15px; }
+.title { text-align: center;font-weight: bold; font-size: 24px; margin-top: 25px; }
+.subtitle { text-align: center;font-weight: bold; font-size: 18px; margin-top: 20px; }
+.midtitle { text-align: center;font-weight: bold; font-size: 16px; margin-top: 15px; }
 
 .price-table {
     max-width: 1200px;
