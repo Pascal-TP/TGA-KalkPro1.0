@@ -37,8 +37,8 @@ function showPage(id) {
     if (id === "page-8") {
         loadPage8();
     }
-    if (id === "page-8") {
-        loadPage8();
+    if (id === "page-18") {
+        loadPage18();
     }
 }
 
