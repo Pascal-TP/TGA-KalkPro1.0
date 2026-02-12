@@ -425,30 +425,6 @@ function berechneGesamt143() {
     }
 }
 
-function goToAngebot() {
-    // Prüfen, ob die Pflichtfelder auf Seite 5 ausgefüllt sind
-    const fields = [
-        "pj-contact",
-        "pj-number",
-        "shk-name",
-        "shk-contact",
-        "shk-email",
-        "shk-phone",
-        "site-address",
-        "execution-date"
-    ];
-
-    let allFilled = fields.every(id => {
-        const val = document.getElementById(id)?.value.trim();
-        return val && val !== "";
-    });
-
-    if (allFilled) {
-        showPage("page-40"); // Alle Felder ausgefüllt → Seite 40
-    } else {
-        showPage("page-41"); // Felder fehlen → Seite 41
-    }
-}
 
 async function loadPage40() {
 
