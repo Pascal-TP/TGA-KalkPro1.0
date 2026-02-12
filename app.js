@@ -341,7 +341,7 @@ function loadPage143() {
         if (preisVorhanden) {
 
           const preis = parseFloat(colD.replace(",", "."));
-          const savedValue = localStorage.getItem("page143_" + index) || "0";
+          const savedValue = localStorage.getItem("page143Data" + index) || "0";
 
           html += `<div class="row">
                       <div class="col-a">${colA}</div>
@@ -391,7 +391,7 @@ function calcRow143(input, preisWert, index) {
   ergebnis.innerText =
     sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
 
-  localStorage.setItem("page143_" + index, input.value);
+  localStorage.setItem("page143Data" + index, input.value);
 
   berechneGesamt143();
 }
