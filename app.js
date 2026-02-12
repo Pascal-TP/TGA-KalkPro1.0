@@ -500,6 +500,7 @@ if (angebotTyp === "anfrage") {
     const seitenConfig = [
         { key: "page14Data",  csv: "ndf1.csv" },
         { key: "page142Data", csv: "ndf5.csv" },
+        { key: "page8Data", csv: "ndf6.csv" },
         { key: "page143Data", csv: "ndf3.csv" }
     ];
 
