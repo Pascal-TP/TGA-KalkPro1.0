@@ -391,7 +391,14 @@ function calcRow143(input, preisWert, index) {
   ergebnis.innerText =
     sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
 
-  localStorage.setItem("page143Data" + index, input.value);
+ let gespeicherteWerte =
+    JSON.parse(localStorage.getItem("page143Data") || "{}");
+
+gespeicherteWerte[index] = menge;
+
+localStorage.setItem("page143Data",
+    JSON.stringify(gespeicherteWerte));
+
 
   berechneGesamt143();
 }
