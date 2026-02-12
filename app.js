@@ -491,6 +491,17 @@ async function loadPage40() {
                 gesamt += menge * preis;
             }
         });
+
+const angebotTyp = localStorage.getItem("angebotTyp") || "kv";
+
+const titelElement = document.getElementById("page40-title");
+
+if (angebotTyp === "anfrage") {
+    titelElement.innerText = "Anfrage";
+} else {
+    titelElement.innerText = "Kostenvoranschlag";
+}
+
     }
 
     document.getElementById("angebotspreis").innerText =
@@ -519,7 +530,9 @@ async function loadPage40() {
 
     hinweiseContainer.innerHTML = html;
 }
+
 function direktZumAngebot() {
+
     const fields = [
         "pj-contact", "pj-number", "shk-name", "shk-contact",
         "shk-email", "shk-phone", "site-address", "execution-date"
@@ -531,9 +544,13 @@ function direktZumAngebot() {
     });
 
     if (alleAusgefüllt) {
-        showPage("page-40"); // Seite Kostenvoranschlag
+
+        localStorage.setItem("angebotTyp", "anfrage");
+        showPage("page-40");
+
     } else {
-        showPage("page-41"); // Seite Hinweis, dass Eingaben fehlen
+
+        showPage("page-41");
     }
 }
 
@@ -571,11 +588,25 @@ function printPage40() {
 }
 
 function sendMailPage40() {
-    const subject = `Schon Kostenvoranschlag NDF - ${new Date().toLocaleDateString("de-DE")}`;
-    const body = encodeURIComponent(document.getElementById("page-40").innerText);
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
-}
 
+    const angebotTyp = localStorage.getItem("angebotTyp") || "kv";
+
+    let subject = "";
+    let mailAdresse = "";
+
+    if (angebotTyp === "anfrage") {
+        subject = "Anfrage Peter Jensen";
+        mailAdresse = "info@ndf-gmbh.de";
+    } else {
+        subject = `Schon Kostenvoranschlag NDF - ${new Date().toLocaleDateString("de-DE")}`;
+        mailAdresse = "";
+    }
+
+    const body = encodeURIComponent(document.getElementById("page-40").innerText);
+
+    window.location.href =
+        `mailto:${mailAdresse}?subject=${encodeURIComponent(subject)}&body=${body}`;
+}
 
 function clearInputs() {
 
