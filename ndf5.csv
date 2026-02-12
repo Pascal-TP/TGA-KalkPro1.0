@@ -1,13 +1,13 @@
 ﻿EDV-Nr./Bezeichnung;Beschreibung;Preiseinheit;Preis
-Titel;Flächen-Warmwasser-Fußbodenheizung - Roth;;
+Titel;Flächen-Warmwasser-Fußbodenheizung - Uponor;;
 Untertitel;als Tackersystem liefern und montieren;;
-;- Roth System-Verbundfaltplatte (diverse Wärmeleitgruppen);;
-;- Roth Heizrohr PERTEX S5 17 mm;;
+;- Uponor Tackerrolle (diverse Wärmeleitgruppen);;
+;- Uponor ComfortPipe Rohr PE-Xa 16x1,8 mm;;
 ;- Tackernadeln für Heizrohr 14-17 mm | Hausmarke;;
-;- concept | Roth-Randdämmstreifen 10/160 | selbstklebend | 25 m / Rolle (4 Rollen /Sack);;
+;- PE-Randdämmstreifen 10/150 | Comfort - selbstklebend | mit Folienlasche | 50 lfm | Hausmarke;;
 ;- Klebeband extrem reißfest | 50 mm breit | Rolle = 66 m | Hausmarke;;
-;- Klemmverschraubung Universal 17 mm | Roth;;
-;- Kupplung PressCheck 17 mm;;
+;- Klemmverschraubung 16x2,0 mm 3/4” PEX- einzeln | Uponor;;
+;- Rohrverbinder (Kupplung m.Ringen) 16x16 mm | Uponor;;
 ;- Winkelspangen, Kunststoff schwarz, Rohrführung zum Umlenken der Heizrohre im Verteilerbereich, für Rohre 14-18 mm;;
 ;- Dehnfugenschutzrohr zum Isolieren der Vor-/Rückläufe;;
 ;- Dehnfugenschutzrohr geschlitzt für Rohr bis 20 mm im Bereich der Dehnfugen | ca. 300 mm lang | Hausmarke;;
@@ -15,19 +15,16 @@ Untertitel;als Tackersystem liefern und montieren;;
 ;- Baustelleneinrichtung, Müllentsorgung, Bauleitung, Heizflächenauslegung und Abdrücken der Fußbodenheizung mit Luft sind im Preis enthalten;;
 ;- Montageleistung Tacker-Systemrohr (nicht enthalten: Montage der Verteiler, Schränke, Klemmleisten, Stellantriebe, Raumthermostate;;
 ;;;
-100BHW046;Verbundplatte 20-2 mm WLG 035;€/m²;31,9
-100BHW047;Verbundplatte 20-2 mm WLG 040;€/m²;31,2
-100BHW048;Verbundplatte 30-2 mm WLG 040;€/m²;32,1
-100BHW049;Verbundplatte 30-3 mm WLG 045;€/m²;31,8
-;;;
-Zwischentitel;wir vor, jedoch mit Systemplatte Flipfix;;
-100BHW045;2 mm Hohlkammer-Platte;€/m²;30,4
-100BHW050;nur Rohr, Dämmung komplett bauseits;€/m²;21,7
+100BHW039;Tackerplatte 20-2 mm WLG 040;€/m²;32,7
+100BIE040;Tackerplatte 30-2 mm WLG 040;€/m²;33,3
+100BHW040;Tackerplatte 30-3 mm WLG 045;€/m²;33,1
+100BIE041;Tackerplatte 35-3 mm WLG 045;€/m²;33
+100BHW041;nur Rohr, Dämmung komplett bauseits;€/m²;22,9
 ;;;
 Titel;Mehrpreise für Rohrvarianten;;
 Untertitel;Für die Verlegung eines anderen Roth-Heizrohrs;;
-100BHW051;X-PERT S5+ 17 mm;€/m²;1,3
-100BHW052;DUOPEX S5 17 mm;€/m²;1,8
+100BHW042;MLCP Red Aluverbundrohr 16x2 mm;€/m²;0,9
+100BHW043;Comfort Pipe Plus Xa-Rohr 17x2 mm;€/m²;2,6
 ;;;
 Untertitel;Engerer Verlegeabstand des Heizrohres, zum Beispiel für Kühlfunktion;;
-100BHW053;Verlegeabstand 100 mm;€/m²;3,5
+100BHW044;Verlegeabstand 100 mm;€/m²;4,1
