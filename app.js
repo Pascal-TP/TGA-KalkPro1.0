@@ -440,9 +440,10 @@ async function loadPage40() {
     if (titleEl) {
         titleEl.innerText = (angebotTyp === "anfrage") ? "Anfrage" : "Kostenvoranschlag";
     }
-    
+
     const container = document.getElementById("summary-content");
     const hinweiseContainer = document.getElementById("hinweise-content");
+    if (!container || !hinweiseContainer) return;
 
     container.innerHTML = "";
     hinweiseContainer.innerHTML = "";
@@ -450,7 +451,7 @@ async function loadPage40() {
     let gesamt = 0;
 
     const seitenConfig = [
-        { key: "page14Data", csv: "ndf1.csv" },
+        { key: "page14Data",  csv: "ndf1.csv" },
         { key: "page142Data", csv: "ndf2.csv" },
         { key: "page143Data", csv: "ndf3.csv" }
     ];
@@ -497,49 +498,39 @@ async function loadPage40() {
                 gesamt += menge * preis;
             }
         });
-}
-const angebotTyp = localStorage.getItem("angebotTyp") || "kv";
+    }
 
-const titelElement = document.getElementById("page40-title");
-
-if (angebotTyp === "anfrage") {
-    titelElement.innerText = "Anfrage";
-} else {
-    titelElement.innerText = "Kostenvoranschlag";
-}
-
-    document.getElementById("angebotspreis").innerText =
-        "Angebotspreis: " +
-        gesamt.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+    const angebotspreisEl = document.getElementById("angebotspreis");
+    if (angebotspreisEl) {
+        angebotspreisEl.innerText =
+            "Angebotspreis: " + gesamt.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+    }
 
     // Hinweise laden (ndf4.csv)
-try {
-    const hinweiseContainer = document.getElementById("hinweise-content");
-    if (!hinweiseContainer) return;
+    try {
+        const hinweisRes = await fetch("ndf4.csv");
+        const hinweisText = await hinweisRes.text();
+        const hinweisLines = hinweisText.split("\n").slice(1);
 
-    const hinweisRes = await fetch("ndf4.csv");
-    const hinweisText = await hinweisRes.text();
-    const hinweisLines = hinweisText.split("\n").slice(1);
+        let html = "";
+        hinweisLines.forEach(line => {
+            if (!line.trim()) return;
 
-    let html = "";
-    hinweisLines.forEach(line => {
-        if (!line.trim()) return;
+            const cols = line.split(";");
+            const colA = cols[0]?.trim();
+            const colB = cols[1]?.trim();
 
-        const cols = line.split(";");
-        const colA = cols[0]?.trim();
-        const colB = cols[1]?.trim();
+            if (colA === "Titel") html += `<div class="title">${colB}</div>`;
+            else if (colA === "Untertitel") html += `<div class="subtitle">${colB}</div>`;
+            else if (colA === "Zwischentitel") html += `<div class="midtitle">${colB}</div>`;
+            else html += `<div class="hinweis-row">${colB}</div>`;
+        });
 
-        if (colA === "Titel") html += `<div class="title">${colB}</div>`;
-        else if (colA === "Untertitel") html += `<div class="subtitle">${colB}</div>`;
-        else if (colA === "Zwischentitel") html += `<div class="midtitle">${colB}</div>`;
-        else html += `<div class="hinweis-row">${colB}</div>`;
-    });
+        hinweiseContainer.innerHTML = html;
 
-    hinweiseContainer.innerHTML = html;
-
-} catch (e) {
-    console.error("Fehler beim Laden der Hinweise (ndf4.csv):", e);
-}
+    } catch (e) {
+        console.error("Fehler beim Laden der Hinweise (ndf4.csv):", e);
+    }
 }
 
 function direktZumAngebot() {
@@ -555,16 +546,13 @@ function direktZumAngebot() {
     });
 
     if (alleAusgefüllt) {
-
         localStorage.setItem("angebotTyp", "anfrage");
         showPage("page-40");
-
     } else {
-
+        localStorage.setItem("angebotTyp", "kv");
         showPage("page-41");
     }
 }
-
 
 function printPage40() {
 
