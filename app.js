@@ -450,82 +450,91 @@ function goToAngebot() {
     }
 }
 
-function loadPage40() {
+async function loadPage40() {
+
     const container = document.getElementById("summary-content");
     const hinweiseContainer = document.getElementById("hinweise-content");
 
-    // Leeren
     container.innerHTML = "";
     hinweiseContainer.innerHTML = "";
 
     let gesamt = 0;
 
-    // Alle Seiten, die Mengen haben: page14, page-14-2, page-14-3 ...
-    const seitenIds = ["page14Data", "page142Data", "page143Data"]; // Erweiterbar
+    const seitenConfig = [
+        { key: "page14Data", csv: "ndf1.csv" },
+        { key: "page142Data", csv: "ndf2.csv" },
+        { key: "page143Data", csv: "ndf3.csv" }
+    ];
 
-    seitenIds.forEach(seiteKey => {
-        const data = JSON.parse(localStorage.getItem(seiteKey) || "{}");
+    for (const seite of seitenConfig) {
 
-        const csvFile = seiteKey === "page14Data" ? "ndf1.csv" :
-                        seiteKey === "page142Data" ? "ndf2.csv" :
-                        "ndf3.csv";
+        const data = JSON.parse(localStorage.getItem(seite.key) || "{}");
 
-        fetch(csvFile)
-        .then(res => res.text())
-        .then(csvText => {
-            const lines = csvText.split("\n").slice(1);
+        const response = await fetch(seite.csv);
+        const csvText = await response.text();
+        const lines = csvText.split("\n").slice(1);
 
-            lines.forEach((line, index) => {
-                if (!line.trim()) return;
+        lines.forEach((line, index) => {
 
-                const cols = line.split(";");
-                const colA = cols[0]?.trim();
-                const colB = cols[1]?.trim();
-                const colC = cols[2]?.trim();
-                const colD = cols[3]?.trim();
+            if (!line.trim()) return;
 
-                const menge = parseFloat(data[index] || 0);
-                const preis = parseFloat(colD?.replace(",", ".") || 0);
+            const cols = line.split(";");
+            const colA = cols[0]?.trim();
+            const colB = cols[1]?.trim();
+            const colC = cols[2]?.trim();
+            const colD = cols[3]?.trim();
 
-                if (colA !== "Titel" && colA !== "Untertitel" && colA !== "Zwischentitel" && menge > 0) {
-                    const zeile = document.createElement("div");
-                    zeile.className = "row summary-row";
-                    zeile.innerHTML = `
-                        <div class="col-a">${colA}</div>
-                        <div class="col-b">${colB}</div>
-                        <div class="col-c">${colC}</div>
-                        <div class="col-d">${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €</div>
-                        <div class="col-e">${(menge * preis).toLocaleString("de-DE",{minimumFractionDigits:2})} €</div>
-                    `;
-                    container.appendChild(zeile);
-                    gesamt += menge * preis;
-                }
-            });
+            const menge = parseFloat(data[index] || 0);
+            const preis = parseFloat(colD?.replace(",", ".") || 0);
 
-            // Angebotspreis aktualisieren
-            document.getElementById("angebotspreis").innerText =
-                "Angebotspreis: " + gesamt.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+            if (
+                colA !== "Titel" &&
+                colA !== "Untertitel" &&
+                colA !== "Zwischentitel" &&
+                menge > 0
+            ) {
+
+                const zeile = document.createElement("div");
+                zeile.className = "row summary-row";
+                zeile.innerHTML = `
+                    <div class="col-a">${colA}</div>
+                    <div class="col-b">${colB}</div>
+                    <div class="col-c">${colC}</div>
+                    <div class="col-d">${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €</div>
+                    <div class="col-e">${(menge * preis).toLocaleString("de-DE",{minimumFractionDigits:2})} €</div>
+                `;
+
+                container.appendChild(zeile);
+                gesamt += menge * preis;
+            }
         });
+    }
+
+    document.getElementById("angebotspreis").innerText =
+        "Angebotspreis: " +
+        gesamt.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+
+    // Hinweise laden
+    const hinweisRes = await fetch("ndf4.csv");
+    const hinweisText = await hinweisRes.text();
+    const lines = hinweisText.split("\n").slice(1);
+
+    let html = "";
+
+    lines.forEach(line => {
+        if (!line.trim()) return;
+
+        const cols = line.split(";");
+        const colA = cols[0]?.trim();
+        const colB = cols[1]?.trim();
+
+        if (colA === "Titel") html += `<div class="title">${colB}</div>`;
+        else if (colA === "Untertitel") html += `<div class="subtitle">${colB}</div>`;
+        else if (colA === "Zwischentitel") html += `<div class="midtitle">${colB}</div>`;
+        else html += `<div class="hinweis-row">${colB}</div>`;
     });
 
-    // Allgemeine Hinweise aus ndf4.csv laden
-    fetch("ndf4.csv")
-        .then(res => res.text())
-        .then(csvText => {
-            const lines = csvText.split("\n").slice(1);
-            let html = "";
-            lines.forEach(line => {
-                if (!line.trim()) return;
-                const cols = line.split(";");
-                const colA = cols[0]?.trim();
-                const colB = cols[1]?.trim();
-                if (colA === "Titel") html += `<div class="title">${colB}</div>`;
-                else if (colA === "Untertitel") html += `<div class="subtitle">${colB}</div>`;
-                else if (colA === "Zwischentitel") html += `<div class="midtitle">${colB}</div>`;
-                else html += `<div class="hinweis-row">${colB}</div>`;
-            });
-            hinweiseContainer.innerHTML = html;
-        });
+    hinweiseContainer.innerHTML = html;
 }
 function direktZumAngebot() {
     const fields = [
