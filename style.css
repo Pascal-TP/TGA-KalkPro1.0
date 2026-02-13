@@ -174,3 +174,11 @@ button:active {
     margin: 30px auto;
 }
 .hidden { display: none; }
+
+.gesamt.rabatt {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 6px;
+  opacity: 0.9;
+}
+

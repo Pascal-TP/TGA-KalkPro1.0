@@ -324,8 +324,11 @@ function startTimer() {
 let angebotSummen = JSON.parse(localStorage.getItem("angebotSummen") || "{}");
 
 function saveSeitenSumme(seitenId, summe) {
-    angebotSummen[seitenId] = summe;
-    localStorage.setItem("angebotSummen", JSON.stringify(angebotSummen));
+  angebotSummen[seitenId] = summe;
+  localStorage.setItem("angebotSummen", JSON.stringify(angebotSummen));
+
+  // NEU: Rabatt-Anzeigen automatisch nachziehen
+  refreshRabattDisplays();
 }
 
 function getGesamtAngebotssumme() {
@@ -335,6 +338,35 @@ function getGesamtAngebotssumme() {
     }
     return total;
 }
+
+// ===== SHK-Rabatt (15%) =====
+const SHK_RABATT = 0.15;
+
+function formatEuro(n) {
+  const x = Number(n) || 0;
+  return x.toLocaleString("de-DE", { minimumFractionDigits: 2 }) + " €";
+}
+
+function getRabattSumme(total) {
+  const t = Number(total) || 0;
+  return t * (1 - SHK_RABATT); // = 85%
+}
+
+// Aktualisiert alle vorhandenen Rabatt-Zeilen (auf allen Seiten, die gerade gerendert sind)
+function refreshRabattDisplays() {
+  const total = getGesamtAngebotssumme();
+  const after = getRabattSumme(total);
+
+  // alle dynamischen Seiten (14, 8, 18, ...) -> wir hängen data-rabatt="angebot" dran
+  document.querySelectorAll('[data-rabatt="angebot"]').forEach(el => {
+    el.innerText = `Gesamtsumme abzgl. SHK-Rabatt (15%): ${formatEuro(after)}`;
+  });
+
+  // Seite 40 (statisch in HTML)
+  const p40 = document.getElementById("angebotspreisRabatt");
+  if (p40) p40.innerText = `Angebotspreis abzgl. SHK-Rabatt (15%): ${formatEuro(after)}`;
+}
+
 
 // Funktion zur Prüfung der Pflichteingaben auf Seite 5
 function submitPage5() {
@@ -443,6 +475,9 @@ function loadPage14() {
             });
 
             html += `<div id="gesamtSumme14" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme14Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
 
@@ -568,9 +603,10 @@ function loadPage143() {
         }
       });
 
-      html += `<div id="gesamtSumme143" class="gesamt">
-                Gesamtsumme: 0,00 €
-               </div>`;
+      html += `<div id="gesamtSumme143" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+      html += `<div id="gesamtSumme143Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
      container.innerHTML = html;
 
@@ -769,6 +805,8 @@ if (angebotTyp === "anfrage") {
             "Angebotspreis: " + gesamt.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
     }
 
+refreshRabattDisplays();
+
     // Hinweise laden (ndf4.csv)
     try {
         const hinweisRes = await fetch("ndf4.csv");
@@ -911,7 +949,7 @@ function clearInputs() {
 
     // Summen-Anzeige zurücksetzen
     const angebotspreis = document.getElementById("angebotspreis");
-    if (angebotspreis) angebotspreis.innerText = "Angebotspreis: 0,00 €";
+    if (angebotspreis) angebotspreis.innerText = "Gesamtsumme: 0,00 €";
 
     const sum14 = document.getElementById("gesamtSumme14");
     if (sum14) sum14.innerText = "Gesamtsumme Angebot: 0,00 €";
@@ -982,6 +1020,13 @@ function clearInputs() {
 
     currentUser = null;
     updateAdminUI_();
+
+document.querySelectorAll('[data-rabatt="angebot"]').forEach(el => {
+  el.innerText = "Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €";
+});
+const p40r = document.getElementById("angebotspreisRabatt");
+if (p40r) p40r.innerText = "Angebotspreis abzgl. SHK-Rabatt (15%): 0,00 €";
+
 
     // zurück
     showPage("page-3");
@@ -1059,9 +1104,10 @@ function loadPage142() {
                 }
             });
 
-            html += `<div id="gesamtSumme142" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme142" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme142Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt142();
@@ -1181,9 +1227,10 @@ function loadPage8() {
                 }
             });
 
-            html += `<div id="gesamtSumme8" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme8" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme8Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt8();
@@ -1303,9 +1350,10 @@ function loadPage18() {
                 }
             });
 
-            html += `<div id="gesamtSumme18" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme18" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme18Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt18();
@@ -1426,9 +1474,10 @@ function loadPage20() {
                 }
             });
 
-            html += `<div id="gesamtSumme20" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme20" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme20Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt20();
@@ -1549,9 +1598,10 @@ function loadPage21() {
                 }
             });
 
-            html += `<div id="gesamtSumme21" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme21" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme21Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt21();
@@ -1672,9 +1722,10 @@ function loadPage22() {
                 }
             });
 
-            html += `<div id="gesamtSumme22" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme22" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme22Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt22();
@@ -1794,9 +1845,10 @@ function loadPage9() {
                 }
             });
 
-            html += `<div id="gesamtSumme9" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme9" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme9Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt9();
@@ -1917,9 +1969,10 @@ function loadPage10() {
                 }
             });
 
-            html += `<div id="gesamtSumme10" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme10" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme10Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt10();
@@ -2040,9 +2093,10 @@ function loadPage23() {
                 }
             });
 
-            html += `<div id="gesamtSumme23" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme23" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme23Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt23();
@@ -2163,9 +2217,10 @@ function loadPage24() {
                 }
             });
 
-            html += `<div id="gesamtSumme24" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme24" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme24Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt24();
@@ -2286,9 +2341,10 @@ function loadPage25() {
                 }
             });
 
-            html += `<div id="gesamtSumme25" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme25" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme25Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt25();
@@ -2409,9 +2465,10 @@ function loadPage27() {
                 }
             });
 
-            html += `<div id="gesamtSumme27" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme27" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme27Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt27();
@@ -2532,9 +2589,10 @@ function loadPage28() {
                 }
             });
 
-            html += `<div id="gesamtSumme28" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme28" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme28Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt28();
@@ -2655,9 +2713,10 @@ function loadPage30() {
                 }
             });
 
-            html += `<div id="gesamtSumme30" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme30" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme30Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt30();
@@ -2778,9 +2837,10 @@ function loadPage31() {
                 }
             });
 
-            html += `<div id="gesamtSumme31" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme31" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme31Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt31();
@@ -2901,9 +2961,10 @@ function loadPage32() {
                 }
             });
 
-            html += `<div id="gesamtSumme32" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme32" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme32Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt32();
@@ -3024,9 +3085,10 @@ function loadPage33() {
                 }
             });
 
-            html += `<div id="gesamtSumme33" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme33" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme33Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt33();
@@ -3147,9 +3209,10 @@ function loadPage13() {
                 }
             });
 
-            html += `<div id="gesamtSumme13" class="gesamt">
-                        Gesamtsumme: 0,00 €
-                     </div>`;
+            html += `<div id="gesamtSumme13" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+            html += `<div id="gesamtSumme13Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+         </div>`;
 
             container.innerHTML = html;
             berechneGesamt13();
