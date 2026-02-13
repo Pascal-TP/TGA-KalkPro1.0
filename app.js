@@ -152,15 +152,6 @@ function showPage(id) {
 
 }
 
-function updateAdminUI_() {
-  const btn = document.getElementById("btnExportLog");
-  if (!btn) return;
-
-  const isAdmin = !!(currentUser && users[currentUser] && users[currentUser].isAdmin);
-  btn.classList.toggle("hidden", !isAdmin);
-}
-
-
 async function login() {
   const email = loginUser.value.trim();
   const pw = loginPass.value;
