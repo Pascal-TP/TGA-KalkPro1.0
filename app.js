@@ -3,19 +3,83 @@ let currentUser = null;
 let logoutTimer;
 let remaining = 600;
 
-// CSV laden
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  updatePassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+import {
+  getFirestore,
+  addDoc,
+  collection,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDPQ-cU4J_YnxR9uiIWANohAlh1TO-uXg0",
+  authDomain: "pw-pj-ndf.firebaseapp.com",
+  projectId: "pw-pj-ndf",
+  storageBucket: "pw-pj-ndf.firebasestorage.app",
+  messagingSenderId: "595420395595",
+  appId: "1:595420395595:web:951abb4589f1d78bfc35ce",
+  measurementId: "G-VYRW1EY6N0"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const auth = getAuth(fbApp);
+const db = getFirestore(fbApp);
+
+
+async function hashPassword(pw) {
+  const enc = new TextEncoder().encode(pw);
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2,"0"))
+    .join("");
+}
+
+// CSV laden (NEU)
 fetch("users.csv")
   .then(r => r.text())
   .then(text => {
     let lines = text.split("\n").slice(1);
+
     lines.forEach(l => {
-        let [u,p] = l.trim().split(";");
-        if (u) users[u] = p;
+      if (!l.trim()) return;
+
+      let [u, hash, forceChange, active, isAdmin] = l.trim().split(";");
+      if (!u) return;
+
+      users[u] = {
+  hash: (hash || "").trim(),
+  forceChange: (forceChange || "0").trim() === "1",
+  active: (active || "1").trim() === "1",
+  isAdmin: (isAdmin || "0").trim() === "1"
+};
+
     });
 
-    // Passwort-Overrides (Simulation)
+    // Lokale Overrides (Passwortänderung pro Gerät)
+    // Struktur: { username: { hash: "...", baseHash: "..." } }
     let saved = JSON.parse(localStorage.getItem("pwOverrides") || "{}");
-    Object.assign(users, saved);
+
+    Object.keys(saved).forEach(u => {
+      if (!users[u]) return;
+
+      // Override nur gültig, wenn Admin-CSV nicht geändert wurde
+      if (saved[u].baseHash && saved[u].baseHash === users[u].hash) {
+        users[u].hash = saved[u].hash;
+        users[u].forceChange = false;
+      } else {
+        delete saved[u];
+      }
+    });
+
+    localStorage.setItem("pwOverrides", JSON.stringify(saved));
   });
 
 function showPage(id) {
@@ -88,33 +152,56 @@ function showPage(id) {
 
 }
 
-function login() {
-    let u = loginUser.value.trim();
-    let p = loginPass.value;
+function updateAdminUI_() {
+  const btn = document.getElementById("btnExportLog");
+  if (!btn) return;
 
-    if (!u || !p) {
-        loginError.innerText = "Bitte Nutzername und Passwort eingeben.";
-        return;
-    }
-
-    if (!users[u] || users[u] !== p) {
-        loginError.innerText = "Nutzername oder Passwort falsch.";
-        return;
-    }
-
-    currentUser = u;
-    startTimer();
-    showPage("page-3");
+  const isAdmin = !!(currentUser && users[currentUser] && users[currentUser].isAdmin);
+  btn.classList.toggle("hidden", !isAdmin);
 }
 
-function forgotPassword() {
-    let u = loginUser.value.trim();
-    if (!u) {
-        loginError.innerText = "Nutzername bitte eingeben.";
-        return;
-    }
-    window.location.href =
-      "mailto:info@ndf-gmbh.de?subject=Passwort zurücksetzen&body=Bitte Passwort zurücksetzen für Nutzer: " + u;
+
+async function login() {
+  const email = loginUser.value.trim();
+  const pw = loginPass.value;
+
+  if (!email || !pw) {
+    loginError.innerText = "Bitte E-Mail und Passwort eingeben.";
+    return;
+  }
+
+  try {
+    const cred = await signInWithEmailAndPassword(auth, email, pw);
+    currentUser = cred.user;
+
+    // zentral loggen
+    await addDoc(collection(db, "loginLogs"), {
+      uid: currentUser.uid,
+      email: currentUser.email,
+      event: "LOGIN_SUCCESS",
+      time: serverTimestamp()
+    });
+
+    updateAdminUI_();
+    startTimer();
+    showPage("page-3");
+  } catch (e) {
+    loginError.innerText = "Login fehlgeschlagen (E-Mail/Passwort prüfen).";
+  }
+}
+
+async function forgotPassword() {
+  const email = loginUser.value.trim();
+  if (!email) {
+    loginError.innerText = "Bitte E-Mail eingeben.";
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    loginError.innerText = "Reset-Link wurde per E-Mail gesendet.";
+  } catch (e) {
+    loginError.innerText = "Reset-Mail konnte nicht gesendet werden.";
+  }
 }
 
 function goToChange() {
@@ -126,33 +213,55 @@ function goToChange() {
     showPage("page-change");
 }
 
-function savePassword() {
-    let oldP = oldPass.value;
-    let n1 = newPass1.value;
-    let n2 = newPass2.value;
+async function savePassword() {
+  const n1 = newPass1.value;
+  const n2 = newPass2.value;
 
-    if (!oldP || !n1 || !n2) {
-        changeError.innerText = "Bitte alle Felder ausfüllen.";
-        return;
-    }
+  if (!n1 || !n2) {
+    changeError.innerText = "Bitte alle Felder ausfüllen.";
+    return;
+  }
+  if (n1 !== n2) {
+    changeError.innerText = "Neue Passwörter stimmen nicht überein.";
+    return;
+  }
+  if (!auth.currentUser) {
+    changeError.innerText = "Nicht eingeloggt.";
+    return;
+  }
 
-    if (users[currentUser] !== oldP) {
-        changeError.innerText = "Altes Passwort falsch.";
-        return;
-    }
-
-    if (n1 !== n2) {
-        changeError.innerText = "Neue Passwörter stimmen nicht überein.";
-        return;
-    }
-
-    users[currentUser] = n1;
-    let store = JSON.parse(localStorage.getItem("pwOverrides") || "{}");
-    store[currentUser] = n1;
-    localStorage.setItem("pwOverrides", JSON.stringify(store));
-
+  try {
+    await updatePassword(auth.currentUser, n1);
+    changeError.innerText = "";
     alert("Passwort geändert.");
-    showPage("page-login");
+    showPage("page-3");
+  } catch (e) {
+    changeError.innerText = "Passwort konnte nicht geändert werden (ggf. neu einloggen).";
+  }
+}
+
+function logEvent(username, event) {
+  const log = JSON.parse(localStorage.getItem("loginLog") || "[]");
+  log.push({ time: new Date().toISOString(), user: username || "", event });
+  localStorage.setItem("loginLog", JSON.stringify(log));
+}
+
+function updateAdminUI_() {
+  const btn = document.getElementById("btnExportLog");
+  if (!btn) return;
+
+  const adminEmail = "pascal.gasch@tpholding.de"; // HIER deine Admin-Mail eintragen
+  const isAdmin = (auth.currentUser?.email || "").toLowerCase() === adminEmail.toLowerCase();
+
+  btn.classList.toggle("hidden", !isAdmin);
+}
+
+async function adminMakeHash() {
+  const pw = prompt("Passwort für Hash:");
+  if (!pw) return;
+  const h = await hashPassword(pw);
+  console.log("HASH:", h);
+  alert("Hash steht in der Konsole (F12 → Console).");
 }
 
 function startTimer() {
@@ -829,6 +938,9 @@ function clearInputs() {
 
     // Angebots-Summen Objekt zurücksetzen (falls du es im RAM nutzt)
     angebotSummen = {};
+
+    currentUser = null;
+    updateAdminUI_();
 
     // zurück
     showPage("page-3");

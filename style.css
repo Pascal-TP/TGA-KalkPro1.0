@@ -23,7 +23,7 @@ body {
 input {
     display: block;
     margin: 10px auto;
-    padding: 10px;
+    padding: 10px;   
     width: 250px;
     background: #fff6d5;
     border: 1px solid #ccc;
@@ -164,3 +164,4 @@ button:active {
     max-width: 1000px;
     margin: 30px auto;
 }
+.hidden { display: none; }

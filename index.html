@@ -16,7 +16,7 @@
 <div class="page active" id="page-login">
     <h2>Login</h2>
 
-    <input id="loginUser" placeholder="Nutzername">
+    <input id="loginUser" type="email" placeholder="E-Mail">
     <input id="loginPass" type="password" placeholder="Passwort">
 
     <div class="error" id="loginError"></div>
@@ -47,12 +47,17 @@
 
     <button onclick="showPage('page-4')">KV</button>
     <button onclick="showPage('page-5')">Anfrage an NDF</button>
-
+  
     <p class="hint">
         KV = Kostenvoranschlag – die schnelle und direkte Ermittlung eines Richtpreises für den Kunden<br><br>
         Anfrage an NDF – Ermittlung eines Richtpreises für den Kunden, jedoch mit der Möglichkeit ein qualifiziertes Angebot von NDF per Mail anzufragen.<br>
     </p>
     <button onclick="clearInputs()">Eingaben löschen</button>
+    <button onclick="showPage('page-login')">Zurück</button>
+    <button id="btnExportLog" class="hidden" onclick="exportLoginLog()">
+      Login-Log herunterladen
+    </button>
+
 </div>
 
 <!-- SEITE 4: HAUPTMENÜ KV -->
@@ -125,7 +130,7 @@
     <!-- Auswahlbuttons untereinander -->
     <div>
         <button onclick="showPage('page-12')">Estrich</button><br>
-        <button onclick="showPage('page-13')">unbeheizt Fläche</button><br>
+        <button onclick="showPage('page-13')">unbeheizte Fläche</button><br>
         <button onclick="showPage('page-14-1')">Tackersystem</button><br>
         <button onclick="showPage('page-26')">Klettsystem</button><br>
         <button onclick="showPage('page-29')">Noppensystem</button><br>
@@ -494,6 +499,6 @@
     </div>
 </div>
 
-<script src="app.js"></script>
+<script type="module" src="app.js"></script>
 </body>
 </html>

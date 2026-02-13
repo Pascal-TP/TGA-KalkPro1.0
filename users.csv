@@ -1,3 +1,3 @@
-Nutzername;Passwort
-mueller;1234
-schmidt;abcd
+username;passwordHash;forceChange;active;isAdmin
+Admin;1cab9d3839cba833fba50d6d1a816d99720240737c09b6a83e218ae05f66ccdd;0;1;1
+Tilman;f363fad4183f0e9b3de65817d65fef91f722be39b03d71aed1df94168b13af2a;0;1;0
