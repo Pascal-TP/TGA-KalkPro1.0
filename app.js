@@ -3150,4 +3150,13 @@ function berechneGesamt13() {
 document.body.addEventListener("mousemove", () => remaining = 600);
 document.body.addEventListener("keydown", () => remaining = 600);
 
+// ===== Funktionen für HTML global verfügbar machen =====
+window.login = login;
+window.forgotPassword = forgotPassword;
+window.savePassword = savePassword;
+window.exportLoginLog = exportLoginLog;
+window.showPage = showPage;
+window.clearInputs = clearInputs;
+
+
 
