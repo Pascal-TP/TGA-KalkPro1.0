@@ -237,6 +237,42 @@ function logEvent(username, event) {
   localStorage.setItem("loginLog", JSON.stringify(log));
 }
 
+async function exportLoginLog() {
+  const adminEmail = "pascal.gasch@tpholding.de";
+  const userEmail = auth.currentUser?.email || "";
+
+  if (userEmail.toLowerCase() !== adminEmail.toLowerCase()) {
+    alert("Keine Berechtigung.");
+    return;
+  }
+
+  const { getDocs, query, orderBy } = await import(
+    "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
+  );
+
+  const q = query(collection(db, "loginLogs"), orderBy("time", "desc"));
+  const snap = await getDocs(q);
+
+  let csv = "time;email;event\n";
+  snap.forEach(d => {
+    const x = d.data();
+    const time = x.time?.toDate ? x.time.toDate().toISOString() : "";
+    csv += `${time};${x.email || ""};${x.event || ""}\n`;
+  });
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "login-log.csv";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+
 function updateAdminUI_() {
   const btn = document.getElementById("btnExportLog");
   if (!btn) return;
