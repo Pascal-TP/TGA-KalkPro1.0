@@ -1,4 +1,3 @@
-let users = {};
 let currentUser = null;
 let logoutTimer;
 let remaining = 600;
@@ -42,45 +41,7 @@ async function hashPassword(pw) {
     .join("");
 }
 
-// CSV laden (NEU)
-fetch("users.csv")
-  .then(r => r.text())
-  .then(text => {
-    let lines = text.split("\n").slice(1);
-
-    lines.forEach(l => {
-      if (!l.trim()) return;
-
-      let [u, hash, forceChange, active, isAdmin] = l.trim().split(";");
-      if (!u) return;
-
-      users[u] = {
-  hash: (hash || "").trim(),
-  forceChange: (forceChange || "0").trim() === "1",
-  active: (active || "1").trim() === "1",
-  isAdmin: (isAdmin || "0").trim() === "1"
-};
-
-    });
-
-    // Lokale Overrides (Passwortänderung pro Gerät)
-    // Struktur: { username: { hash: "...", baseHash: "..." } }
-    let saved = JSON.parse(localStorage.getItem("pwOverrides") || "{}");
-
-    Object.keys(saved).forEach(u => {
-      if (!users[u]) return;
-
-      // Override nur gültig, wenn Admin-CSV nicht geändert wurde
-      if (saved[u].baseHash && saved[u].baseHash === users[u].hash) {
-        users[u].hash = saved[u].hash;
-        users[u].forceChange = false;
-      } else {
-        delete saved[u];
-      }
-    });
-
-    localStorage.setItem("pwOverrides", JSON.stringify(saved));
-  });
+    
 
 function showPage(id) {
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
@@ -180,6 +141,34 @@ async function login() {
     loginError.innerText = "Login fehlgeschlagen (E-Mail/Passwort prüfen).";
   }
 }
+
+async function logout() {
+  try {
+    await signOut(auth);
+
+    currentUser = null;
+
+    // Timer stoppen + Anzeige zurücksetzen
+    clearInterval(logoutTimer);
+    remaining = 600;
+    const t = document.getElementById("timer");
+    if (t) t.innerText = "Logout in: 10:00";
+
+    // Admin-Button ausblenden
+    updateAdminUI_();
+
+    // optional: Login-Felder leeren
+    loginPass.value = "";
+    // loginUser.value = ""; // nur wenn du auch die Mail leeren willst
+
+    showPage("page-login");
+    loginError.innerText = "Erfolgreich abgemeldet.";
+  } catch (e) {
+    console.error(e);
+    alert("Abmelden fehlgeschlagen");
+  }
+}
+
 
 async function forgotPassword() {
   const email = loginUser.value.trim();
@@ -3193,6 +3182,8 @@ window.exportLoginLog = exportLoginLog;
 window.showPage = showPage;
 window.clearInputs = clearInputs;
 window.goToChange = goToChange;
+window.logout = logout;
+
 
 
 
