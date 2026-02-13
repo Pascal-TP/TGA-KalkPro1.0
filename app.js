@@ -3,19 +3,52 @@ let currentUser = null;
 let logoutTimer;
 let remaining = 600;
 
-// CSV laden
+async function hashPassword(pw) {
+  const enc = new TextEncoder().encode(pw);
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2,"0"))
+    .join("");
+}
+
+// CSV laden (NEU)
 fetch("users.csv")
   .then(r => r.text())
   .then(text => {
     let lines = text.split("\n").slice(1);
+
     lines.forEach(l => {
-        let [u,p] = l.trim().split(";");
-        if (u) users[u] = p;
+      if (!l.trim()) return;
+
+      let [u, hash, forceChange, active, isAdmin] = l.trim().split(";");
+      if (!u) return;
+
+      users[u] = {
+  hash: (hash || "").trim(),
+  forceChange: (forceChange || "0").trim() === "1",
+  active: (active || "1").trim() === "1",
+  isAdmin: (isAdmin || "0").trim() === "1"
+};
+
     });
 
-    // Passwort-Overrides (Simulation)
+    // Lokale Overrides (Passwortänderung pro Gerät)
+    // Struktur: { username: { hash: "...", baseHash: "..." } }
     let saved = JSON.parse(localStorage.getItem("pwOverrides") || "{}");
-    Object.assign(users, saved);
+
+    Object.keys(saved).forEach(u => {
+      if (!users[u]) return;
+
+      // Override nur gültig, wenn Admin-CSV nicht geändert wurde
+      if (saved[u].baseHash && saved[u].baseHash === users[u].hash) {
+        users[u].hash = saved[u].hash;
+        users[u].forceChange = false;
+      } else {
+        delete saved[u];
+      }
+    });
+
+    localStorage.setItem("pwOverrides", JSON.stringify(saved));
   });
 
 function showPage(id) {
@@ -88,23 +121,55 @@ function showPage(id) {
 
 }
 
-function login() {
-    let u = loginUser.value.trim();
-    let p = loginPass.value;
+function updateAdminUI_() {
+  const btn = document.getElementById("btnExportLog");
+  if (!btn) return;
 
-    if (!u || !p) {
-        loginError.innerText = "Bitte Nutzername und Passwort eingeben.";
-        return;
-    }
+  const isAdmin = !!(currentUser && users[currentUser] && users[currentUser].isAdmin);
+  btn.classList.toggle("hidden", !isAdmin);
+}
 
-    if (!users[u] || users[u] !== p) {
-        loginError.innerText = "Nutzername oder Passwort falsch.";
-        return;
-    }
 
-    currentUser = u;
-    startTimer();
-    showPage("page-3");
+async function login() {
+  let u = loginUser.value.trim();
+  let p = loginPass.value;
+
+  if (!u || !p) {
+    loginError.innerText = "Bitte Nutzername und Passwort eingeben.";
+    return;
+  }
+
+  if (!users[u] || users[u].active !== true) {
+    loginError.innerText = "Nutzername oder Passwort falsch.";
+    logEvent(u, "LOGIN_FAIL");
+    return;
+  }
+
+  // Wenn noch kein Startpasswort gesetzt ist
+  if (users[u].hash === "TEMP" || !users[u].hash) {
+    loginError.innerText = "Passwort ist noch nicht gesetzt. Bitte 'Passwort vergessen' nutzen.";
+    logEvent(u, "LOGIN_FAIL_TEMP");
+    return;
+  }
+
+  const enteredHash = await hashPassword(p);
+  if (users[u].hash !== enteredHash) {
+    loginError.innerText = "Nutzername oder Passwort falsch.";
+    logEvent(u, "LOGIN_FAIL");
+    return;
+  }
+
+  currentUser = u;
+  updateAdminUI_();
+  logEvent(u, "LOGIN_SUCCESS");
+  startTimer();
+
+  if (users[u].forceChange) {
+    showPage("page-change");
+    return;
+  }
+
+  showPage("page-3");
 }
 
 function forgotPassword() {
@@ -126,33 +191,79 @@ function goToChange() {
     showPage("page-change");
 }
 
-function savePassword() {
-    let oldP = oldPass.value;
-    let n1 = newPass1.value;
-    let n2 = newPass2.value;
+async function savePassword() {
+  let oldP = oldPass.value;
+  let n1 = newPass1.value;
+  let n2 = newPass2.value;
 
-    if (!oldP || !n1 || !n2) {
-        changeError.innerText = "Bitte alle Felder ausfüllen.";
-        return;
-    }
+  if (!oldP || !n1 || !n2) {
+    changeError.innerText = "Bitte alle Felder ausfüllen.";
+    return;
+  }
 
-    if (users[currentUser] !== oldP) {
-        changeError.innerText = "Altes Passwort falsch.";
-        return;
-    }
+  if (n1 !== n2) {
+    changeError.innerText = "Neue Passwörter stimmen nicht überein.";
+    return;
+  }
 
-    if (n1 !== n2) {
-        changeError.innerText = "Neue Passwörter stimmen nicht überein.";
-        return;
-    }
+  if (n1.length < 8) {
+    changeError.innerText = "Neues Passwort muss mindestens 8 Zeichen haben.";
+    return;
+  }
 
-    users[currentUser] = n1;
-    let store = JSON.parse(localStorage.getItem("pwOverrides") || "{}");
-    store[currentUser] = n1;
-    localStorage.setItem("pwOverrides", JSON.stringify(store));
+  const oldHash = await hashPassword(oldP);
+  if (!users[currentUser] || users[currentUser].hash !== oldHash) {
+    changeError.innerText = "Altes Passwort falsch.";
+    return;
+  }
 
-    alert("Passwort geändert.");
-    showPage("page-login");
+  const newHash = await hashPassword(n1);
+
+  let store = JSON.parse(localStorage.getItem("pwOverrides") || "{}");
+  store[currentUser] = {
+    hash: newHash,
+    baseHash: users[currentUser].hash
+  };
+  localStorage.setItem("pwOverrides", JSON.stringify(store));
+
+  users[currentUser].hash = newHash;
+  users[currentUser].forceChange = false;
+
+  logEvent(currentUser, "PASSWORD_CHANGED");
+
+  alert("Passwort geändert.");
+  showPage("page-login");
+}
+
+function logEvent(username, event) {
+  const log = JSON.parse(localStorage.getItem("loginLog") || "[]");
+  log.push({ time: new Date().toISOString(), user: username || "", event });
+  localStorage.setItem("loginLog", JSON.stringify(log));
+}
+
+function exportLoginLog() {
+  const log = JSON.parse(localStorage.getItem("loginLog") || "[]");
+  const header = "time;user;event\n";
+  const rows = log.map(x => `${x.time};${x.user};${x.event}`).join("\n");
+
+  const blob = new Blob([header + rows], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "login-log.csv";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+async function adminMakeHash() {
+  const pw = prompt("Passwort für Hash:");
+  if (!pw) return;
+  const h = await hashPassword(pw);
+  console.log("HASH:", h);
+  alert("Hash steht in der Konsole (F12 → Console).");
 }
 
 function startTimer() {
@@ -829,6 +940,9 @@ function clearInputs() {
 
     // Angebots-Summen Objekt zurücksetzen (falls du es im RAM nutzt)
     angebotSummen = {};
+
+    currentUser = null;
+    updateAdminUI_();
 
     // zurück
     showPage("page-3");

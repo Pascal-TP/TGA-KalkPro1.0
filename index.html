@@ -47,12 +47,16 @@
 
     <button onclick="showPage('page-4')">KV</button>
     <button onclick="showPage('page-5')">Anfrage an NDF</button>
-
+  
     <p class="hint">
         KV = Kostenvoranschlag – die schnelle und direkte Ermittlung eines Richtpreises für den Kunden<br><br>
         Anfrage an NDF – Ermittlung eines Richtpreises für den Kunden, jedoch mit der Möglichkeit ein qualifiziertes Angebot von NDF per Mail anzufragen.<br>
     </p>
     <button onclick="clearInputs()">Eingaben löschen</button>
+    <button id="btnExportLog" class="hidden" onclick="exportLoginLog()">
+      Login-Log herunterladen
+    </button>
+
 </div>
 
 <!-- SEITE 4: HAUPTMENÜ KV -->
