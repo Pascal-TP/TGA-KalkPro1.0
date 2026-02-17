@@ -772,15 +772,15 @@ container.innerHTML += `
     let gesamt = 0;
 
     const seitenConfig = [
-        { key: "page14Data",  csv: "ndf1.csv" },
-        { key: "page142Data", csv: "ndf5.csv" },
-        { key: "page8Data", csv: "ndf6.csv" },
-        { key: "page18Data", csv: "ndf7.csv" },
-        { key: "page20Data", csv: "ndf8.csv" },
-        { key: "page21Data", csv: "ndf9.csv" },
-        { key: "page22Data", csv: "ndf10.csv" },
-        { key: "page9Data", csv: "ndf11.csv" },
-        { key: "page10Data", csv: "ndf2.csv" },
+        { key: "page14Data",  csv: "tga1.csv" },
+        { key: "page142Data", csv: "tga5.csv" },
+        { key: "page8Data", csv: "tga10.csv" },
+        { key: "page18Data", csv: "tga8.csv" },
+        { key: "page20Data", csv: "tga9.csv" },
+        { key: "page21Data", csv: "tga7.csv" },
+        { key: "page22Data", csv: "tga11.csv" },
+        { key: "page9Data", csv: "tga3.csv" },
+        { key: "page10Data", csv: "tga6.csv" },
         { key: "page23Data", csv: "ndf12.csv" },
         { key: "page24Data", csv: "ndf13.csv" },
         { key: "page25Data", csv: "ndf14.csv" },
@@ -791,7 +791,7 @@ container.innerHTML += `
         { key: "page32Data", csv: "ndf19.csv" },
         { key: "page33Data", csv: "ndf20.csv" },
         { key: "page13Data", csv: "ndf21.csv" },
-        { key: "page143Data", csv: "ndf3.csv" }
+        { key: "page143Data", csv: "tga4.csv" }
     ];
 
     for (const seite of seitenConfig) {
@@ -1809,7 +1809,7 @@ function berechneGesamt21() {
 }
 
 // -----------------------------
-// SEITE 22 – Extras (Zählerschrank) (tga10.csv)
+// SEITE 22 – Extras (Zählerschrank) (tga11.csv)
 // -----------------------------
 
 function loadPage22() {
@@ -1819,7 +1819,7 @@ function loadPage22() {
 
     if (container.innerHTML.trim() !== "") return;
 
-    fetch("tga10.csv")
+    fetch("tga11.csv")
         .then(response => response.text())
         .then(data => {
 
@@ -3516,7 +3516,7 @@ function berechneGesamt33() {
 }
 
 		// -----------------------------
-		// SEITE 13 – Zählerschrank (tga9.csv)
+		// SEITE 13 – 
 		// -----------------------------
 
 function loadPage13() {
