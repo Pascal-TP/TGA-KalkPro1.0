@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Kunden – Preis – Kalkulator</title>
+<title>TGA KalkPro1.0</title>
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="favicon.ico">
 </head>
@@ -11,6 +11,7 @@
 <img src="logo.png" class="logo">
 
 <!-- Countdown -->
+<div id="release-info">Release: V1.0.1</div>
 <div id="timer">Logout in: 10:00</div>
 
 <!-- NEU: Angemeldet als -->
@@ -110,6 +111,7 @@
         <button onclick="showPage('page-3')">Zurück</button>
     </div>
 </div>
+
 <!-- SEITE 6: HAUPTMENÜ SANIERUNG -->
 <div class="page" id="page-6">
     <h2>Hauptmenü Sanierung</h2>
@@ -128,6 +130,7 @@
         <button onclick="showPage('page-18')">Weiter</button>
     </div>
 </div>
+
 <!-- SEITE 7: HAUPTMENÜ NEUBAU -->
 <div class="page" id="page-7">
     <h2>Hauptmenü Neubau</h2>
@@ -139,7 +142,7 @@
         <button onclick="showPage('page-14-1')">Tackersystem</button><br>
         <button onclick="showPage('page-26')">Klettsystem</button><br>
         <button onclick="showPage('page-29')">Noppensystem</button><br>
-        <button onclick="showPage('page-33')">Industrieboden</button>
+        <button onclick="showPage('page-33')">Industrieboden</button><br>
 	<button onclick="showPage('page-18')">Unterdämmung</button>
     </div>
 
@@ -157,7 +160,7 @@
     <div id="page14-content" class="price-table"></div>
 
     <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück</button>
+        <button onclick="showPage('page-7')">Zurück</button>
         <button onclick="showPage('page-18')">Weiter</button>
         <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
     </div>
@@ -182,7 +185,7 @@
        <div id="content-14-3" class="price-table"></div>
 
 <div class="button-bar">
-                <button onclick="showPage('page-4')">Zurück</button>
+                <button onclick="showPage('page-7')">Zurück</button>
                 <button onclick="showPage('page-18')">Weiter</button>
                 <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
                </div>
@@ -205,19 +208,27 @@
     <!-- Gesamtsumme / Angebotspreis -->
     <div id="angebotspreis" class="gesamt">Gesamtpreis: 0,00 €</div>
     <div id="angebotspreisRabatt" class="gesamt rabatt">
-  Gesamtspreis abzgl. SHK-Rabatt (15%): 0,00 €
+  Gesamtpreis abzgl. SHK-Rabatt (15%): 0,00 €
 </div>
 
     <div style="text-align:center; margin-bottom:20px;">(netto, freibleibend)</div>
 
-    <!-- Allgemeine Hinweise aus CSV -->
+<div id="fraesen-hinweis-print" style="display:none; margin-top:20px; color:darkred; font-weight:600;">
+  Achtung!<br>
+  Bei Frässystemen können je nach Entfernung und Flächengröße zusätzliche Aufschläge anfallen.<br>
+  Bitte erfragen Sie hierzu ein individuelles Angebot.
+</div>
+
+
+<!-- Allgemeine Hinweise aus CSV -->
     <div id="hinweise-content"></div>
 
-    <!-- Buttons -->
+<!-- Buttons -->
     <div class="button-bar">
         <button onclick="showPage('page-3')">Zurück</button>
         <button onclick="printPage40()">Drucken / speichern als PDF</button>
-        <button onclick="sendMailPage40()">Senden als Mail</button>
+        <button onclick="sendMailPage40()">Senden als Text-Mail</button>
+        <button onclick="sharePdf()">PDF download</button>
         <button onclick="clearInputs()">Eingaben löschen</button>
     </div>
 </div>
@@ -242,7 +253,7 @@
     <div id="content-14-2" class="price-table"></div>
 
     <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück</button>
+        <button onclick="showPage('page-7')">Zurück</button>
         <button onclick="showPage('page-18')">Weiter</button>
         <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
     </div>
@@ -325,6 +336,7 @@
         <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
     </div>
 </div>
+
 <!-- SEITE 10: Klett3mm -->
 <div class="page" id="page-10">
     <h2>Klett 3mm</h2>
@@ -509,6 +521,17 @@
     </div>
 </div>
 
+<!-- Eieruhr auf Seite 40 -->
+<div id="loader40" class="loader hidden">
+  <div class="spinner"></div>
+  <div class="loader-text">Ausgabe wird erstellt…</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script type="module" src="app.js"></script>
+
+<script type="module" src="app.js"></script>
+
+
 </body>
 </html>

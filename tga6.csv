@@ -1,0 +1,21 @@
+﻿EDV-Nr./Bezeichnung;Beschreibung;Preiseinheit;Preis
+Titel;Beispieltext;;
+Untertitel;Beispieltext;;
+;- Beispieltext;;
+;- Beispieltext;;
+;- Beispieltext;;
+;- Beispieltext;;
+;- Beispieltext;;
+;- Beispieltext;;
+;;;
+123456;Beispieltext;€/Stk.;12,3
+;;;
+Zwischentitel;Beispieltext;;
+123456;Beispieltext;€/Stk.;12,3
+;;;
+Titel;Beispieltext;;
+Untertitel;Beispieltext;;
+123456;Beispieltext;€/Stk.;12,3
+;;;
+Untertitel;Beispieltext;;
+123456;Beispieltext;€/Stk.;12,3
