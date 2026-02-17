@@ -282,3 +282,11 @@ body.pdf-mode > img.logo {
 }
 body.pdf-mode #loader40 { display: none !important; }
 
+select {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 250px;
+  background: #fff6d5;
+  border: 1px solid #ccc;
+}
