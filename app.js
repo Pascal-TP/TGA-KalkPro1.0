@@ -1332,7 +1332,7 @@ function setupOptimiererHinweis() {
 
     alert(
       "Achtung!\n\n" +
-      "Sie haben keinen Optimierer ausgewählt!\n\n" +
+      "Sie haben keinen Optimierer ausgewählt!\n\n"
       );
   });
 }
