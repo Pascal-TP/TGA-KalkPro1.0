@@ -1,7 +1,7 @@
 let currentUser = null;
 let logoutTimer;
 let remaining = 600;
-let fraesenHinweisGezeigt = false;
+let optimiererHinweisGezeigt = false;
 let fraesenVerwendet = false;
 let page40Promise = null;
 
@@ -840,10 +840,10 @@ container.innerHTML += `
         });
     }
 
-// Hinweise Frässystem
-	const fraesenHinweis = document.getElementById("fraesen-hinweis-print");
-	if (fraesenHinweis) {
- 	 fraesenHinweis.style.display = fraesenVerwendet ? "block" : "none";
+// Hinweise Optimierer
+	const optimiererHinweis = document.getElementById("optimierer-hinweis-print");
+	if (optimirerHinweis) {
+ 	 optimiererHinweis.style.display = optimiererVerwendet ? "block" : "none";
 	}
 
     const angebotspreisEl = document.getElementById("angebotspreis");
@@ -1307,7 +1307,7 @@ if (!headerInserted) {
         });
 }
 
-function setupFraesenHinweis() {
+function setupOptimiererHinweis() {
   const page8 = document.getElementById("page-8");
   if (!page8) return;
 
@@ -1321,24 +1321,23 @@ function setupFraesenHinweis() {
     const menge = Number(el.value) || 0;
     if (menge <= 0) return;
 
-    // merken: Fräsen wurde verwendet
-    fraesenVerwendet = true;
+    // merken: Optimierer wurde verwendet
+    optimiererVerwendet = true;
 
 
     // Hinweis nur einmal anzeigen
-    if (fraesenHinweisGezeigt) return;
+    if (optimiererHinweisGezeigt) return;
 
-    fraesenHinweisGezeigt = true;
+    optimiererHinweisGezeigt = true;
 
     alert(
       "Achtung!\n\n" +
-      "Bei Frässystemen können je nach Entfernung und Flächengröße zusätzliche Aufschläge anfallen.\n\n" +
-      "Bitte erfragen Sie hierzu ein individuelles Angebot."
-    );
+      "Sie haben keinen Optimierer ausgewählt!\n\n" +
+      );
   });
 }
 
-setupFraesenHinweis();
+setupOptimiererHinweis();
 
 function calcRow8(input, preis, index) {
 
