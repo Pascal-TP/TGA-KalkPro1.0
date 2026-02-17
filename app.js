@@ -3517,7 +3517,7 @@ function berechneGesamt33() {
 }
 
 		// -----------------------------
-		// SEITE 13 – Industrieboden (ndf21.csv)
+		// SEITE 13 – Zählerschrank (tga9.csv)
 		// -----------------------------
 
 function loadPage13() {
@@ -3527,7 +3527,7 @@ function loadPage13() {
 
     if (container.innerHTML.trim() !== "") return;
 
-    fetch("ndf21.csv")
+    fetch("tga9.csv")
         .then(response => response.text())
         .then(data => {
 

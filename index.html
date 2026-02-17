@@ -52,7 +52,7 @@
     <h2>Bitte auswählen</h2>
 
     <button onclick="showPage('page-4')">KV</button>
-    <button onclick="showPage('page-5')">Anfrage an NDF</button><br>
+    <button onclick="showPage('page-5')">Anfrage an TGA</button><br>
     <button onclick="showPage('page-3-1')">Info: Der Weg zur Photovoltaikanlage</button>
   
     <p class="hint">
@@ -81,7 +81,7 @@
 
 <!-- SEITE 4: HAUPTMENÜ -->
 <div class="page" id="page-4">
-    <h2>Hauptmenü KV</h2>
+    <h2>Hauptmenü</h2>
 
     <button onclick="showPage('page-6')">DC</button>
     <button onclick="showPage('page-7')">AC</button>
@@ -99,7 +99,7 @@
 
 <!-- SEITE 5: ANFRAGE AN TGA -->
 <div class="page" id="page-5">
-    <h2>Anfrage an NDF</h2><br>
+    <h2>Anfrage an TGA</h2><br>
 
     <p class="hint">
         <strong>Bauvorhaben:</strong><br>
@@ -210,39 +210,33 @@
     </div>
 </div>
 
-<!-- SEITE 6: HAUPTMENÜ SANIERUNG -->
+<!-- SEITE 6: MENÜ DC -->
 <div class="page" id="page-6">
-    <h2>Hauptmenü Sanierung</h2>
+    <h2>Menü DC</h2>
 
     <!-- Auswahlbuttons untereinander -->
     <div>
-        <button onclick="showPage('page-8')">Fräsen</button><br>
-        <button onclick="showPage('page-9')">Estrich</button><br>
-        <button onclick="showPage('page-10')">Klett 3mm</button><br>
-        <button onclick="showPage('page-11')">Trockenbau</button>
+        <button onclick="showPage('page-8')">Flachdach</button><br>
+        <button onclick="showPage('page-9')">Schrägdach</button><br>
     </div>
 
     <!-- Navigationsbuttons nebeneinander -->
     <div style="margin-top:40px;">
         <button onclick="showPage('page-4')">Zurück</button>
-        <button onclick="showPage('page-18')">Weiter</button>
     </div>
 </div>
 
-<!-- SEITE 7: HAUPTMENÜ NEUBAU -->
+<!-- SEITE 7: MENÜ AC -->
 <div class="page" id="page-7">
-    <h2>Hauptmenü Neubau</h2>
+    <h2>Menü AC</h2>
 
     <!-- Auswahlbuttons untereinander -->
     <div>
-        <button onclick="showPage('page-9')">Estrich</button><br>
-        <button onclick="showPage('page-13')">unbeheizte Fläche</button><br>
-        <button onclick="showPage('page-14-1')">Tackersystem</button><br>
-        <button onclick="showPage('page-26')">Klettsystem</button><br>
-        <button onclick="showPage('page-29')">Noppensystem</button><br>
-        <button onclick="showPage('page-33')">Industrieboden</button><br>
-	<button onclick="showPage('page-18')">Unterdämmung</button>
-    </div>
+        <button onclick="showPage('page-10')">Wechselrichter</button><br>
+        <button onclick="showPage('page-11')">Speicher</button><br>
+        <button onclick="showPage('page-12')">Wallbox</button><br>
+        <button onclick="showPage('page-13')">Zählerschrank</button><br>
+     </div>
 
     <!-- Navigationsbuttons nebeneinander -->
     <div style="margin-top:40px;">
@@ -251,7 +245,7 @@
     </div>
 </div>
 
-<!-- SEITE 14: TACKERSYSTEM -->
+									<!-- SEITE 14: TACKERSYSTEM -->
 <div class="page" id="page-14">
     <h2>Tackersystem</h2>
 
@@ -277,7 +271,7 @@
     <button onclick="showPage('page-7')">Zurück</button>
 </div>
 
-<!-- SEITE 14.3: ROTH -->
+									<!-- SEITE 14.3: ROTH -->
 <div class="page" id="page-14-3">
 
        <div id="content-14-3" class="price-table"></div>
@@ -331,7 +325,7 @@
     </div>
 </div>
 
-<!-- SEITE 41: Hinweis fehlende Anfrage-Daten -->
+										<!-- SEITE 41: Hinweis fehlende Anfrage-Daten -->
 <div class="page" id="page-41">
     <h2>Hinweis</h2>
 
@@ -345,7 +339,7 @@
     </div>
 </div>
 
-<!-- SEITE 14.2: UPONOR -->
+											<!-- SEITE 14.2: UPONOR -->
 <div class="page" id="page-14-2">
 
     <div id="content-14-2" class="price-table"></div>
@@ -358,7 +352,7 @@
 
 </div>
 
-<!-- SEITE 8: Frässystem -->
+													<!-- SEITE 8: Frässystem -->
 <div class="page" id="page-8">
     <h2>Fräsen</h2>
 
@@ -371,7 +365,7 @@
     </div>
 </div>
 
-<!-- SEITE 18: Unterdämmung -->
+													<!-- SEITE 18: Unterdämmung -->
 <div class="page" id="page-18">
     <h2>Unterdämmung</h2>
 
@@ -384,7 +378,7 @@
     </div>
 </div>
 
-<!-- SEITE 20: Verteiler & Regeltechnik -->
+													<!-- SEITE 20: Verteiler & Regeltechnik -->
 <div class="page" id="page-20">
     <h2>Verteiler & Regeltechnik</h2>
 
@@ -397,7 +391,7 @@
     </div>
 </div>
 
-<!-- SEITE 21: Dienstleistungen -->
+													<!-- SEITE 21: Dienstleistungen -->
 <div class="page" id="page-21">
     <h2>Dienstleistungen</h2>
 
@@ -410,7 +404,7 @@
     </div>
 </div>
 
-<!-- SEITE 22: Zuschläge -->
+														<!-- SEITE 22: Zuschläge -->
 <div class="page" id="page-22">
     <h2>Zuschläge</h2>
 
@@ -422,7 +416,7 @@
     </div>
 </div>
 
-<!-- SEITE 9: Estrich -->
+														<!-- SEITE 9: Estrich -->
 <div class="page" id="page-9">
     <h2>Estrich</h2>
 
@@ -435,38 +429,35 @@
     </div>
 </div>
 
-<!-- SEITE 10: Klett3mm -->
+<!-- SEITE 11: Speicher -->
 <div class="page" id="page-10">
-    <h2>Klett 3mm</h2>
+    <h2>Speicher</h2>
 
     <div id="content-10" class="price-table"></div>
 
     <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück</button>
-        <button onclick="showPage('page-18')">Weiter</button>
+        <button onclick="showPage('page-7')">Zurück</button>
         <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
     </div>
 </div>
 
-<!-- SEITE 11: MENÜ TROCKENBAU -->
+<!-- SEITE 10: MENÜ Wechselrichter -->
 <div class="page" id="page-11">
     <h2>Menü Trockenbau</h2>
 
     <!-- Auswahlbuttons untereinander -->
     <div>
-        <button onclick="showPage('page-23')">Aufbau 50mm</button><br>
-        <button onclick="showPage('page-24')">Aufbau 20/30mm + 3mm Deckschicht</button><br>
-        <button onclick="showPage('page-25')">Aufbau 25mm (XPS)</button><br>
+        <button onclick="showPage('page-13')">Typ "strang"</button><br>
+        <button onclick="showPage('page-14')">Typ "hybrid"</button><br>
     </div>
 
     <!-- Navigationsbuttons nebeneinander -->
     <div style="margin-top:40px;">
-        <button onclick="showPage('page-6')">Zurück</button>
-        <button onclick="showPage('page-18')">Weiter</button>
+        <button onclick="showPage('page-7')">Zurück</button>
     </div>
 </div>
 
-<!-- SEITE 23: Aufbau 50mm -->
+                                                                                <!-- SEITE 23: Aufbau 50mm -->
 <div class="page" id="page-23">
     <h2>Aufbau 50mm</h2>
 
@@ -479,7 +470,7 @@
     </div>
 </div>
 
-<!-- SEITE 24: Aufbau 20/30mm + 3mm Deckschicht -->
+                                                                            <!-- SEITE 24: Aufbau 20/30mm + 3mm Deckschicht -->
 <div class="page" id="page-24">
     <h2>Aufbau 20/30mm + 3mm Deckschicht</h2>
 
@@ -492,7 +483,7 @@
     </div>
 </div>
 
-<!-- SEITE 25: Aufbau 25mm (XPS) -->
+                                                                         <!-- SEITE 25: Aufbau 25mm (XPS) -->
 <div class="page" id="page-25">
     <h2>Aufbau 25mm (XPS)</h2>
 
@@ -505,7 +496,7 @@
     </div>
 </div>
 
-<!-- SEITE 26: AUSWAHL MARKE Klett -->
+                                                                                <!-- SEITE 26: AUSWAHL MARKE Klett -->
 <div class="page" id="page-26">
     <h2>Auswahl Marke Klettsystem</h2>
 
@@ -516,7 +507,7 @@
     <button onclick="showPage('page-7')">Zurück</button>
 </div>
 
-<!-- SEITE 29: AUSWAHL MARKE Noppensystem -->
+                                                                               <!-- SEITE 29: AUSWAHL MARKE Noppensystem -->
 <div class="page" id="page-29">
     <h2>Auswahl Marke Noppensystem</h2>
 
@@ -528,7 +519,7 @@
     <button onclick="showPage('page-7')">Zurück</button>
 </div>
 
-<!-- SEITE 27: Klett Handelsmarke -->
+                                                                         <!-- SEITE 27: Klett Handelsmarke -->
 <div class="page" id="page-27">
     <h2>Klettsystem Handelsmarke</h2>
 
@@ -541,7 +532,7 @@
     </div>
 </div>
 
-<!-- SEITE 28: Klett Uponor -->
+                                                                       <!-- SEITE 28: Klett Uponor -->
 <div class="page" id="page-28">
     <h2>Klettsystem Uponor</h2>
 
@@ -554,7 +545,7 @@
     </div>
 </div>
 
-<!-- SEITE 30: Noppen Handelsmarke -->
+                                                                         <!-- SEITE 30: Noppen Handelsmarke -->
 <div class="page" id="page-30">
     <h2>Noppensystem Handelsmarke</h2>
 
@@ -567,7 +558,7 @@
     </div>
 </div>
 
-<!-- SEITE 31: Noppen Uponor -->
+                                                                             <!-- SEITE 31: Noppen Uponor -->
 <div class="page" id="page-31">
     <h2>Noppensystem Uponor</h2>
 
@@ -580,7 +571,7 @@
     </div>
 </div>
 
-<!-- SEITE 32: Noppen Roth -->
+                                                                          <!-- SEITE 32: Noppen Roth -->
 <div class="page" id="page-32">
     <h2>Noppensystem Roth</h2>
 
@@ -593,7 +584,7 @@
     </div>
 </div>
 
-<!-- SEITE 33: Industrieboden -->
+                                                                          <!-- SEITE 33: Industrieboden -->
 <div class="page" id="page-33">
     <h2>Industrieboden</h2>
 
@@ -606,15 +597,14 @@
     </div>
 </div>
 
-<!-- SEITE 13: unbeheizte Fläche -->
+<!-- SEITE 13: Zählerschrank -->
 <div class="page" id="page-13">
-    <h2>unbeheizte Fläche</h2>
+    <h2>Zählerschrank</h2>
 
     <div id="content-13" class="price-table"></div>
 
     <div class="button-bar">
         <button onclick="showPage('page-7')">Zurück</button>
-        <button onclick="showPage('page-18')">Weiter</button>
         <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
     </div>
 </div>
