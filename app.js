@@ -2234,9 +2234,9 @@ function berechneGesamt10() {
     }
 }
 
-		// -----------------------------
-		// SEITE 23 – Aufbau 50mm (ndf12.csv)
-		// -----------------------------
+// -----------------------------
+// SEITE 23 – Schrägdach (tga1.csv)
+// -----------------------------
 
 function loadPage23() {
 
@@ -2245,7 +2245,7 @@ function loadPage23() {
 
     if (container.innerHTML.trim() !== "") return;
 
-    fetch("ndf12.csv")
+    fetch("tga1.csv")
         .then(response => response.text())
         .then(data => {
 
@@ -2377,9 +2377,9 @@ function berechneGesamt23() {
     }
 }
 
-		// -----------------------------
-		// SEITE 24 – Aufbau 20/30mm + 3mm Deckschicht (ndf13.csv)
-		// -----------------------------
+// -----------------------------
+// SEITE 24 – Flachdach (tga2.csv)
+// -----------------------------
 
 function loadPage24() {
 
@@ -2388,7 +2388,7 @@ function loadPage24() {
 
     if (container.innerHTML.trim() !== "") return;
 
-    fetch("ndf13.csv")
+    fetch("tga2.csv")
         .then(response => response.text())
         .then(data => {
 
