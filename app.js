@@ -1672,19 +1672,21 @@ function loadPage20() {
       }
 
       // Header-HTML (links nur leere Zelle für Bild-Spalte)
-      function renderHeader20() {
-        return `
-          <div class="row table-header">
-            <div></div>
-            <div>Artikel</div>
-            <div>Beschreibung</div>
-            <div>Einheit</div>
-            <div style="text-align:center;">Menge</div>
-            <div style="text-align:right;">Preis / Einheit</div>
-            <div style="text-align:right;">Positionsergebnis</div>
-          </div>
-        `;
-      }
+     function renderHeader20(imgSrc) {
+  return `
+    <div class="row table-header">
+      <div class="header-img-cell">
+        ${imgSrc ? `<img src="${imgSrc}" class="header-img" alt="Bild">` : ""}
+      </div>
+      <div>Beschreibung</div>
+      <div>Einheit</div>
+      <div style="text-align:center;">Menge</div>
+      <div style="text-align:right;">Preis / Einheit</div>
+      <div style="text-align:right;">Positionsergebnis</div>
+    </div>
+  `;
+}
+
 
       lines.forEach((line, index) => {
         if (!line.trim()) return;
@@ -1733,38 +1735,34 @@ function loadPage20() {
 
         if (preisVorhanden) {
 
-          if (!headerInserted) {
-            html += renderHeader20();
-            headerInserted = true;
-          }
+  // Bild passend zur Position (z.B. über colA = Artikelnummer/Pos)
+  const imgSrc = resolvePosImg(colImg);
 
-          const menge = gespeicherteWerte[index] || 0;
+  // Header + Bild DIREKT vor dieser Position
+  html += renderHeader20(imgSrc);
 
-          const imgSrc = resolvePosImg(colImg);
+  const menge = gespeicherteWerte[index] || 0;
 
-          html += `
-            <div class="row">
-              <div class="pos-img-cell">
-                ${imgSrc ? `<img src="${imgSrc}" class="pos-img" alt="Pos ${colA}">` : ``}
-              </div>
+  html += `
+    <div class="row">
+      <div class="col-a">${colA}</div>
+      <div class="col-b">${colB}</div>
+      <div class="col-c">${colC}</div>
 
-              <div class="col-a">${colA}</div>
-              <div class="col-b">${colB}</div>
-              <div class="col-c">${colC}</div>
+      <input class="menge-input"
+             type="number" min="0" step="any"
+             value="${menge}"
+             oninput="calcRow20(this, ${preis}, ${index})">
 
-              <input class="menge-input"
-                     type="number" min="0" step="any"
-                     value="${menge}"
-                     oninput="calcRow20(this, ${preis}, ${index})">
+      <div class="col-d">
+        ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
+      </div>
 
-              <div class="col-d">
-                ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
-              </div>
-
-              <div class="col-e">0,00 €</div>
-            </div>
-          `;
-        } else {
+      <div class="col-e">0,00 €</div>
+    </div>
+  `;
+}
+ else {
           // no-price Zeilen (auch hier 1 Bild-Spalte berücksichtigen!)
           html += `
             <div class="row no-price">
