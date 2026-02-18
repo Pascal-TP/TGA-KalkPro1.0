@@ -65,6 +65,27 @@ const auth = getAuth(fbApp);
 
 const db = getFirestore(fbApp);
 
+// -----------------------------
+// TableHeaderWithImage - Bild neben Spaltenüberschriften einfügen
+// -----------------------------
+
+
+function renderTableHeaderWithImage(imgSrc = "bild3.jpg") {
+  return `
+    <div class="row table-header">
+      <div class="header-img-cell">
+        <img src="${imgSrc}" class="header-img" alt="Bild">
+      </div>
+      <div>Beschreibung</div>
+      <div>Einheit</div>
+      <div style="text-align:center;">Menge</div>
+      <div style="text-align:right;">Preis / Einheit</div>
+      <div style="text-align:right;">Positionsergebnis</div>
+    </div>
+  `;
+}
+
+
 		// -----------------------------
 		// showPage
 		// -----------------------------
@@ -1614,66 +1635,35 @@ function berechneGesamt18() {
 // SEITE 20 – Zählerschrank (tga9.csv)
 // -----------------------------
 
+// -----------------------------
+// SEITE 20 – Zählerschrank (tga9.csv)
+// -----------------------------
+
 function loadPage20() {
 
-    const container = document.getElementById("content-20");
-    if (!container) return;
+  const container = document.getElementById("content-20");
+  if (!container) return;
 
-    if (container.innerHTML.trim() !== "") return;
+  if (container.innerHTML.trim() !== "") return;
 
-    fetch("tga9.csv")
-        .then(response => response.text())
-        .then(data => {
+  fetch("tga9.csv")
+    .then(response => response.text())
+    .then(data => {
 
-            const lines = data.split("\n").slice(1);
-            let html = "";
-		let headerInserted = false;
+      const lines = data.split("\n").slice(1);
+      let html = "";
+      let headerInserted = false;
 
-            const gespeicherteWerte =
-                JSON.parse(localStorage.getItem("page20Data") || "{}");
+      const gespeicherteWerte =
+        JSON.parse(localStorage.getItem("page20Data") || "{}");
 
-            lines.forEach((line, index) => {
-                if (!line.trim()) return;
-
-                const cols = line.split(";");
-                const colA = cols[0]?.trim();
-                const colB = cols[1]?.trim();
-                const colC = cols[2]?.trim();
-                const colD = cols[3]?.trim();
-
-                if (colA === "Titel") {
-                    html += `<div class="title">${colB}</div>`;
-                    return;
-                }
-                if (colA === "Untertitel") {
-                    html += `<div class="subtitle">${colB}</div>`;
-                    return;
-                }
-                if (colA === "Zwischentitel") {
-                    html += `<div class="midtitle">${colB}</div>`;
-                    return;
-                }
-if (colA === "Beschreibung_fett") {
-  html += `
-    <div class="row beschreibung-fett-row">
-      <div class="col-a"></div>
-      <div class="col-b beschreibung-fett">${colB}</div>
-      <div class="col-c"></div>
-      <div class="col-d"></div>
-      <div class="col-e"></div>
-      <div class="col-f"></div>
-    </div>
-  `;
-  return;
-}
-
-                const preis = parseFloat(colD?.replace(",", "."));
-                if (!isNaN(preis)) {
-
-if (!headerInserted) {
-        html += `
+      // Header-HTML (mit Bild links)
+      function renderHeader20() {
+        return `
           <div class="row table-header">
-            <div></div>
+            <div class="header-img-cell">
+              <img src="bild3.jpg" class="header-img" alt="Bild">
+            </div>
             <div>Beschreibung</div>
             <div>Einheit</div>
             <div style="text-align:center;">Menge</div>
@@ -1681,45 +1671,98 @@ if (!headerInserted) {
             <div style="text-align:right;">Positionsergebnis</div>
           </div>
         `;
-        headerInserted = true;
-}
+      }
 
-                    const menge = gespeicherteWerte[index] || 0;
+      lines.forEach((line, index) => {
+        if (!line.trim()) return;
 
-                    html += `
-                        <div class="row">
-                            <div class="col-a">${colA}</div>
-                            <div class="col-b">${colB}</div>
-                            <div class="col-c">${colC}</div>
+        const cols = line.split(";");
+        const colA = cols[0]?.trim();
+        const colB = cols[1]?.trim();
+        const colC = cols[2]?.trim();
+        const colD = cols[3]?.trim();
 
-                            <input class="menge-input"
-                                   type="number" min="0" step="any"
-                                   value="${menge}"
-                                   oninput="calcRow20(this, ${preis}, ${index})">
+        // ====== Abschnittstrenner: Header soll später wieder kommen ======
+        if (colA === "Titel") {
+          html += `<div class="title">${colB}</div>`;
+          headerInserted = false; // <-- WICHTIG
+          return;
+        }
+        if (colA === "Untertitel") {
+          html += `<div class="subtitle">${colB}</div>`;
+          headerInserted = false;
+          return;
+        }
+        if (colA === "Zwischentitel") {
+          html += `<div class="midtitle">${colB}</div>`;
+          headerInserted = false;
+          return;
+        }
+        if (colA === "Beschreibung_fett") {
+          html += `
+            <div class="row beschreibung-fett-row">
+              <div class="col-a"></div>
+              <div class="col-b beschreibung-fett">${colB}</div>
+              <div class="col-c"></div>
+              <div class="col-d"></div>
+              <div class="col-e"></div>
+              <div class="col-f"></div>
+            </div>
+          `;
+          headerInserted = false; // <-- WICHTIG (neuer Block)
+          return;
+        }
 
-                            <div class="col-d">
-                                ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
-                            </div>
+        const preis = parseFloat((colD || "").replace(",", "."));
+        const preisVorhanden = !isNaN(preis);
 
-                            <div class="col-e">0,00 €</div>
-                        </div>`;
-                } else {
-                    html += `
-                        <div class="row no-price">
-                            <div class="col-a">${colA}</div>
-                            <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
-                        </div>`;
-                }
-            });
+        if (preisVorhanden) {
 
-            html += `<div id="gesamtSumme20" class="gesamt">Gesamtsumme: 0,00 €</div>`;
-            html += `<div id="gesamtSumme20Rabatt" class="gesamt rabatt" data-rabatt="angebot">
-          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
-         </div>`;
+          // Header pro Block nur einmal, aber nach Trennern wieder neu
+          if (!headerInserted) {
+            html += renderHeader20();
+            headerInserted = true;
+          }
 
-            container.innerHTML = html;
-            berechneGesamt20();
-        });
+          const menge = gespeicherteWerte[index] || 0;
+
+          html += `
+            <div class="row">
+              <div class="col-a">${colA}</div>
+              <div class="col-b">${colB}</div>
+              <div class="col-c">${colC}</div>
+
+              <input class="menge-input"
+                     type="number" min="0" step="any"
+                     value="${menge}"
+                     oninput="calcRow20(this, ${preis}, ${index})">
+
+              <div class="col-d">
+                ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
+              </div>
+
+              <div class="col-e">0,00 €</div>
+            </div>
+          `;
+        } else {
+          html += `
+            <div class="row no-price">
+              <div class="col-a">${colA}</div>
+              <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
+            </div>
+          `;
+          headerInserted = false; // <-- optional, aber bei dir sinnvoll (neuer Abschnitt)
+        }
+      });
+
+      html += `<div id="gesamtSumme20" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+      html += `<div id="gesamtSumme20Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+        Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+      </div>`;
+
+      container.innerHTML = html;
+      berechneGesamt20();
+    });
 }
 
 function calcRow20(input, preis, index) {
