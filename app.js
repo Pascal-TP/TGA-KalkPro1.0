@@ -445,6 +445,10 @@ let gespeicherteWerte = JSON.parse(localStorage.getItem("page14Data") || "{}");
                     html += `<div class="midtitle">${colB}</div>`;
                     return;
                 }
+if (colA === "Beschreibung_fett") {
+  html += `<div class="beschreibung-fett">${colB}</div>`;
+  return;
+}
 
                 const preisVorhanden = colD && !isNaN(parseFloat(colD.replace(",", ".")));
 
@@ -588,6 +592,10 @@ function berechneGesamt14() {
 //          html += `<div class="midtitle">${colB}</div>`;
 //          return;
 //        }
+//if (colA === "Beschreibung_fett") {
+//  html += `<div class="beschreibung-fett">${colB}</div>`;
+//  return;
+//}
 //
 //        const preisVorhanden = colD && !isNaN(parseFloat(colD.replace(",", ".")));
 //
@@ -871,6 +879,7 @@ refreshRabattDisplays();
             if (colA === "Titel") html += `<div class="title">${colB}</div>`;
             else if (colA === "Untertitel") html += `<div class="subtitle">${colB}</div>`;
             else if (colA === "Zwischentitel") html += `<div class="midtitle">${colB}</div>`;
+            else if (colA === "Beschreibung_fett") html += `<div class="beschreibung-fett">${colB}</div>`;
             else html += `<div class="hinweis-row">${colB}</div>`;
         });
 
@@ -1111,6 +1120,10 @@ function loadPage142() {
                     html += `<div class="midtitle">${colB}</div>`;
                     return;
                 }
+if (colA === "Beschreibung_fett") {
+  html += `<div class="beschreibung-fett">${colB}</div>`;
+  return;
+}
 
                 const preis = parseFloat(colD?.replace(",", "."));
                 if (!isNaN(preis)) {
@@ -1252,6 +1265,10 @@ function loadPage8() {
                     html += `<div class="midtitle">${colB}</div>`;
                     return;
                 }
+if (colA === "Beschreibung_fett") {
+  html += `<div class="beschreibung-fett">${colB}</div>`;
+  return;
+}
 
                 const preis = parseFloat(colD?.replace(",", "."));
                 if (!isNaN(preis)) {
@@ -1425,6 +1442,10 @@ function loadPage18() {
                     html += `<div class="midtitle">${colB}</div>`;
                     return;
                 }
+if (colA === "Beschreibung_fett") {
+  html += `<div class="beschreibung-fett">${colB}</div>`;
+  return;
+}
 
                 const preis = parseFloat(colD?.replace(",", "."));
                 if (!isNaN(preis)) {
@@ -1567,6 +1588,10 @@ function loadPage20() {
                     html += `<div class="midtitle">${colB}</div>`;
                     return;
                 }
+if (colA === "Beschreibung_fett") {
+  html += `<div class="beschreibung-fett">${colB}</div>`;
+  return;
+}
 
                 const preis = parseFloat(colD?.replace(",", "."));
                 if (!isNaN(preis)) {
@@ -1709,7 +1734,10 @@ function loadPage21() {
                     html += `<div class="midtitle">${colB}</div>`;
                     return;
                 }
-
+if (colA === "Beschreibung_fett") {
+  html += `<div class="beschreibung-fett">${colB}</div>`;
+  return;
+}
                 const preis = parseFloat(colD?.replace(",", "."));
                 if (!isNaN(preis)) {
 
@@ -1851,6 +1879,10 @@ function loadPage22() {
                     html += `<div class="midtitle">${colB}</div>`;
                     return;
                 }
+if (colA === "Beschreibung_fett") {
+  html += `<div class="beschreibung-fett">${colB}</div>`;
+  return;
+}
 
                 const preis = parseFloat(colD?.replace(",", "."));
                 if (!isNaN(preis)) {
@@ -1993,6 +2025,10 @@ function loadPage9() {
                     html += `<div class="midtitle">${colB}</div>`;
                     return;
                 }
+if (colA === "Beschreibung_fett") {
+  html += `<div class="beschreibung-fett">${colB}</div>`;
+  return;
+}
 
                 const preis = parseFloat(colD?.replace(",", "."));
                 if (!isNaN(preis)) {
@@ -2135,6 +2171,10 @@ function loadPage10() {
                     html += `<div class="midtitle">${colB}</div>`;
                     return;
                 }
+if (colA === "Beschreibung_fett") {
+  html += `<div class="beschreibung-fett">${colB}</div>`;
+  return;
+}
 
                 const preis = parseFloat(colD?.replace(",", "."));
                 if (!isNaN(preis)) {
@@ -2277,6 +2317,10 @@ function loadPage23() {
                     html += `<div class="midtitle">${colB}</div>`;
                     return;
                 }
+if (colA === "Beschreibung_fett") {
+  html += `<div class="beschreibung-fett">${colB}</div>`;
+  return;
+}
 
                 const preis = parseFloat(colD?.replace(",", "."));
                 if (!isNaN(preis)) {
@@ -2420,6 +2464,10 @@ function loadPage24() {
                     html += `<div class="midtitle">${colB}</div>`;
                     return;
                 }
+if (colA === "Beschreibung_fett") {
+  html += `<div class="beschreibung-fett">${colB}</div>`;
+  return;
+}
 
                 const preis = parseFloat(colD?.replace(",", "."));
                 if (!isNaN(preis)) {
@@ -2563,6 +2611,10 @@ function berechneGesamt24() {
 //                    html += `<div class="midtitle">${colB}</div>`;
 //                    return;
 //                }
+//if (colA === "Beschreibung_fett") {
+//  html += `<div class="beschreibung-fett">${colB}</div>`;
+//  return;
+//}
 //
 //                const preis = parseFloat(colD?.replace(",", "."));
 //                if (!isNaN(preis)) {
@@ -2706,7 +2758,10 @@ function berechneGesamt24() {
 //                    html += `<div class="midtitle">${colB}</div>`;
 //                    return;
 //                }
-//
+//if (colA === "Beschreibung_fett") {
+//  html += `<div class="beschreibung-fett">${colB}</div>`;
+//  return;
+//}
 //                const preis = parseFloat(colD?.replace(",", "."));
 //                if (!isNaN(preis)) {
 //
@@ -2848,7 +2903,10 @@ function berechneGesamt24() {
 //                    html += `<div class="midtitle">${colB}</div>`;
 //                    return;
 //                }
-//
+//if (colA === "Beschreibung_fett") {
+//  html += `<div class="beschreibung-fett">${colB}</div>`;
+//  return;
+//}
 //                const preis = parseFloat(colD?.replace(",", "."));
 //                if (!isNaN(preis)) {
 //
@@ -2990,7 +3048,10 @@ function berechneGesamt24() {
 //                    html += `<div class="midtitle">${colB}</div>`;
 //                    return;
 //                }
-//
+//if (colA === "Beschreibung_fett") {
+//  html += `<div class="beschreibung-fett">${colB}</div>`;
+//  return;
+//}
 //                const preis = parseFloat(colD?.replace(",", "."));
 //                if (!isNaN(preis)) {
 //
@@ -3132,7 +3193,10 @@ function berechneGesamt24() {
 //                    html += `<div class="midtitle">${colB}</div>`;
 //                    return;
 //                }
-//
+//if (colA === "Beschreibung_fett") {
+//  html += `<div class="beschreibung-fett">${colB}</div>`;
+//  return;
+//}
 //                const preis = parseFloat(colD?.replace(",", "."));
 //                if (!isNaN(preis)) {
 //
@@ -3274,7 +3338,10 @@ function berechneGesamt24() {
 //                    html += `<div class="midtitle">${colB}</div>`;
 //                    return;
 //                }
-//
+//if (colA === "Beschreibung_fett") {
+//  html += `<div class="beschreibung-fett">${colB}</div>`;
+//  return;
+//}
 //                const preis = parseFloat(colD?.replace(",", "."));
 //                if (!isNaN(preis)) {
 //
@@ -3416,7 +3483,10 @@ function berechneGesamt24() {
 //                    html += `<div class="midtitle">${colB}</div>`;
 //                    return;
 //                }
-//
+//if (colA === "Beschreibung_fett") {
+//  html += `<div class="beschreibung-fett">${colB}</div>`;
+//  return;
+//}
 //                const preis = parseFloat(colD?.replace(",", "."));
 //                if (!isNaN(preis)) {
 //
@@ -3557,7 +3627,10 @@ function berechneGesamt24() {
 //                    html += `<div class="midtitle">${colB}</div>`;
 //                    return;
 //                }
-//
+//if (colA === "Beschreibung_fett") {
+//  html += `<div class="beschreibung-fett">${colB}</div>`;
+//  return;
+//}
 //                const preis = parseFloat(colD?.replace(",", "."));
 //                if (!isNaN(preis)) {
 //

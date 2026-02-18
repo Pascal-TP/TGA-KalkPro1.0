@@ -2,17 +2,17 @@
 Titel;OPTIMIERER;;
 Untertitel;Montage Tigo Optimierer;;
 Zwischentitel;Der Optimierer sorgt dafür, dass ein einzelnes Modul nicht die Leistung anderer Module beeinträchtigt oder die Leistung durch andere Module limitiert wird. ;;
-;Einsatz bei:;;
-;- Verschattung;;
-;- Variiernder Neigunswinkel;;
-;- Verschiedenen Modultypen;;
-;- Aufteilung auf mehreren Dächern;;
-;Funktion:;;
-;- Installation pro Modul;;
+Beschreibung_fett;Einsatz bei:;;
+;#NAME?;;
+;#NAME?;;
+;#NAME?;;
+;#NAME?;;
+Beschreibung_fett;Funktion:;;
+;#NAME?;;
 ;"- Laufende Ermittlung des individuellen ""Maximum Power Point"" (MPP) des Moduls";;
-;- Anpassung der ausgegebenen Spannung;;
-;- Weitergabe an Wechselrichter;;
-Zwischentitel;Materialien:;;
+;#NAME?;;
+;#NAME?;;
+Beschreibung_fett;Materialien:;;
 ;- Tigo DC-Optimierer TS4-A-O 15 A TS4-A-Optimizing;;
 ;;;
 H66TG3500 01;Tigo Optimierer;€/Stk.;69,4
