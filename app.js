@@ -479,7 +479,6 @@ if (colA === "Beschreibung_fett") {
   }
 
   // … danach kommen ganz normal die Positionszeilen
-}
 
 
                     const preis = parseFloat(colD.replace(",", "."));
