@@ -854,9 +854,9 @@ container.innerHTML += `
 
 refreshRabattDisplays();
 
-// Hinweise laden (ndf4.csv)
+// Hinweise laden (tga12.csv)
     try {
-        const hinweisRes = await fetch("ndf4.csv");
+        const hinweisRes = await fetch("tga12.csv");
         const hinweisText = await hinweisRes.text();
         const hinweisLines = hinweisText.split("\n").slice(1);
 
@@ -877,7 +877,7 @@ refreshRabattDisplays();
         hinweiseContainer.innerHTML = html;
 
     } catch (e) {
-        console.error("Fehler beim Laden der Hinweise (ndf4.csv):", e);
+        console.error("Fehler beim Laden der Hinweise (tga12.csv):", e);
     }
 }
 

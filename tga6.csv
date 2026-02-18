@@ -1,21 +1,18 @@
 ﻿EDV-Nr./Bezeichnung;Beschreibung;Preiseinheit;Preis
-Titel;Beispieltext;;
-Untertitel;Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
+Titel;BATTERIESPEICHER BYD;;
+Untertitel;Montage und Lieferung BYD Speicher;;
+Zwischentitel;Materialien:;;
+;- Speicher BYD Battery-Box Premium;;
+;- Notwendiges Kleinmaterial und Leitungen;;
+Zwischentitel;Leistungen:;;
+;- Montage und Anschluss Speicher;;
+;- Inbetriebnahme;;
+;- Restmaterial-/Verpackungsmüllentsorgung;;
 ;;;
-123456;Beispieltext;€/Stk.;12,3
-;;;
-Zwischentitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
-;;;
-Titel;Beispieltext;;
-Untertitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
-;;;
-Untertitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
+H66TG3100 01;BYD-Speicher 5,1 kWh HVS Modul;€/Stk.;4133,8
+H66TG3105 01;BYD-Speicher 7,7 kWh HVS Modul;€/Stk.;5454
+H66TG3110 01;BYD-Speicher 10,2 kWh HVS Modul;€/Stk.;6774,1
+H66TG3115 01;BYD-Speicher 12,8 kWh HVS Modul;€/Stk.;8094,3
+100BKG126;BYD-Speicher 16,6 kWh HVM Modul;€/Stk.;9414,4
+100BKG124;BYD-Speicher 19,3 kWh HVM Modul;€/Stk.;10734,6
+100BKG125;BYD-Speicher 22,1 kWh HVM Modul;€/Stk.;12054,7

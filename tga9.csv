@@ -1,21 +1,58 @@
 ﻿EDV-Nr./Bezeichnung;Beschreibung;Preiseinheit;Preis
-Titel;Beispieltext;;
-Untertitel;Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
+Zwischentitel;Warum muss der Zählerschrank getauscht werden? ;;
+;Seit 2017 gibt es verschärfte Regularien seitens der örtlichen Energieversorger. Vor 2017 errichtete Zählerschränke erfüllen die notwendigen Anforderungen in der Regel nicht, weshalb der Zählerschrank im Normalfall immer getauscht werden muss.;;
+Zwischentitel;"Beachten Sie bitte hierzu die ""Zählerschrank Checkliste"" im Downloadbereich.";;
 ;;;
-123456;Beispieltext;€/Stk.;12,3
+Untertitel;Montage und Lieferung Zählerschrank EFH Standard (110x55cm) mit einem Zählerplatz ohne Bestückung und ohne örtliche Veränderung;;
+Zwischentitel;Materialien:;;
+;- Zählerschrank 110x55 cm ohne Bestückung;;
+;#NAME?;;
+Zwischentitel;Leistungen:;;
+;#NAME?;;
+;#NAME?;;
+Zwischentitel;Nicht enthalten:;;
+;#NAME?;;
 ;;;
-Zwischentitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
+100BJW862;Zählerschrank EFH Standard (110x55cm) mit einem Zählerplatz ohne Bestückung;€/Stk.;1685,8
 ;;;
-Titel;Beispieltext;;
-Untertitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
+Untertitel;Montage und Lieferung Zählerschrank EFH Standard (110x55cm) mit einem Zählerplatz mit Bestückung ohne örtliche Veränderung;;
+Zwischentitel;Materialien:;;
+;- Zählerschrank 110x55 cm inkl. kompletter Bestückung;;
+;#NAME?;;
+Zwischentitel;Leistungen:;;
+;#NAME?;;
+;#NAME?;;
+;#NAME?;;
+;#NAME?;;
+;#NAME?;;
+Zwischentitel;Nicht enthalten:;;
+;#NAME?;;
 ;;;
-Untertitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
+H66TG3010 01;Zählerschrank EFH Standard (110x55cm) mit einem Zählerplatz mit Bestückung;€/Stk.;2712,4
+;;;
+Untertitel;Montage und Lieferung Zählerschrank EFH Standard (110x80cm) mit zwei Zählerplätzen ohne Bestückung ohne örtliche Veränderung;;
+Zwischentitel;Materialien:;;
+;- Zählerschrank 110x80 cm ohne Bestückung;;
+;#NAME?;;
+Zwischentitel;Leistungen:;;
+;#NAME?;;
+;#NAME?;;
+Zwischentitel;Nicht enthalten:;;
+;#NAME?;;
+;;;
+100BJW863;Zählerschrank EFH Standard (110x80cm) mit zwei Zählerplätzen ohne Bestückung;€/Stk.;2067,7
+;;;
+Untertitel;Montage und Lieferung Zählerschrank EFH Standard (110x80cm) mit zwei Zählerplätzen mit Bestückung ohne örtliche Veränderung;;
+Zwischentitel;Materialien:;;
+;- Zählerschrank 110x80 cm inkl. kompletter Bestückung;;
+;#NAME?;;
+Zwischentitel;Leistungen:;;
+;#NAME?;;
+;#NAME?;;
+;#NAME?;;
+;#NAME?;;
+;#NAME?;;
+Zwischentitel;Nicht enthalten:;;
+;#NAME?;;
+;;;
+H66TG3012 01;Zählerschrank EFH Standard (110x80cm) mit zwei Zählerplätzen mit Bestückung;€/Stk.;3227,3

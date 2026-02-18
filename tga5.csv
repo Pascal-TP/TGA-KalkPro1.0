@@ -1,21 +1,24 @@
 ﻿EDV-Nr./Bezeichnung;Beschreibung;Preiseinheit;Preis
-Titel;Beispieltext;;
-Untertitel;Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
+Titel;AC-MONTAGE WECHSELRICHTER Fronius;;
+Untertitel;Montage und Lieferung Fronius Hybrid-Wechselrichter;;
+Zwischentitel;Materialien:;;
+;- Fronius Hybrid-Wechselrichter GEN24 Plus inkl. Smart Energy Meter;;
+;- DC-Überspannungsschutz;;
+;- Zuleitung Wechselrichter;;
+;- Netzwerkleitung;;
+;- Notwendiges Kleinmaterial und Leitungen;;
+Zwischentitel;Leistungen:;;
+;- Montage und Anschluss Wechselrichter;;
+;- Leitungsverlegung String- und Erdungsleitung bis Wechselrichter (Aufputz) maximal 20 m Kabel im weißen Kunststoff oder weißen Blechkanal;;
+;- Anschluss an die Zähleranlage;;
+;- Inbetriebnahme;;
+;- Restmaterial-/Verpackungsmüllentsorgung;;
+;- Anmeldung und Registrierung im Marktstammdatenregister;;
 ;;;
-123456;Beispieltext;€/Stk.;12,3
-;;;
-Zwischentitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
-;;;
-Titel;Beispieltext;;
-Untertitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
-;;;
-Untertitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
+H66TG2400 01;Hybrid-Wechselrichter 3,0 kW;€/Stk.;4134,3
+H66TG2405 01;Hybrid-Wechselrichter 4,0 kW;€/Stk.;4471,2
+H66TG2410 01;Hybrid-Wechselrichter 5,0 kW;€/Stk.;4602,8
+H66TG2415 01;Hybrid-Wechselrichter 6,0 kW;€/Stk.;5099,5
+H66TG2420 01;Hybrid-Wechselrichter 8,0 kW;€/Stk.;5602
+H66TG2425 01;Hybrid-Wechselrichter 10,0 kW;€/Stk.;5763,5
+100BJW808;Hybrid-Wechselrichter 12,0 kW;€/Stk.;5951,3

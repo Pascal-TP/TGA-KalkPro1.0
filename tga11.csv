@@ -1,21 +1,29 @@
 ﻿EDV-Nr./Bezeichnung;Beschreibung;Preiseinheit;Preis
-Titel;Beispieltext;;
-Untertitel;Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
+Titel;Extras;;
+Untertitel;Vorbereitung Wärmepumpenanschluss;;
+Zwischentitel;Materialien:;;
+;- 1x FI Typ B 40A/30mA;;
+;- 2x 3polig B 16;;
+;- notwendiges Klein- und Verdrahtungsmaterial;;
+Zwischentitel;Leistungen:;;
+;- Bestückung und Verdrahtung des Zählerschranks mit FI-Schutzschalter Typ B und Leitungsschutzschalter;;
 ;;;
-123456;Beispieltext;€/Stk.;12,3
+H66TG3015 01;Vorbereitung Wärmepumpenanschluss;€/Stk.;708,6
 ;;;
-Zwischentitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
+Untertitel;Ansteuerung Wärmepumpe Smart Grid;;
+Zwischentitel;Materialien:;;
+;- Miniverteiler Aufputz;;
+;- Schaltrelais mit Schließkontakt;;
+;- Netzwerkleitung;;
+;- ggf. Kabelkanal;;
+;- notwendiges Klein- und Verdrahtungsmaterial;;
+Zwischentitel;Leistungen:;;
+;- Montieren des Miniverteilers;;
+;- Bestückung und Verdrahtung des Schaltrelais;;
+;- Programmierung des Wechselrichters auf gewünschte Werte;;
+;- Herstellen einer Kabelverbindung von Wechselrichter zu Wärmepumpe;;
+;- ggf. Ausbauen des Kabelwegs;;
+Zwischentitel;In Leistung nicht enthalten:;;
+;- Die Verdrahtung und Programmierung an der Wärmepumpe können wir nicht vornehmen, sodass der zuständige Heizungsbauer vorzugsweise am selben Tag vor Ort sein sollte.;;
 ;;;
-Titel;Beispieltext;;
-Untertitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
-;;;
-Untertitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
+H66TG3045 01;Smart Grid;€/Stk.;248,6

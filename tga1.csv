@@ -1,21 +1,24 @@
 ﻿EDV-Nr./Bezeichnung;Beschreibung;Preiseinheit;Preis
-Titel;Beispieltext;;
-Untertitel;Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
+Titel;MODULMONTAGE (inkl. Qualitätsmodul und Material);;
+Zwischentitel;Materialien:;;
+;- Photovoltaik-Modul (Trina, Jinko oder vergleichbar);;
+;     - Leistung 455 Wp / plussortiert;;
+;     - Glas-Glas-Modul;;
+;     - Elegantes, schwarzes Design als FULL BLACK;;
+;     - 30 Jahre Leistungsgarantie;;
+;     - 25 Jahre Produktgarantie;;
+;- Unterkonstruktion für das Modul;;
+;- Notwendiges Kleinmaterial und Leitungen;;
+Zwischentitel;Leistungen:;;
+;- Modulmontage;;
+;- Unterkonstruktionsmontage;;
+;- Stringverdrahtung und Erdungsanschluss;;
+;- Restmaterial- / Verpackungsmüllentsorgung;;
+Zwischentitel;Nicht enthalten:;;
+;- Einrüstung;;
 ;;;
-123456;Beispieltext;€/Stk.;12,3
+100BJY024;Schrägdachmontage;€/Stk.;375,5
 ;;;
-Zwischentitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
+100BJY025;Schrägdachmontage mit Trapezblech-Befestigung;€/Stk.;316,4
 ;;;
-Titel;Beispieltext;;
-Untertitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
-;;;
-Untertitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
+100BJY026;Schrägdachmontage mit Stockschrauben-Befestigung;€/Stk.;336,6

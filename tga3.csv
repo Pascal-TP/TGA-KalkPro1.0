@@ -1,21 +1,17 @@
 ﻿EDV-Nr./Bezeichnung;Beschreibung;Preiseinheit;Preis
-Titel;Beispieltext;;
-Untertitel;Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
-;- Beispieltext;;
+Titel;GERÜST;;
+Zwischentitel;Wann wird ein Gerüst benötigt? ;;
+;Ein Gerüst muss ab einer Absturzhöhe von 2,00 m gestellt werden. Ob mit einer Absturzsicherung oder anderweitigen Maßnahmen gearbeitet werden kann, entscheidet unsere Bauleitung vor Ort. Im ersten Schritt sollte daher immer ein Gerüst berücksichtigt werden.;;
+Untertitel;Einrüstung (einfach - Südausrichtung);;
+Zwischentitel;Leistungen:;;
+;- Aufbau Gerüst einseitig (Südausrichtung);;
+;- Traufhöhe bis max. 3 m;;
 ;;;
-123456;Beispieltext;€/Stk.;12,3
+H66TG1000 01;Einrüstung (einfach - Südausrichtung);€/Stk.;1764,7
 ;;;
-Zwischentitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
+Untertitel;Einrüstung (doppelt - Ost- und Westausrichtung);;
+Zwischentitel;Leistungen:;;
+;- Aufbau Gerüst beidseitig (Ost- und Westausrichtung);;
+;- Traufhöhe bis max. 3 m;;
 ;;;
-Titel;Beispieltext;;
-Untertitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
-;;;
-Untertitel;Beispieltext;;
-123456;Beispieltext;€/Stk.;12,3
+H66TG1005 01;Einrüstung (doppelt - Ost- und Westausrichtung;€/Stk.;2647,1
