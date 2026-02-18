@@ -94,6 +94,7 @@ async function showPage(id) {
   if (id === "page-32") loadPage32();
   if (id === "page-33") loadPage33();
   if (id === "page-13") loadPage13();
+  if (id === "page-14-1") loadPage141();
 
   if (id === "page-40") {
     showLoader40(true);
@@ -106,9 +107,9 @@ async function showPage(id) {
   }
 }
 
-		// -----------------------------
-		// LOGIN - LOGOUT - PASSWORD
-		// -----------------------------
+// -----------------------------
+// LOGIN - LOGOUT - PASSWORD
+// -----------------------------
 
 async function login() {
   const email = loginUser.value.trim();
@@ -240,9 +241,9 @@ async function exportLoginLog() {
   const q = query(collection(db, "loginLogs"), orderBy("time", "desc"));
   const snap = await getDocs(q);
  
-		// -----------------------------
-		// LOGBUCH - NUR FÜR ADMIN
-		// -----------------------------
+// -----------------------------
+// LOGBUCH - NUR FÜR ADMIN
+// -----------------------------
 
  let csv = "time;email;event\n";
   snap.forEach(d => {
@@ -273,9 +274,9 @@ function updateAdminUI_() {
   btn.classList.toggle("hidden", !isAdmin);
 }
 
-		// -----------------------------
-		//  LOGOUT-TIMER
-		// -----------------------------
+// -----------------------------
+//  LOGOUT-TIMER
+// -----------------------------
 
 function startTimer() {
     remaining = 600;
@@ -292,9 +293,9 @@ function startTimer() {
     }, 1000);
 }
 
-		// -----------------------------
-		// Alle Zwischensummen aller Preis-Seiten speichern
-		// -----------------------------
+// -----------------------------
+// Alle Zwischensummen aller Preis-Seiten speichern
+// -----------------------------
 
 let angebotSummen = JSON.parse(localStorage.getItem("angebotSummen") || "{}");
 
@@ -345,9 +346,9 @@ function refreshRabattDisplays() {
   if (p40) p40.innerText = `Gesamtpreis abzgl. SHK-Rabatt (15%): ${formatEuro(after)}`;
 }
 
-		// -----------------------------
-		// Funktion zur Prüfung der Pflichteingaben auf Seite 5 (Kopfdaten für Anfrage) + speichern
-		// -----------------------------
+// -----------------------------
+// Funktion zur Prüfung der Pflichteingaben auf Seite 5 (Kopfdaten für Anfrage) + speichern
+// -----------------------------
 
 function submitPage5() {
     const fields = [
@@ -546,160 +547,160 @@ function berechneGesamt14() {
     }
 }
 
-		// -----------------------------
-		// SEITE 14.3 – Tackersystem ROTH (ndf3.csv)
-		// -----------------------------
+// -----------------------------
+// SEITE 14.3 –  (xxx.csv)
+// -----------------------------
+//
+//function loadPage143() {
+//
+//  const container = document.getElementById("content-14-3");
+//  if (!container) return;
+//
+//  // Falls schon geladen → nicht nochmal laden
+//  if (container.innerHTML.trim() !== "") return;
+//
+//  fetch("xxx.csv")
+//    .then(response => response.text())
+//    .then(data => {
+//
+//      const lines = data.split("\n").slice(1);
+//     let html = "";
+//let headerInserted = false;
+//
+//      lines.forEach((line, index) => {
+//        if (!line.trim()) return;
+//
+//        const cols = line.split(";");
+//        const colA = cols[0]?.trim();
+//        const colB = cols[1]?.trim();
+//        const colC = cols[2]?.trim();
+//        const colD = cols[3]?.trim();
+//
+//        // TITEL / UNTERTITEL / ZWISCHENTITEL
+//        if (colA === "Titel") {
+//          html += `<div class="title">${colB}</div>`;
+//          return;
+//        }
+//        if (colA === "Untertitel") {
+//          html += `<div class="subtitle">${colB}</div>`;
+//          return;
+//        }
+//        if (colA === "Zwischentitel") {
+//          html += `<div class="midtitle">${colB}</div>`;
+//          return;
+//        }
+//
+//        const preisVorhanden = colD && !isNaN(parseFloat(colD.replace(",", ".")));
+//
+//        if (preisVorhanden) {
+//
+//if (!headerInserted) {
+//    html += `
+//      <div class="row table-header">
+//        <div></div>
+//        <div>Beschreibung</div>
+//        <div>Einheit</div>
+//        <div style="text-align:center;">Menge</div>
+//        <div style="text-align:right;">Preis / Einheit</div>
+//        <div style="text-align:right;">Positionsergebnis</div>
+//      </div>
+//    `;
+//    headerInserted = true;
+//  } 
+//
+//          const preis = parseFloat(colD.replace(",", "."));
+//          const savedValue = localStorage.getItem("page143Data" + index) || "0";
+//
+//          html += `<div class="row">
+//                      <div class="col-a">${colA}</div>
+//                      <div class="col-b">${colB}</div>
+//                      <div class="col-c">${colC}</div>
+//
+//                      <input class="menge-input" type="number" min="0" step="any"
+//                             value="${savedValue}"
+//                             oninput="calcRow143(this, ${preis}, ${index})">
+//
+//                      <div class="col-d">
+//                        ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
+//                      </div>
+//
+//                      <div class="col-e">0,00 €</div>
+//                   </div>`;
+//        } else {
+//
+//          html += `<div class="row no-price">
+//                      <div class="col-a">${colA}</div>
+//                      <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
+//                   </div>`;
+//        }
+//      });
+//
+//      html += `<div id="gesamtSumme143" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+//      html += `<div id="gesamtSumme143Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+//          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+//         </div>`;
+//
+//     container.innerHTML = html;
+//
+//      berechneGesamt143();
+//    });
+//}
+//
+//// Berechnung einzelner Zeilen
+//	function calcRow143(input, preisWert, index) {
+//
+//  	const row = input.parentElement;
+//  	const ergebnis = row.querySelector(".col-e");
+//
+//  	const menge = parseFloat(input.value.replace(",", ".")) || 0;
+//
+//  	const sum = menge * preisWert;
+//
+//  	ergebnis.innerText =
+//    	sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+//
+// 	let gespeicherteWerte =
+//    		JSON.parse(localStorage.getItem("page143Data") || "{}");
+//
+//gespeicherteWerte[index] = menge;
+//
+//localStorage.setItem("page143Data",
+//    JSON.stringify(gespeicherteWerte));
+//
+//  berechneGesamt143();
+//}
+//
+//// Berechnung Gesamtsumme
+// 	function berechneGesamt143() {
+//
+//  	let sum = 0;
+//
+//  	document.querySelectorAll("#page-14-3 .col-e").forEach(el => {
+//
+//    	const wert = parseFloat(
+//      		el.innerText.replace("€","")
+//                 .replace(/\./g,"")
+//                 .replace(",",".")
+//                 .trim()
+//    	) || 0;
+//
+//    	sum += wert;
+//  	});
+//
+//// Zwischensumme für Seite 14.3 speichern
+//    saveSeitenSumme("page-14-3", sum);
+//
+//// Gesamtsumme über alle Seiten
+//    const gesamtDiv = document.getElementById("gesamtSumme143");
+//    if (gesamtDiv) {
+//        gesamtDiv.innerText =
+//            "Gesamtsumme Angebot: " + getGesamtAngebotssumme().toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+//    }
+//}
 
-function loadPage143() {
-
-  const container = document.getElementById("content-14-3");
-  if (!container) return;
-
-  // Falls schon geladen → nicht nochmal laden
-  if (container.innerHTML.trim() !== "") return;
-
-  fetch("ndf3.csv")
-    .then(response => response.text())
-    .then(data => {
-
-      const lines = data.split("\n").slice(1);
-      let html = "";
-let headerInserted = false;
-
-      lines.forEach((line, index) => {
-        if (!line.trim()) return;
-
-        const cols = line.split(";");
-        const colA = cols[0]?.trim();
-        const colB = cols[1]?.trim();
-        const colC = cols[2]?.trim();
-        const colD = cols[3]?.trim();
-
-        // TITEL / UNTERTITEL / ZWISCHENTITEL
-        if (colA === "Titel") {
-          html += `<div class="title">${colB}</div>`;
-          return;
-        }
-        if (colA === "Untertitel") {
-          html += `<div class="subtitle">${colB}</div>`;
-          return;
-        }
-        if (colA === "Zwischentitel") {
-          html += `<div class="midtitle">${colB}</div>`;
-          return;
-        }
-
-        const preisVorhanden = colD && !isNaN(parseFloat(colD.replace(",", ".")));
-
-        if (preisVorhanden) {
-
-if (!headerInserted) {
-    html += `
-      <div class="row table-header">
-        <div></div>
-        <div>Beschreibung</div>
-        <div>Einheit</div>
-        <div style="text-align:center;">Menge</div>
-        <div style="text-align:right;">Preis / Einheit</div>
-        <div style="text-align:right;">Positionsergebnis</div>
-      </div>
-    `;
-    headerInserted = true;
-  } 
-
-          const preis = parseFloat(colD.replace(",", "."));
-          const savedValue = localStorage.getItem("page143Data" + index) || "0";
-
-          html += `<div class="row">
-                      <div class="col-a">${colA}</div>
-                      <div class="col-b">${colB}</div>
-                      <div class="col-c">${colC}</div>
-
-                      <input class="menge-input" type="number" min="0" step="any"
-                             value="${savedValue}"
-                             oninput="calcRow143(this, ${preis}, ${index})">
-
-                      <div class="col-d">
-                        ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
-                      </div>
-
-                      <div class="col-e">0,00 €</div>
-                   </div>`;
-        } else {
-
-          html += `<div class="row no-price">
-                      <div class="col-a">${colA}</div>
-                      <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
-                   </div>`;
-        }
-      });
-
-      html += `<div id="gesamtSumme143" class="gesamt">Gesamtsumme: 0,00 €</div>`;
-      html += `<div id="gesamtSumme143Rabatt" class="gesamt rabatt" data-rabatt="angebot">
-          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
-         </div>`;
-
-     container.innerHTML = html;
-
-      berechneGesamt143();
-    });
-}
-
-// Berechnung einzelner Zeilen
-	function calcRow143(input, preisWert, index) {
-
-  	const row = input.parentElement;
-  	const ergebnis = row.querySelector(".col-e");
-
-  	const menge = parseFloat(input.value.replace(",", ".")) || 0;
-
-  	const sum = menge * preisWert;
-
-  	ergebnis.innerText =
-    	sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
-
- 	let gespeicherteWerte =
-    		JSON.parse(localStorage.getItem("page143Data") || "{}");
-
-gespeicherteWerte[index] = menge;
-
-localStorage.setItem("page143Data",
-    JSON.stringify(gespeicherteWerte));
-
-  berechneGesamt143();
-}
-
-// Berechnung Gesamtsumme
- 	function berechneGesamt143() {
-
-  	let sum = 0;
-
-  	document.querySelectorAll("#page-14-3 .col-e").forEach(el => {
-
-    	const wert = parseFloat(
-      		el.innerText.replace("€","")
-                 .replace(/\./g,"")
-                 .replace(",",".")
-                 .trim()
-    	) || 0;
-
-    	sum += wert;
-  	});
-
-// Zwischensumme für Seite 14.3 speichern
-    saveSeitenSumme("page-14-3", sum);
-
-// Gesamtsumme über alle Seiten
-    const gesamtDiv = document.getElementById("gesamtSumme143");
-    if (gesamtDiv) {
-        gesamtDiv.innerText =
-            "Gesamtsumme Angebot: " + getGesamtAngebotssumme().toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
-    }
-}
-
-		// -----------------------------
-		// SEITE 40 – Ausgabeseite Kostenvoranschlag / Anfrage
-		// -----------------------------
+// -----------------------------
+// SEITE 40 – Ausgabeseite Kostenvoranschlag / Anfrage
+// -----------------------------
 
 async function loadPage40() {
 
@@ -772,7 +773,7 @@ container.innerHTML += `
     let gesamt = 0;
 
     const seitenConfig = [
-        { key: "page14Data",  csv: "tga1.csv" },
+        { key: "page14Data",  csv: "tga4.csv" },
         { key: "page142Data", csv: "tga5.csv" },
         { key: "page8Data", csv: "tga10.csv" },
         { key: "page18Data", csv: "tga8.csv" },
@@ -781,17 +782,17 @@ container.innerHTML += `
         { key: "page22Data", csv: "tga11.csv" },
         { key: "page9Data", csv: "tga3.csv" },
         { key: "page10Data", csv: "tga6.csv" },
-        { key: "page23Data", csv: "ndf12.csv" },
-        { key: "page24Data", csv: "ndf13.csv" },
-        { key: "page25Data", csv: "ndf14.csv" },
-        { key: "page27Data", csv: "ndf15.csv" },
-        { key: "page28Data", csv: "ndf16.csv" },
-        { key: "page30Data", csv: "ndf17.csv" },
-        { key: "page31Data", csv: "ndf18.csv" },
-        { key: "page32Data", csv: "ndf19.csv" },
-        { key: "page33Data", csv: "ndf20.csv" },
-        { key: "page13Data", csv: "ndf21.csv" },
-        { key: "page143Data", csv: "tga4.csv" }
+        { key: "page23Data", csv: "tga1.csv" },
+        { key: "page24Data", csv: "tga2.csv" }
+ //       { key: "page25Data", csv: "xxx.csv" },
+ //       { key: "page27Data", csv: "xxx.csv" },
+ //       { key: "page28Data", csv: "xxx.csv" },
+ //       { key: "page30Data", csv: "xxx.csv" },
+ //       { key: "page31Data", csv: "xxx.csv" },
+ //       { key: "page32Data", csv: "xxx.csv" },
+ //       { key: "page33Data", csv: "xxx.csv" },
+ //       { key: "page13Data", csv: "xxx.csv" },
+ //       { key: "page143Data", csv: "xxx.csv" }
     ];
 
     for (const seite of seitenConfig) {
@@ -881,15 +882,15 @@ refreshRabattDisplays();
     }
 }
 
-		// -----------------------------
-		// direktZumAngebot (Button)
-		// -----------------------------
+// -----------------------------
+// direktZumAngebot (Button)
+// -----------------------------
 
 function direktZumAngebot() {
 
     const fields = [
-        "pj-contact", "pj-number", "shk-name", "shk-contact",
-        "shk-email", "shk-phone", "site-address", "execution-date"
+        bv-contact", "bv-strasse", "bv-ort", "shk-contact",
+        "shk-email", "shk-phone", "execution-date", "dachpfanne-ausfuehrung", "zeichnung-plaene", "zaehlerschrank", "wechselrichter_speicher", "jahresstrombedarf", "waermepumpe_strombedarf", "wallbox"
     ];
 
     const alleAusgefüllt = fields.every(id => {
@@ -907,17 +908,17 @@ function direktZumAngebot() {
     }
 }
 
-		// -----------------------------
-		// SEITE 40 – printPage - (Button "Drucken / als PDF speichern")
-		// -----------------------------
+// -----------------------------
+// SEITE 40 – printPage - (Button "Drucken / als PDF speichern")
+// -----------------------------
 
 function printPage40() {
   window.print();
 }
 
-		// -----------------------------
-		// SEITE 40 – sendMail - (Button "Als Text-Mail versenden")
-		// -----------------------------
+// -----------------------------
+// SEITE 40 – sendMail - (Button "Als Text-Mail versenden")
+// -----------------------------
 
 function sendMailPage40() {
 
@@ -940,9 +941,9 @@ function sendMailPage40() {
         `mailto:${mailAdresse}?subject=${encodeURIComponent(subject)}&body=${body}`;
 }
 
-		// -----------------------------
-		// clearInputs - Button "Eingaben löschen"
-		// -----------------------------
+// -----------------------------
+// clearInputs - Button "Eingaben löschen"
+// -----------------------------
 
 function clearInputs() {
 
@@ -955,7 +956,7 @@ function clearInputs() {
 // Dynamische Inhalte leeren (damit nichts „stehen bleibt“)
     const idsToClear = [
         "page14-content",
-        "content-14-3",
+//       "content-14-3",
         "content-14-2",
         "content-8",
         "content-18",
@@ -966,14 +967,14 @@ function clearInputs() {
         "content-10",
         "content-23",
 	"content-24",
-        "content-25",
-        "content-27",
-        "content-28",
-        "content-30",
-	"content-31",
-        "content-32",
-        "content-33",
-        "content-13",
+//       "content-25",
+//       "content-27",
+//       "content-28",
+//       "content-30",
+//	"content-31",
+//       "content-32",
+//       "content-33",
+//        "content-13",
         "summary-content",
         "hinweise-content"
     ];
@@ -992,8 +993,8 @@ function clearInputs() {
     const sum143 = document.getElementById("gesamtSumme143");
     if (sum143) sum143.innerText = "Gesamtsumme Angebot: 0,00 €";
 
-    const sum142 = document.getElementById("gesamtSumme142");
-    if (sum142) sum142.innerText = "Gesamtsumme Angebot: 0,00 €";
+  //  const sum142 = document.getElementById("gesamtSumme142");
+  //  if (sum142) sum142.innerText = "Gesamtsumme Angebot: 0,00 €";
 
     const sum8 = document.getElementById("gesamtSumme8");
     if (sum8) sum8.innerText = "Gesamtsumme Angebot: 0,00 €";
@@ -1022,29 +1023,29 @@ function clearInputs() {
     const sum24 = document.getElementById("gesamtSumme24");
     if (sum24) sum24.innerText = "Gesamtsumme Angebot: 0,00 €";
 
-    const sum25 = document.getElementById("gesamtSumme25");
-    if (sum25) sum25.innerText = "Gesamtsumme Angebot: 0,00 €";
+   // const sum25 = document.getElementById("gesamtSumme25");
+   // if (sum25) sum25.innerText = "Gesamtsumme Angebot: 0,00 €";
 
-    const sum27 = document.getElementById("gesamtSumme27");
-    if (sum27) sum27.innerText = "Gesamtsumme Angebot: 0,00 €";
+   // const sum27 = document.getElementById("gesamtSumme27");
+   // if (sum27) sum27.innerText = "Gesamtsumme Angebot: 0,00 €";
 
-    const sum28 = document.getElementById("gesamtSumme28");
-    if (sum28) sum28.innerText = "Gesamtsumme Angebot: 0,00 €";
+   // const sum28 = document.getElementById("gesamtSumme28");
+   // if (sum28) sum28.innerText = "Gesamtsumme Angebot: 0,00 €";
 
-    const sum30 = document.getElementById("gesamtSumme30");
-    if (sum30) sum30.innerText = "Gesamtsumme Angebot: 0,00 €";
+   // const sum30 = document.getElementById("gesamtSumme30");
+   // if (sum30) sum30.innerText = "Gesamtsumme Angebot: 0,00 €";
 
-    const sum31 = document.getElementById("gesamtSumme31");
-    if (sum31) sum31.innerText = "Gesamtsumme Angebot: 0,00 €";
+   // const sum31 = document.getElementById("gesamtSumme31");
+   // if (sum31) sum31.innerText = "Gesamtsumme Angebot: 0,00 €";
 
-    const sum32 = document.getElementById("gesamtSumme32");
-    if (sum32) sum32.innerText = "Gesamtsumme Angebot: 0,00 €";
+   // const sum32 = document.getElementById("gesamtSumme32");
+   // if (sum32) sum32.innerText = "Gesamtsumme Angebot: 0,00 €";
 
-    const sum33 = document.getElementById("gesamtSumme33");
-    if (sum33) sum33.innerText = "Gesamtsumme Angebot: 0,00 €";
+   // const sum33 = document.getElementById("gesamtSumme33");
+   // if (sum33) sum33.innerText = "Gesamtsumme Angebot: 0,00 €";
 
-    const sum13 = document.getElementById("gesamtSumme13");
-    if (sum13) sum13.innerText = "Gesamtsumme Angebot: 0,00 €";
+   // const sum13 = document.getElementById("gesamtSumme13");
+   // if (sum13) sum13.innerText = "Gesamtsumme Angebot: 0,00 €";
 
 // Flags zurücksetzen, damit Seiten neu aus CSV geladen werden
     page14Loaded = false;
@@ -3515,150 +3516,150 @@ function berechneGesamt33() {
     }
 }
 
-		// -----------------------------
-		// SEITE 13 – 
-		// -----------------------------
+// -----------------------------
+// SEITE 13 – 
+// -----------------------------
+//
+//function loadPage13() {
+//
+//    const container = document.getElementById("content-13");
+//    if (!container) return;
+//
+//  if (container.innerHTML.trim() !== "") return;
+//
+//    fetch("tga9.csv")
+//        .then(response => response.text())
+//        .then(data => {
+//
+//            const lines = data.split("\n").slice(1);
+//            let html = "";
+//		let headerInserted = false;
+//            const gespeicherteWerte =
+//                JSON.parse(localStorage.getItem("page13Data") || "{}");
+//
+//            lines.forEach((line, index) => {
+//                if (!line.trim()) return;
+//
+//                const cols = line.split(";");
+//                const colA = cols[0]?.trim();
+//                const colB = cols[1]?.trim();
+//                const colC = cols[2]?.trim();
+//                const colD = cols[3]?.trim();
+//
+//                if (colA === "Titel") {
+//                    html += `<div class="title">${colB}</div>`;
+//                    return;
+//                }
+//                if (colA === "Untertitel") {
+//                    html += `<div class="subtitle">${colB}</div>`;
+//                    return;
+//                }
+//                if (colA === "Zwischentitel") {
+//                    html += `<div class="midtitle">${colB}</div>`;
+//                    return;
+//                }
+//
+//                const preis = parseFloat(colD?.replace(",", "."));
+//                if (!isNaN(preis)) {
+//
+//if (!headerInserted) {
+//        html += `
+//          <div class="row table-header">
+//            <div></div>
+//            <div>Beschreibung</div>
+//            <div>Einheit</div>
+//            <div style="text-align:center;">Menge</div>
+//            <div style="text-align:right;">Preis / Einheit</div>
+//            <div style="text-align:right;">Positionsergebnis</div>
+//          </div>
+//        `;
+//        headerInserted = true;
+//}
+//
+//                    const menge = gespeicherteWerte[index] || 0;
+//
+//                    html += `
+//                        <div class="row">
+//                            <div class="col-a">${colA}</div>
+//                            <div class="col-b">${colB}</div>
+//                            <div class="col-c">${colC}</div>
+//
+//                            <input class="menge-input"
+//                                   type="number" min="0" step="any"
+//                                   value="${menge}"
+//                                   oninput="calcRow13(this, ${preis}, ${index})">
+//
+//                            <div class="col-d">
+//                                ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
+//                            </div>
+//
+//                            <div class="col-e">0,00 €</div>
+//                        </div>`;
+//                } else {
+//                    html += `
+//                        <div class="row no-price">
+//                            <div class="col-a">${colA}</div>
+//                            <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
+//                        </div>`;
+//                }
+//            });
+//
+//            html += `<div id="gesamtSumme13" class="gesamt">Gesamtsumme: 0,00 €</div>`;
+//            html += `<div id="gesamtSumme13Rabatt" class="gesamt rabatt" data-rabatt="angebot">
+//          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
+//         </div>`;
+//
+//            container.innerHTML = html;
+//            berechneGesamt13();
+//        });
+//}
+//
+//function calcRow13(input, preis, index) {
+//
+//    const row = input.parentElement;
+//    const ergebnis = row.querySelector(".col-e");
+//    const menge = parseFloat(input.value.replace(",", ".")) || 0;
+//
+//    const sum = menge * preis;
+//    ergebnis.innerText =
+//        sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+//
+//    let gespeicherteWerte =
+//       JSON.parse(localStorage.getItem("page13Data") || "{}");
+//
+//    gespeicherteWerte[index] = menge;
+//    localStorage.setItem("page13Data", JSON.stringify(gespeicherteWerte));
+//
+//    berechneGesamt13();
+//}
+//
+//function berechneGesamt13() {
+//
+//    let sum = 0;
+//
+//    document.querySelectorAll("#page-13 .col-e").forEach(el => {
+//        const wert = parseFloat(
+//            el.innerText.replace("€","")
+//                       .replace(/\./g,"")
+//                       .replace(",",".")
+//                       .trim()
+//        ) || 0;
+//        sum += wert;
+//    });
+//
+//    saveSeitenSumme("page-13", sum);
+//
+//    const gesamtDiv = document.getElementById("gesamtSumme13");
+//    if (gesamtDiv) {
+//        gesamtDiv.innerText =
+//            "Gesamtsumme Angebot: " +
+//            getGesamtAngebotssumme().toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
+//    }
+//}
 
-function loadPage13() {
-
-    const container = document.getElementById("content-13");
-    if (!container) return;
-
-    if (container.innerHTML.trim() !== "") return;
-
-    fetch("tga9.csv")
-        .then(response => response.text())
-        .then(data => {
-
-            const lines = data.split("\n").slice(1);
-            let html = "";
-		let headerInserted = false;
-            const gespeicherteWerte =
-                JSON.parse(localStorage.getItem("page13Data") || "{}");
-
-            lines.forEach((line, index) => {
-                if (!line.trim()) return;
-
-                const cols = line.split(";");
-                const colA = cols[0]?.trim();
-                const colB = cols[1]?.trim();
-                const colC = cols[2]?.trim();
-                const colD = cols[3]?.trim();
-
-                if (colA === "Titel") {
-                    html += `<div class="title">${colB}</div>`;
-                    return;
-                }
-                if (colA === "Untertitel") {
-                    html += `<div class="subtitle">${colB}</div>`;
-                    return;
-                }
-                if (colA === "Zwischentitel") {
-                    html += `<div class="midtitle">${colB}</div>`;
-                    return;
-                }
-
-                const preis = parseFloat(colD?.replace(",", "."));
-                if (!isNaN(preis)) {
-
-if (!headerInserted) {
-        html += `
-          <div class="row table-header">
-            <div></div>
-            <div>Beschreibung</div>
-            <div>Einheit</div>
-            <div style="text-align:center;">Menge</div>
-            <div style="text-align:right;">Preis / Einheit</div>
-            <div style="text-align:right;">Positionsergebnis</div>
-          </div>
-        `;
-        headerInserted = true;
-}
-
-                    const menge = gespeicherteWerte[index] || 0;
-
-                    html += `
-                        <div class="row">
-                            <div class="col-a">${colA}</div>
-                            <div class="col-b">${colB}</div>
-                            <div class="col-c">${colC}</div>
-
-                            <input class="menge-input"
-                                   type="number" min="0" step="any"
-                                   value="${menge}"
-                                   oninput="calcRow13(this, ${preis}, ${index})">
-
-                            <div class="col-d">
-                                ${preis.toLocaleString("de-DE",{minimumFractionDigits:2})} €
-                            </div>
-
-                            <div class="col-e">0,00 €</div>
-                        </div>`;
-                } else {
-                    html += `
-                        <div class="row no-price">
-                            <div class="col-a">${colA}</div>
-                            <div class="col-b" style="grid-column: 2 / 7;">${colB}</div>
-                        </div>`;
-                }
-            });
-
-            html += `<div id="gesamtSumme13" class="gesamt">Gesamtsumme: 0,00 €</div>`;
-            html += `<div id="gesamtSumme13Rabatt" class="gesamt rabatt" data-rabatt="angebot">
-          Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
-         </div>`;
-
-            container.innerHTML = html;
-            berechneGesamt13();
-        });
-}
-
-function calcRow13(input, preis, index) {
-
-    const row = input.parentElement;
-    const ergebnis = row.querySelector(".col-e");
-    const menge = parseFloat(input.value.replace(",", ".")) || 0;
-
-    const sum = menge * preis;
-    ergebnis.innerText =
-        sum.toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
-
-    let gespeicherteWerte =
-        JSON.parse(localStorage.getItem("page13Data") || "{}");
-
-    gespeicherteWerte[index] = menge;
-    localStorage.setItem("page13Data", JSON.stringify(gespeicherteWerte));
-
-    berechneGesamt13();
-}
-
-function berechneGesamt13() {
-
-    let sum = 0;
-
-    document.querySelectorAll("#page-13 .col-e").forEach(el => {
-        const wert = parseFloat(
-            el.innerText.replace("€","")
-                       .replace(/\./g,"")
-                       .replace(",",".")
-                       .trim()
-        ) || 0;
-        sum += wert;
-    });
-
-    saveSeitenSumme("page-13", sum);
-
-    const gesamtDiv = document.getElementById("gesamtSumme13");
-    if (gesamtDiv) {
-        gesamtDiv.innerText =
-            "Gesamtsumme Angebot: " +
-            getGesamtAngebotssumme().toLocaleString("de-DE",{minimumFractionDigits:2}) + " €";
-    }
-}
-
-		// -----------------------------
-		// Eingabefelder - 0 entfernen bei Eingabe
-		// -----------------------------
+// -----------------------------
+// Eingabefelder - 0 entfernen bei Eingabe
+// -----------------------------
 
      function setupAutoClearZeroInputs() {
        document.addEventListener("focusin", (e) => {
@@ -3681,9 +3682,9 @@ function berechneGesamt13() {
 
     setupAutoClearZeroInputs();
 
-		// -----------------------------
-		// Spaltenüberschriften
-		// -----------------------------
+// -----------------------------
+// Spaltenüberschriften
+// -----------------------------
 
 function renderTableHeader() {
   return `
@@ -3698,9 +3699,9 @@ function renderTableHeader() {
   `;
 }
 
-		// -----------------------------
-		// Blob - Button - PDF download / teilen 
-		// -----------------------------
+// -----------------------------
+// Blob - Button - PDF download / teilen 
+// -----------------------------
 
 async function sharePdf() {
 // ---- Mobile-Fix: html2canvas rendert sonst gerne "aus der Mitte" ----
