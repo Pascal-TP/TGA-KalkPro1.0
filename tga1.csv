@@ -1,6 +1,6 @@
 ﻿EDV-Nr./Bezeichnung;Beschreibung;Preiseinheit;Preis
 Titel;MODULMONTAGE (inkl. Qualitätsmodul und Material);;
-Zwischentitel;Materialien:;;
+Beschreibung_fett;Materialien:;;
 ;- Photovoltaik-Modul (Trina, Jinko oder vergleichbar);;
 ;     - Leistung 455 Wp / plussortiert;;
 ;     - Glas-Glas-Modul;;
@@ -9,12 +9,12 @@ Zwischentitel;Materialien:;;
 ;     - 25 Jahre Produktgarantie;;
 ;- Unterkonstruktion für das Modul;;
 ;- Notwendiges Kleinmaterial und Leitungen;;
-Zwischentitel;Leistungen:;;
+Beschreibung_fett;Leistungen:;;
 ;- Modulmontage;;
 ;- Unterkonstruktionsmontage;;
 ;- Stringverdrahtung und Erdungsanschluss;;
 ;- Restmaterial- / Verpackungsmüllentsorgung;;
-Zwischentitel;Nicht enthalten:;;
+Beschreibung_fett;Nicht enthalten:;;
 ;- Einrüstung;;
 ;;;
 100BJY024;Schrägdachmontage;€/Stk.;375,5

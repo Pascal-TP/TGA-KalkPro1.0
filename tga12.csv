@@ -1,9 +1,9 @@
 ﻿EDV-Nr./Bezeichnung;Beschreibung;Preiseinheit;Preis
 Titel;Allgemeine Hinweise:;;
-Zwischentitel;"• Wir gewähren Ihnen eine Preisbindung von 6 Wochen ab Angebotsabgabe auf die zunächst angebotenen Materialien.
+Beschreibung_fett;"• Wir gewähren Ihnen eine Preisbindung von 6 Wochen ab Angebotsabgabe auf die zunächst angebotenen Materialien.
 Sollte es innerhalb dieses Zeitraumes zu einer außerordentlichen Erhöhung der Materialpreise um >10% kommen,
 verliert die Preisbindung ihre Gültigkeit.";;
-Zwischentitel;"• Die angebotenen Leistungs-Positionen stellen lediglich einen Vorschlag dar, ohne planerische Hoheit. Bitte
+Beschreibung_fett;"• Die angebotenen Leistungs-Positionen stellen lediglich einen Vorschlag dar, ohne planerische Hoheit. Bitte
 entsprechend prüfen, ggf. einen Fachplaner (z.B. Architekten, Statiker, Akustiker) hinzuziehen. Etwaige Kosten sind
 nicht Teil unsere Leistung und nicht im Angebot enthalten.";;
 ;• Anfallende Nebenarbeiten führen wir zum Stundenlohn von 69,00 EUR durch.;;
@@ -12,7 +12,7 @@ der Massen oder Entfall von einzelnen Positionen behalten wir uns vor, das Angeb
 ;"• Von uns erbrachte Leistungen welche Aufgrund von Entfall einzelner Positionen oder Nichtbeauftragung nicht mehr refinanziert
 werden können, werden wir im Stundennachweis (Bauleiter 84,00 EUR/Std. //Monteur 69,00 EUR/Std.) und mit Fahrtkosten
 abrechnen.";;
-Zwischentitel;• Für bauseits gestellte Materialien wird keine Garantie / Haftung übernommen.;;
+Beschreibung_fett;• Für bauseits gestellte Materialien wird keine Garantie / Haftung übernommen.;;
 ;;;
 Untertitel;Informationen zu Errichtung von Photovoltaikanlagen:;;
 ;"Im Zuge der Installation der PV-Anlage muss in den meisten Fällen der Zählerschrank getauscht werden, um aktuellen Forderungen gerecht
@@ -26,10 +26,10 @@ Anlagenbetreiber gewisse Dokumente und Vollmachten benötigt. Die Unterlagen mü
 Auftraggeber zur Verfügung gestellt werden. Nach Erhalt der Unterlagen wird die Anlage angemeldet. Der Austausch des Zählers sowie die
 Terminierung der Maßnahme erfolgt eigenständig durch den Netzbetreiber und kann nicht durch den Auftragnehmer beeinflusst bzw.
 beschleunigt werden.";;
-Zwischentitel;"Um die Anmeldung der PV-Anlage abschließen zu können, benötigen wir nach dem Zählertausch Fotos von Ihrem Zählerschrank
+Beschreibung_fett;"Um die Anmeldung der PV-Anlage abschließen zu können, benötigen wir nach dem Zählertausch Fotos von Ihrem Zählerschrank
 (Gesamter Zählerschrank mit geöffneten Türen, Zählerstand 1.8.0 und 2.8.0 im Display) unter Angabe des Datums, bitte senden
 Sie diese an info@tga-nord.de.";;
-Zwischentitel;Die Registrierung im Marktstammdatenregister muss eigenständig durch den Endkunden erfolgen.;;
+Beschreibung_fett;Die Registrierung im Marktstammdatenregister muss eigenständig durch den Endkunden erfolgen.;;
 ;;;
 ;"Für die Montage der Photovoltaikmodule muss in der Regel die Arbeitsstelle auf dem Dach durch ein Gerüst gesichert werden. Des
 Weiteren muss ein sicherer Platz zur Lagerung der Module auf dem Dach oder dem Gerüst geschaffen werden. Dies muss Bauseitig
@@ -60,4 +60,7 @@ Untertitel;Hinweise zu Statik:;;
 ;"Unser Leistungsumfang beinhaltet keine statische Prüfung der baulichen Gegebenheiten. Mit Beauftragung unseres Angebotes bestätigen
 Sie die bauseitige Prüfung und statische Freigabe der von uns angebotenen Leistungen";;
 ;;;
-Zwischentitel;Wir hoffen, Ihnen ein attraktives Angebot unterbreitet zu haben und würden uns über Ihren Auftrag freuen.;;
+Beschreibung_fett;Wir hoffen, Ihnen ein attraktives Angebot unterbreitet zu haben und würden uns über Ihren Auftrag freuen.;;
+;;;
+;;;
+;;;

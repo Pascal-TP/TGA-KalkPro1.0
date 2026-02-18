@@ -1,9 +1,9 @@
 ﻿EDV-Nr./Bezeichnung;Beschreibung;Preiseinheit;Preis
 Titel;Zubehör Fronius - Wechselrichter;;
 Untertitel;Montage und Lieferung Enwitec;;
-Zwischentitel;Materialien:;;
+Beschreibung_fett;Materialien:;;
 ;- Fronius Netzumschaltbox Enwitec 20 kW;;
-Zwischentitel;Leistungen:;;
+Beschreibung_fett;Leistungen:;;
 ;- Montage und Anschluss Netzumschaltbox;;
 ;- Verdrahtung Zählerschrank;;
 ;- Einrichtung Notstromfunktion Wechselrichter;;
@@ -12,9 +12,9 @@ Zwischentitel;Leistungen:;;
 100BJW821;Netzumschaltbox Enwitec 20 kW;€/Stk.;2061,2
 ;;;
 Untertitel;Montage und Lieferung PV-Point;;
-Zwischentitel;Materialien:;;
+Beschreibung_fett;Materialien:;;
 ;- Fronius PV-Point (zwei Notstromsteckdosen);;
-Zwischentitel;Leistungen:;;
+Beschreibung_fett;Leistungen:;;
 ;- Montage und Anschluss PV-Point;;
 ;- Einrichtung Notstromfunktion Wechselrichter;;
 ;- Funktionsprüfung;;
@@ -22,9 +22,9 @@ Zwischentitel;Leistungen:;;
 100BJW822;PV-Point;€/Stk.;471,9
 ;;;
 Untertitel;Montage und Lieferung Backup Switch;;
-Zwischentitel;Materialien:;;
+Beschreibung_fett;Materialien:;;
 ;- Fronius Backup Switch 1PN/3PN-63A;;
-Zwischentitel;Leistungen:;;
+Beschreibung_fett;Leistungen:;;
 ;- Montage und Anschluss Backup Switch;;
 ;- Programmierung und Inbetriebnahme am Wechselrichter;;
 ;- Funktionsprüfung;;
@@ -32,9 +32,9 @@ Zwischentitel;Leistungen:;;
 100BJW823;Backup Switch;€/Stk.;691
 ;;;
 Untertitel;Montage und Lieferung Backup Controller;;
-Zwischentitel;Materialien:;;
+Beschreibung_fett;Materialien:;;
 ;- Fronius Backup Controller 3PN-35A;;
-Zwischentitel;Leistungen:;;
+Beschreibung_fett;Leistungen:;;
 ;- Montage und Anschluss Backup Controller;;
 ;- Programmierung und Inbetriebnahme am Wechselrichter;;
 ;- Funktionsprüfung;;
@@ -42,12 +42,13 @@ Zwischentitel;Leistungen:;;
 100BKG932;Backup Controller;€/Stk.;1112
 ;;;
 Untertitel;Montage und Lieferung Ohmpilot;;
-Zwischentitel;Materialien:;;
+Beschreibung_fett;Materialien:;;
 ;- Fronius Ohmpilot 9.0-3;;
 ;- Notwendiges Klein- und Befestigungsmaterial;;
-Zwischentitel;Leistungen:;;
+Beschreibung_fett;Leistungen:;;
 ;- Montage Ohmpilot;;
 ;- Zuleitung von der UV zum Gerät;;
 ;- Zuleitung vom Gerät zum bauseitigen Heizstab;;
 ;;;
 100BJW824;Ohmpilot;€/Stk.;1945,9
+;;;

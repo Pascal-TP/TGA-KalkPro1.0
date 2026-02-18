@@ -1,10 +1,10 @@
 ﻿EDV-Nr./Bezeichnung;Beschreibung;Preiseinheit;Preis
 Titel;Montage und Lieferung Fronius Wallbox;;
-Zwischentitel;Materialien:;;
+Beschreibung_fett;Materialien:;;
 ;- Fronius Wallbox;;
 ;- Leitungen und Verlegesystem;;
 ;- Klein- und Sicherungsmaterial;;
-Zwischentitel;Leistungen:;;
+Beschreibung_fett;Leistungen:;;
 ;- Montage und Anschluss Wallbox;;
 ;- Leitungsverlegung zum Standort der Wallbox bis max. 20 m (Aufputz);;
 ;- Inbetriebnahme;;
