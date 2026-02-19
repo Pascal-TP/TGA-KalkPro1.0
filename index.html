@@ -12,7 +12,7 @@
 <img src="logo.png" class="logo">
 
 <!-- Countdown -->
-<div id="release-info">Release: V1.0.1</div>
+<div id="release-info">Release: V1.0.3</div>
 <div id="timer">Logout in: 10:00</div>
 
 <!-- NEU: Angemeldet als -->
@@ -51,9 +51,48 @@
 
     <button onclick="login()">Anmelden</button>
 
-    <button onclick="forgotPassword()">Passwort vergessen</button>
-    
+    <button onclick="forgotPassword()">Passwort vergessen</button><br>
+    <br>
+    <br>
+    <br>
+    <p><strong>Noch keine Login-Daten? Registrieren Sie sich jetzt hier:</strong><br>
+    <button onclick="showPage('page-register')">Hier registrieren</button>
 </div>
+
+<!-- SEITE 1.1 Registrierung:  -->
+<div id="page-register" class="page">
+  <h2>Registrierung</h2>
+
+  <input id="reg-firma" placeholder="Firmenname *">
+  <input id="reg-name" placeholder="Name Ansprechpartner *">
+  <input id="reg-strasse" placeholder="Straße *">
+  <input id="reg-hausnr" placeholder="Hausnummer *">
+  <input id="reg-plz" placeholder="PLZ *">
+  <input id="reg-ort" placeholder="Ort *">
+  <input id="reg-email" placeholder="E-Mail-Adresse *">
+  <input id="reg-tel" placeholder="Telefonnummer *">
+
+  <div id="reg-error" style="color:red; margin-top:8px;"></div>
+  <div id="reg-info" style="color:green; margin-top:8px;"></div>
+
+  <button onclick="registerRequest()">Registrierung absenden</button>
+  <button onclick="showPage('page-login')">Zurück zum Login</button>
+</div>
+
+<!-- SEITE 1.1 Registrierung:  -->
+<div id="page-admin" class="page">
+  <h2>Adminbereich</h2>
+
+  <div style="margin: 10px 0;">
+    <button onclick="showPage('page-3')">← Zurück</button>
+  </div>
+
+  <h3>Registrierungen (wartend)</h3>
+  <div id="admin-registrations" class="box">
+    <div>Lade Daten…</div>
+  </div>
+</div>
+
 
 <!-- SEITE 2: PASSWORT ÄNDERN -->
 <div class="page" id="page-change">
@@ -83,6 +122,7 @@
     </p>
     
     <button id="btnExportLog" class="hidden" onclick="exportLoginLog()">Login-Log herunterladen</button>
+    <button id="btnAdmin" class="hidden" onclick="showPage('page-admin')">Adminbereich</button>
 
 </div>
 
