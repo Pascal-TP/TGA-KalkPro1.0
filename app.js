@@ -99,36 +99,35 @@ const auth = getAuth(fbApp);
   // 3) Listener erst DANACH
 const app = document.getElementById("app");  
 onAuthStateChanged(auth, user => {
-  
-const actions = document.getElementById("user-actions");
 
-if (user) {
-  if (actions) actions.classList.remove("hidden");
-} else {
-  if (actions) actions.classList.add("hidden");
-}
-
-const info = document.getElementById("login-info");
+  const actions = document.getElementById("user-actions");
+  const info = document.getElementById("login-info");
+  const app = document.getElementById("app");
 
   if (user) {
+    // UI
+    actions?.classList.remove("hidden");
     if (info) info.innerText = "Angemeldet als: " + user.email;
     updateAdminUI_();
 
-    // Zielseite bestimmen: letzte Seite (aber nie login) – ansonsten Seite 3
-    const last = sessionStorage.getItem("lastPage");
-    const target = getInitialPage();
+    // direkt ins Tool (ohne Splash)
+    const target = getInitialPage(); // oder dein lastPage-Mechanismus
     history.replaceState({ page: target }, "", "#" + target);
-
     showPage(target, true);
-    startSplashScreen();
-    
+
   } else {
+    // UI
+    actions?.classList.add("hidden");
     if (info) info.innerText = "";
     updateAdminUI_();
-    showPage("page-login");
+
+    // Splash zeigen und dann zum Login
+    showPage("page-start", true);
+    startSplashScreen();
   }
-// 🔥 ERST JETZT App sichtbar machen
-  if (app) app.classList.remove("hidden");
+
+  // App sichtbar machen
+  app?.classList.remove("hidden");
 });
 })();
 
