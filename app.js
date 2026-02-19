@@ -547,7 +547,7 @@ window.approveUser = approveUser;
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
-}
+
 
 function updateAdminUI_() {
   const adminEmail = "pascal.gasch@tpholding.de";
