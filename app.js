@@ -183,30 +183,28 @@ async function registerRequest() {
   }
 
   try {
-    const tempPw = makeTempPassword();
-    const cred = await createUserWithEmailAndPassword(auth, email, tempPw);
+  // Dummy-Passwort, wird nie benutzt
+  const cred = await createUserWithEmailAndPassword(auth, email, makeTempPassword());
 
-    // Profil + Freigabe-Flag
-    await setDoc(doc(db, "users", cred.user.uid), {
-      firma, name, strasse, hausnr, plz, ort, email, tel,
-      approved: false,
-      createdAt: serverTimestamp()
-    });
+  await setDoc(doc(db, "users", cred.user.uid), {
+    firma, name, strasse, hausnr, plz, ort, email, tel,
+    approved: false,
+    createdAt: serverTimestamp()
+  });
 
-    // Optional: extra Liste/Queue für Admin (leichter zu finden)
-    await addDoc(collection(db, "registrationRequests"), {
-      uid: cred.user.uid,
-      email,
-      firma,
-      name,
-      createdAt: serverTimestamp(),
-      status: "pending"
-    });
+  await addDoc(collection(db, "registrationRequests"), {
+    uid: cred.user.uid,
+    email,
+    firma,
+    name,
+    createdAt: serverTimestamp(),
+    status: "pending"
+  });
 
-    // User sofort wieder ausloggen (er soll nicht rein)
-    await signOut(auth);
+  await signOut(auth);
 
-    if (info) info.innerText = "Registrierung eingegangen. Du erhältst Zugang nach Freigabe.";
+  if (info) info.innerText = "Registrierung eingegangen. Du erhältst Zugang nach Freigabe.";
+} catch (e) { ... }
 
     // zurück zum Login
     showPage("page-login");
@@ -318,10 +316,6 @@ async function login() {
   try {
     const cred = await signInWithEmailAndPassword(auth, email, pw);
     currentUser = cred.user;
-
-console.log("LOGIN email:", currentUser.email);
-console.log("LOGIN uid:", currentUser.uid);
-
 
     // zentral loggen
     await addDoc(collection(db, "loginLogs"), {
@@ -501,9 +495,12 @@ async function approveUser(uid, email) {
   if ((auth.currentUser?.email || "").toLowerCase() !== adminEmail.toLowerCase()) {
     alert("Keine Berechtigung.");
     return;
-    
   }
-
+// schon freigegeben? Dann KEINEN neuen Reset schicken
+  if (udoc.exists() && udoc.data().approved === true) {
+    alert("User ist bereits freigegeben.");
+    return;
+  }
   await updateDoc(doc(db, "users", uid), {
     approved: true,
     approvedAt: serverTimestamp(),
