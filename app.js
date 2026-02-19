@@ -182,29 +182,29 @@ async function registerRequest() {
     return;
   }
 
+  async function registerRequest() {
+  ...
   try {
-  // Dummy-Passwort, wird nie benutzt
-  const cred = await createUserWithEmailAndPassword(auth, email, makeTempPassword());
+    const cred = await createUserWithEmailAndPassword(auth, email, makeTempPassword());
 
-  await setDoc(doc(db, "users", cred.user.uid), {
-    firma, name, strasse, hausnr, plz, ort, email, tel,
-    approved: false,
-    createdAt: serverTimestamp()
-  });
+    await setDoc(doc(db, "users", cred.user.uid), {
+      firma, name, strasse, hausnr, plz, ort, email, tel,
+      approved: false,
+      createdAt: serverTimestamp()
+    });
 
-  await addDoc(collection(db, "registrationRequests"), {
-    uid: cred.user.uid,
-    email,
-    firma,
-    name,
-    createdAt: serverTimestamp(),
-    status: "pending"
-  });
+    await addDoc(collection(db, "registrationRequests"), {
+      uid: cred.user.uid,
+      email,
+      firma,
+      name,
+      createdAt: serverTimestamp(),
+      status: "pending"
+    });
 
-  await signOut(auth);
+    await signOut(auth);
 
-  if (info) info.innerText = "Registrierung eingegangen. Du erhältst Zugang nach Freigabe.";
-} catch (e) { ... }
+    if (info) info.innerText = "Registrierung eingegangen. Du erhältst Zugang nach Freigabe.";
 
     // zurück zum Login
     showPage("page-login");
@@ -222,6 +222,7 @@ async function registerRequest() {
     }
   }
 }
+
 
 window.registerRequest = registerRequest;
 
@@ -496,23 +497,26 @@ async function approveUser(uid, email) {
     alert("Keine Berechtigung.");
     return;
   }
-// schon freigegeben? Dann KEINEN neuen Reset schicken
+
+  // ✅ udoc holen
+  const uref = doc(db, "users", uid);
+  const udoc = await getDoc(uref);
+
+  // ✅ schon freigegeben?
   if (udoc.exists() && udoc.data().approved === true) {
     alert("User ist bereits freigegeben.");
     return;
   }
-  await updateDoc(doc(db, "users", uid), {
+
+  await updateDoc(uref, {
     approved: true,
     approvedAt: serverTimestamp(),
     approvedBy: auth.currentUser.email
   });
 
-  // Mail zum Passwort setzen
   await sendPasswordResetEmail(auth, email);
 
   alert("Freigegeben. Passwort-Reset-Mail wurde gesendet.");
-
-// ✅ Admin-Liste sofort aktualisieren
   if (typeof loadAdminPage === "function") loadAdminPage();
 }
 
