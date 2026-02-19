@@ -18,7 +18,7 @@ import {
   signOut,
   onAuthStateChanged,
   setPersistence,
-  inMemoryPersistence
+  browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 import {
@@ -42,11 +42,11 @@ const fbApp = initializeApp(firebaseConfig);
 const auth = getAuth(fbApp);
 (async () => {
   // 1) Persistenz: nichts im Browser behalten
-  await setPersistence(auth, inMemoryPersistence);
+  await setPersistence(auth, browserSessionPersistence);
 
   // 2) EINMALIGER Cleanup: falls noch eine alte Session (local) rumliegt, abmelden
   // (nachdem du das einmal deployed hast, ist es danach dauerhaft sauber)
-  await signOut(auth);
+  // await signOut(auth);
 
   // 3) Listener erst DANACH
   onAuthStateChanged(auth, user => {
