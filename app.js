@@ -105,10 +105,7 @@ const info = document.getElementById("login-info");
 
     // Zielseite bestimmen: letzte Seite (aber nie login) – ansonsten Seite 3
     const last = sessionStorage.getItem("lastPage");
-    const target =
-      last && last !== "page-login"
-        ? last
-        : "page-3";
+    const target = getInitialPage();
 
     showPage(target);
 
@@ -152,6 +149,11 @@ function renderTableHeaderWithImage(imgSrc = "bild3.jpg") {
 async function showPage(id) {
   // letzte Seite merken (nur für dieses Tab/Fenster)
   sessionStorage.setItem("lastPage", id);
+
+// Browser-History nur setzen, wenn NICHT durch Zurück/Vor ausgelöst
+  if (!fromHistory) {
+    history.pushState({ page: id }, "", "#" + id);
+  }
 
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   const el = document.getElementById(id);
@@ -4310,6 +4312,27 @@ function showLoader40(show) {
   const l = document.getElementById("loader40");
   if (!l) return;
   l.classList.toggle("hidden", !show);
+}
+
+// -----------------------------
+
+window.addEventListener("popstate", (e) => {
+  const page = e.state?.page;
+
+  if (!page) return;
+
+  // Sicherheit: Login-Seite blockieren, wenn eingeloggt
+  if (page === "page-login" && auth.currentUser) {
+    showPage("page-3", true);
+    return;
+  }
+
+  showPage(page, true);
+});
+
+function getInitialPage() {
+  const hash = location.hash.replace("#", "");
+  return hash || "page-3";
 }
 
 // -----------------------------
