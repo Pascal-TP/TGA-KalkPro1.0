@@ -16,13 +16,16 @@
 <div id="timer">Logout in: 10:00</div>
 
 <!-- NEU: Angemeldet als -->
-<div id="user-menu-wrapper">
   <div id="login-info" onclick="toggleUserMenu()"></div>
 
-  <div id="user-menu" class="user-menu hidden">
-    <div onclick="goToChange()">🔑 Passwort ändern</div>
-    <div onclick="logout()">🚪 Abmelden</div>
-  </div>
+  <div id="user-actions" class="hidden">
+  <select id="user-action-select" onchange="handleUserAction(this.value)">
+    <option value="">Aktion auswählen…</option>
+    <option value="changePw">Passwort ändern</option>
+    <option value="logout">Abmelden</option>
+  </select>
+</div>
+
 </div>
 
 <!-- SEITE 1: LOGIN -->

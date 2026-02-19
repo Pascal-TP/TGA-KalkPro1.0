@@ -343,29 +343,30 @@ select {
 }
 
 #login-info {
-  cursor: pointer;
+  position: fixed;
+  top: 50px;
+  right: 15px;
   font-size: 14px;
-  font-weight: 600;
-  user-select: none;
+  text-align: right;
+
+  /* NEU: kein Link-Verhalten */
+  cursor: default;
+  font-weight: 400;
+  user-select: text;
 }
 
-.user-menu {
-  margin-top: 6px;
-  background: white;
+#user-actions {
+  position: fixed;
+  top: 70px;        /* unterhalb von login-info */
+  right: 15px;
+  text-align: right;
+  z-index: 1000;
+}
+
+#user-actions select {
+  width: 210px;
+  padding: 8px;
+  background: #fff6d5;
   border: 1px solid #ccc;
   border-radius: 6px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-  overflow: hidden;
-  min-width: 180px;
-}
-
-.user-menu div {
-  padding: 10px 14px;
-  cursor: pointer;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.user-menu div:hover {
-  background: #f2f2f2;
 }

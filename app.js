@@ -51,7 +51,16 @@ const auth = getAuth(fbApp);
   // 3) Listener erst DANACH
 const app = document.getElementById("app");  
 onAuthStateChanged(auth, user => {
-  const info = document.getElementById("login-info");
+  
+const actions = document.getElementById("user-actions");
+
+if (user) {
+  if (actions) actions.classList.remove("hidden");
+} else {
+  if (actions) actions.classList.add("hidden");
+}
+
+const info = document.getElementById("login-info");
 
   if (user) {
     if (info) info.innerText = "Angemeldet als: " + user.email;
@@ -281,19 +290,17 @@ async function exportLoginLog() {
   const q = query(collection(db, "loginLogs"), orderBy("time", "desc"));
   const snap = await getDocs(q);
  
-function toggleUserMenu() {
-  const menu = document.getElementById("user-menu");
-  if (!menu) return;
-  menu.classList.toggle("hidden");
-}
+function handleUserAction(val) {
+  if (!val) return;
 
-// Klick außerhalb schließt Menü
-document.addEventListener("click", e => {
-  const wrapper = document.getElementById("user-menu-wrapper");
-  if (!wrapper) return;
-  if (!wrapper.contains(e.target)) {
-    document.getElementById("user-menu")?.classList.add("hidden");
-  }
+  if (val === "changePw") goToChange();
+  if (val === "logout") logout();
+
+  // zurücksetzen, damit man die gleiche Aktion nochmal wählen kann
+  const sel = document.getElementById("user-action-select");
+  if (sel) sel.value = "";
+}
+window.handleUserAction = handleUserAction;
 });
 
 
