@@ -473,18 +473,6 @@ async function exportLoginLog() {
   URL.revokeObjectURL(url);
 }
 
-  // ===== CSV herunterladen =====
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "login-log.csv";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-
 window.exportLoginLog = exportLoginLog;
 
   
