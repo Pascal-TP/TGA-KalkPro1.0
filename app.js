@@ -106,9 +106,10 @@ const info = document.getElementById("login-info");
     // Zielseite bestimmen: letzte Seite (aber nie login) – ansonsten Seite 3
     const last = sessionStorage.getItem("lastPage");
     const target = getInitialPage();
+    history.replaceState({ page: target }, "", "#" + target);
 
-    showPage(target);
-
+    showPage(target, true);
+    
   } else {
     if (info) info.innerText = "";
     updateAdminUI_();
@@ -146,7 +147,7 @@ function renderTableHeaderWithImage(imgSrc = "bild3.jpg") {
 		// showPage
 		// -----------------------------
 
-async function showPage(id) {
+async function showPage(id, fromHistory = false) {
   // letzte Seite merken (nur für dieses Tab/Fenster)
   sessionStorage.setItem("lastPage", id);
 
@@ -4317,11 +4318,11 @@ function showLoader40(show) {
 // -----------------------------
 
 window.addEventListener("popstate", (e) => {
-  const page = e.state?.page;
+  const page = e.state?.page || location.hash.replace("#", "");
 
   if (!page) return;
 
-  // Sicherheit: Login-Seite blockieren, wenn eingeloggt
+  // Login-Seite blockieren, wenn eingeloggt
   if (page === "page-login" && auth.currentUser) {
     showPage("page-3", true);
     return;
