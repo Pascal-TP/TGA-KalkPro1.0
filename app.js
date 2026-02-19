@@ -182,9 +182,7 @@ async function registerRequest() {
     return;
   }
 
-  async function registerRequest() {
-  ...
-  try {
+ try {
     const cred = await createUserWithEmailAndPassword(auth, email, makeTempPassword());
 
     await setDoc(doc(db, "users", cred.user.uid), {
