@@ -195,7 +195,9 @@ button:active {
     max-width: 1000px;
     margin: 30px auto;
 }
-.hidden { display: none; }
+.hidden {
+  display: none !important;
+}
 
 .gesamt.rabatt {
   font-size: 14px;

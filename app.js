@@ -49,7 +49,8 @@ const auth = getAuth(fbApp);
   // await signOut(auth);
 
   // 3) Listener erst DANACH
-  onAuthStateChanged(auth, user => {
+const app = document.getElementById("app");  
+onAuthStateChanged(auth, user => {
   const info = document.getElementById("login-info");
 
   if (user) {
@@ -70,6 +71,8 @@ const auth = getAuth(fbApp);
     updateAdminUI_();
     showPage("page-login");
   }
+// 🔥 ERST JETZT App sichtbar machen
+  if (app) app.classList.remove("hidden");
 });
 })();
 
