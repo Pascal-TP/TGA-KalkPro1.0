@@ -528,8 +528,7 @@ if (colA === "Beschreibung_fett") {
             });
 
             html += `<div id="gesamtSumme14" class="gesamt">Gesamtsumme: 0,00 €</div>`;
-//            html += `<div id="gesamtSumme14Rabatt" class="gesamt rabatt" data-rabatt="angebot">Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €
-         </div>`;
+//            html += `<div id="gesamtSumme14Rabatt" class="gesamt rabatt" data-rabatt="angebot">Gesamtsumme abzgl. SHK-Rabatt (15%): 0,00 €</div>`;
 
             container.innerHTML = html;
 
