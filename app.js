@@ -439,12 +439,6 @@ async function savePassword() {
   }
 }
 
-function logEvent(username, event) {
-  const log = JSON.parse(localStorage.getItem("loginLog") || "[]");
-  log.push({ time: new Date().toISOString(), user: username || "", event });
-  localStorage.setItem("loginLog", JSON.stringify(log));
-}
-
 async function exportLoginLog() {
   const adminEmail = "pascal.gasch@tpholding.de";
   const userEmail = auth.currentUser?.email || "";
@@ -454,7 +448,7 @@ async function exportLoginLog() {
     return;
   }
 
-  // orderBy muss importiert sein -> wir holen es dynamisch dazu
+  // Firestore-Helpers dynamisch laden
   const { getDocs, query, orderBy } = await import(
     "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
   );
@@ -469,6 +463,7 @@ async function exportLoginLog() {
     csv += `${time};${x.email || ""};${x.event || ""}\n`;
   });
 
+  // ===== CSV herunterladen =====
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
 
@@ -483,6 +478,7 @@ async function exportLoginLog() {
 
 window.exportLoginLog = exportLoginLog;
 
+  
 // -----------------------------
 // Admin-Freigabe + Mail auslösen (ohne Backend)
 // -----------------------------
