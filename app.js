@@ -241,21 +241,18 @@ if (info.mode === "reco") {
    const size = extractWrSizeFromRow(row);
 
 // Wenn >33 Module: ALLES ausgrauen
-const shouldDim =
-  (info.mode === "advice")
-    ? true
-    : (size && size !== reco);
-    hasMismatch = true;
-    row.classList.toggle("wr-dimmed", shouldDim);
+const shouldDim = (info.mode === "advice") ? true : (size && size !== reco);
 
-    // falls schon Wert > 0 eingetragen und dimmed -> Hinweis anzeigen
-    const val = parseFloat(String(inp.value).replace(",", ".")) || 0;
-    if (shouldDim && val > 0) {
-      const warn = document.createElement("div");
-      warn.className = "wr-warn";
-      warn.innerText = "Achtung: Wechselrichter nicht passend!";
-      row.appendChild(warn);
-    }
+row.classList.toggle("wr-dimmed", !!shouldDim);
+
+const val = parseFloat(String(inp.value).replace(",", ".")) || 0;
+if (shouldDim && val > 0) {
+  const warn = document.createElement("div");
+  warn.className = "wr-warn";
+  warn.innerText = "Achtung: Wechselrichter nicht passend!";
+  row.appendChild(warn);
+  hasMismatch = true; // NUR hier!
+}
 // Ergebnis für Seite 40 merken
 if (hasMismatch) localStorage.setItem("wrMismatch", "1");
 else localStorage.removeItem("wrMismatch");
@@ -547,11 +544,6 @@ async function showPage(id, fromHistory = false) {
   if (!el) return;           // Sicherheitsnetz
   el.classList.add("active");  
   
-if (id === "page-14" || id === "page-14-2") {
-  // wichtig: erst laden, dann anwenden
-  // (falls loadPage14/page142 den Content erst füllt)
-  setTimeout(() => applyWrRecommendation(id), 0);
-}
 
     if (id === "page-14") loadPage14();
   //if (id === "page-14-3") loadPage143();
@@ -1514,6 +1506,7 @@ const wrMismatch = localStorage.getItem("wrMismatch") === "1";
 const wrRecoSize = localStorage.getItem("wrRecoSize") || "";
 const wrRecoModules = localStorage.getItem("wrRecoModules") || "";
 const wrRecoMode = localStorage.getItem("wrRecoMode") || "";
+const wrHinweis = document.getElementById("wr-hinweis-print");
 
 if (wrRecoMode === "advice" && wrRecoModules) {
   wrHinweis.innerHTML =
