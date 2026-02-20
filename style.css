@@ -370,6 +370,10 @@ select {
   border: 1px solid #ccc;
   border-radius: 6px;
 }
+#user-action-select option[value="logout"] {
+  font-weight: 700;
+  color: #b00020; /* dezentes Rot */
+}
 .start-slogan {
   margin-top: 20px;
   font-size: 20px;
