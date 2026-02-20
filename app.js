@@ -42,6 +42,87 @@ if (pageId === "page-15") {
     if (normalBtn) normalBtn.classList.toggle("hidden", k);
     if (komplettBtn) komplettBtn.classList.toggle("hidden", !k);
   }
+if (pageId === "page-23") {
+    const normalBtn = document.getElementById("btnWeiter23Normal");
+    const komplettBtn = document.getElementById("btnWeiter23Komplett");
+
+    const k = isKomplettFlow();
+    if (normalBtn) normalBtn.classList.toggle("hidden", k);
+    if (komplettBtn) komplettBtn.classList.toggle("hidden", !k);
+  }
+if (pageId === "page-24") {
+    const normalBtn = document.getElementById("btnWeiter24Normal");
+    const komplettBtn = document.getElementById("btnWeiter24Komplett");
+
+    const k = isKomplettFlow();
+    if (normalBtn) normalBtn.classList.toggle("hidden", k);
+    if (komplettBtn) komplettBtn.classList.toggle("hidden", !k);
+  }
+if (pageId === "page-9") {
+    const normalBtn = document.getElementById("btnWeiter9Normal");
+    const komplettBtn = document.getElementById("btnWeiter9Komplett");
+
+    const k = isKomplettFlow();
+    if (normalBtn) normalBtn.classList.toggle("hidden", k);
+    if (komplettBtn) komplettBtn.classList.toggle("hidden", !k);
+  }
+if (pageId === "page-14") {
+    const normalBtn = document.getElementById("btnWeiter14Normal");
+    const komplettBtn = document.getElementById("btnWeiter14Komplett");
+
+    const k = isKomplettFlow();
+    if (normalBtn) normalBtn.classList.toggle("hidden", k);
+    if (komplettBtn) komplettBtn.classList.toggle("hidden", !k);
+  }
+if (pageId === "page-1-4-2") {
+    const normalBtn = document.getElementById("btnWeiter142Normal");
+    const komplettBtn = document.getElementById("btnWeiter142Komplett");
+
+    const k = isKomplettFlow();
+    if (normalBtn) normalBtn.classList.toggle("hidden", k);
+    if (komplettBtn) komplettBtn.classList.toggle("hidden", !k);
+  }
+if (pageId === "page-21") {
+    const normalBtn = document.getElementById("btnWeiter21Normal");
+    const komplettBtn = document.getElementById("btnWeiter21Komplett");
+
+    const k = isKomplettFlow();
+    if (normalBtn) normalBtn.classList.toggle("hidden", k);
+    if (komplettBtn) komplettBtn.classList.toggle("hidden", !k);
+  }
+if (pageId === "page-10") {
+    const normalBtn = document.getElementById("btnWeiter10Normal");
+    const komplettBtn = document.getElementById("btnWeiter10Komplett");
+
+    const k = isKomplettFlow();
+    if (normalBtn) normalBtn.classList.toggle("hidden", k);
+    if (komplettBtn) komplettBtn.classList.toggle("hidden", !k);
+  }
+if (pageId === "page-18") {
+    const normalBtn = document.getElementById("btnWeiter18Normal");
+    const komplettBtn = document.getElementById("btnWeiter18Komplett");
+
+    const k = isKomplettFlow();
+    if (normalBtn) normalBtn.classList.toggle("hidden", k);
+    if (komplettBtn) komplettBtn.classList.toggle("hidden", !k);
+  }
+if (pageId === "page-20") {
+    const normalBtn = document.getElementById("btnWeiter20Normal");
+    const komplettBtn = document.getElementById("btnWeiter20Komplett");
+
+    const k = isKomplettFlow();
+    if (normalBtn) normalBtn.classList.toggle("hidden", k);
+    if (komplettBtn) komplettBtn.classList.toggle("hidden", !k);
+  }
+if (pageId === "page-22") {
+    const normalBtn = document.getElementById("btnWeiter22Normal");
+    const komplettBtn = document.getElementById("btnWeiter22Komplett");
+
+    const k = isKomplettFlow();
+    if (normalBtn) normalBtn.classList.toggle("hidden", k);
+    if (komplettBtn) komplettBtn.classList.toggle("hidden", !k);
+  }
+
 }
 
 // -----------------------------
