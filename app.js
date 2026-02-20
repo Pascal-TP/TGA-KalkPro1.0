@@ -74,7 +74,7 @@ if (pageId === "page-14") {
     if (normalBtn) normalBtn.classList.toggle("hidden", k);
     if (komplettBtn) komplettBtn.classList.toggle("hidden", !k);
   }
-if (pageId === "page-1-4-2") {
+if (pageId === "page-14-2") {
     const normalBtn = document.getElementById("btnWeiter142Normal");
     const komplettBtn = document.getElementById("btnWeiter142Komplett");
 
