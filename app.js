@@ -349,13 +349,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBnxYSr3uzc5CWXy9sca_upmd3OO-QCP1A",
-  authDomain: "pw-tga-pv.firebaseapp.com",
-  projectId: "pw-tga-pv",
-  storageBucket: "pw-tga-pv.firebasestorage.app",
-  messagingSenderId: "853951658938",
-  appId: "1:853951658938:web:9ffcdfe7370723938bfb83",
-  measurementId: "G-BXG7F59H6T"
+  apiKey: "AIzaSyCAY_yEMYyLx8yJbJ3ou6T_nepH-UxInos",
+  authDomain: "pw-tga-pv-a12b2.firebaseapp.com",
+  projectId: "pw-tga-pv-a12b2",
+  storageBucket: "pw-tga-pv-a12b2.firebasestorage.app",
+  messagingSenderId: "709386342604",
+  appId: "1:709386342604:web:cfc924bf033d5d925fb269",
+  measurementId: "G-27NWPRNC95"
 };
 
 const fbApp = initializeApp(firebaseConfig);
