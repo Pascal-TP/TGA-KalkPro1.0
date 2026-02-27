@@ -404,7 +404,53 @@ onAuthStateChanged(auth, user => {
 
 const db = getFirestore(fbApp);
 
+// -----------------------------
+// Datenschutz-Checkbox Gate (Login + Registrierung)
+// -----------------------------
+function isPrivacyAccepted() {
+  if (sessionStorage.getItem("privacyAck") === "1") return true;
 
+  const cb1 = document.getElementById("chkPrivacyAck");
+  const cb2 = document.getElementById("chkPrivacyAck2");
+
+  return !!(cb1?.checked || cb2?.checked);
+}
+
+function setPrivacyAccepted(val) {
+  sessionStorage.setItem("privacyAck", val ? "1" : "0");
+}
+
+function updateAuthButtons() {
+  const ok = isPrivacyAccepted();
+
+  const btnLogin = document.getElementById("btnLogin");
+  const btnRegisterSend = document.getElementById("btnRegisterSend");
+
+  if (btnLogin) btnLogin.disabled = !ok;
+  if (btnRegisterSend) btnRegisterSend.disabled = !ok;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const cb1 = document.getElementById("chkPrivacyAck");
+  const cb2 = document.getElementById("chkPrivacyAck2");
+  const saved = sessionStorage.getItem("privacyAck") === "1";
+
+  if (cb1) cb1.checked = saved;
+  if (cb2) cb2.checked = saved;
+
+  const onChange = () => {
+    const ok = !!(cb1?.checked || cb2?.checked);
+    setPrivacyAccepted(ok);
+    if (cb1 && cb1.checked !== ok) cb1.checked = ok;
+    if (cb2 && cb2.checked !== ok) cb2.checked = ok;
+    updateAuthButtons();
+  };
+
+  cb1?.addEventListener("change", onChange);
+  cb2?.addEventListener("change", onChange);
+
+  updateAuthButtons();
+});
 // -----------------------------
 // Registrierung anlegen (mit Zufallspasswort)
 // -----------------------------
@@ -417,7 +463,16 @@ function makeTempPassword(len = 18) {
 }
 
 async function registerRequest() {
-  const firma   = (document.getElementById("reg-firma")?.value || "").trim();
+  
+if (!isPrivacyAccepted()) {
+const err = document.getElementById("reg-error");
+if (err) err.innerText =
+"Bitte bestätigen Sie zuerst (im Login), dass Sie die Datenschutzerklärung zur Kenntnis genommen haben.";
+showPage("page-login");
+return;
+}
+
+const firma   = (document.getElementById("reg-firma")?.value || "").trim();
   const name    = (document.getElementById("reg-name")?.value || "").trim();
   const strasse = (document.getElementById("reg-strasse")?.value || "").trim();
   const hausnr  = (document.getElementById("reg-hausnr")?.value || "").trim();
@@ -576,6 +631,13 @@ if (id === "page-14" || id === "page-14-2") {
 // -----------------------------
 
 async function login() {
+  if (!isPrivacyAccepted()) {
+    const loginError = document.getElementById("loginError");
+    if (loginError) loginError.innerText =
+      "Bitte bestätigen Sie zuerst, dass Sie die Datenschutzerklärung zur Kenntnis genommen haben.";
+    return;
+  }
+ 
   const email = loginUser.value.trim();
   const pw = loginPass.value;
 

@@ -75,14 +75,27 @@
 
     <div class="error" id="loginError"></div>
 
-    <button onclick="login()">Anmelden</button>
-
     <button onclick="forgotPassword()">Passwort vergessen</button><br>
     <br>
     <br>
     <br>
     <p><strong>Noch keine Login-Daten?</strong><br>
     <button onclick="showPage('page-register')">Hier registrieren</button>
+<br>
+    <br>
+<!-- Buttons/Links zu Datenschutz & Impressum -->
+<div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin: 12px 0;">
+  <button type="button" onclick="showPage('page-privacy')">Datenschutzerklärung</button>
+  <button type="button" onclick="showPage('page-imprint')">Impressum</button>
+</div>
+
+<label style="display:block; margin: 12px 0; text-align:left; max-width: 420px;">
+  <input type="checkbox" id="chkPrivacyAck">
+  Ich habe die Datenschutzerklärung zur Kenntnis genommen.
+</label>
+
+<!-- WICHTIG: Login-Button bekommt id + disabled -->
+<button id="btnLogin" onclick="login()" disabled>Anmelden</button>
 </div>
 
 <!-- SEITE 1.1 Registrierung:  -->
@@ -105,7 +118,18 @@
 <br> 
 <br> 
 
-  <button onclick="registerRequest()">Registrierung absenden</button>
+  <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin: 12px 0;">
+  <button type="button" onclick="showPage('page-privacy')">Datenschutzerklärung</button>
+  <button type="button" onclick="showPage('page-imprint')">Impressum</button>
+</div>
+
+<label style="display:block; margin: 12px 0; text-align:left; max-width: 520px;">
+  <input type="checkbox" id="chkPrivacyAck2">
+  Ich habe die Datenschutzerklärung zur Kenntnis genommen.
+</label>
+
+<button id="btnRegisterSend" onclick="registerRequest()" disabled>Registrierung absenden</button>
+<button type="button" onclick="showPage('page-login')">Zurück zum Login</button>
   </div>
 
 <!-- SEITE 1.1 Registrierung:  -->
@@ -119,6 +143,135 @@
   <h3>Registrierungen (wartend)</h3>
   <div id="admin-registrations" class="box">
     <div>Lade Daten…</div>
+  </div>
+</div>
+
+<!-- SEITE: DATENSCHUTZ -->
+<div class="page" id="page-privacy">
+  <h2>Datenschutzerklärung – TGA KalkPro1.0
+</h2>
+
+  <div class="box" style="text-align:left; white-space:pre-wrap;">
+1. Verantwortlicher<br>
+Verantwortlich für die Datenverarbeitung im Zusammenhang mit dem Tool „TGA KalkPro1.0“ ist:<br>
+TGA Systemtechnik GmbH<br>
+Raiffeisenstraße 13<br>
+21641 Apensen<br>
+Telefon: 041639102523<br>
+E-Mail: info@tga-nord.de<br>
+<br>
+2. Zweck und Rechtsgrundlage der Verarbeitung<br>
+Wir verarbeiten personenbezogene Daten, um die Nutzung des Tools zu ermöglichen, insbesondere:<br>
+<br>
+Registrierung und Anmeldung von Nutzern<br>
+<br>
+Bereitstellung der Funktionen des Tools (Kalkulation, PDF-Erstellung)<br>
+Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertrag / vorvertragliche Maßnahmen) bzw. <br>Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der sicheren Bereitstellung des Tools), soweit anwendbar.<br>
+<br>
+3. Welche Daten verarbeiten wir?<br>
+Je nach Nutzung des Tools können folgende Daten verarbeitet werden:<br>
+<br>
+a) Registrierung/Anmeldung (Pflichtangaben)<br>
+<br>
+E-Mail-Adresse<br>
+<br>
+Passwort (wird im Regelfall von Firebase als Hash/Authentifizierungsinformation verarbeitet, nicht im Klartext von uns)<br>
+<br>
+Technische Metadaten zur Anmeldung (z. B. Zeitpunkt der Anmeldung)<br>
+<br>
+b) Nutzungsdaten / technische Daten<br>
+Bei der Nutzung können technisch erforderliche Daten anfallen (z. B. IP-Adresse, Geräte-/Browser-Informationen, Zeitstempel),<br>soweit dies zur Bereitstellung und Sicherheit des Dienstes erforderlich ist.<br>
+<br>
+c) Eingaben im Tool / PDF-Erstellung<br>
+Sofern das Tool Eingabefelder für personenbezogene Angaben enthält (z. B. Name/Adresse), werden diese ausschließlich<br>zur Darstellung/Verarbeitung im Tool und zur Erstellung von PDF-Dokumenten verwendet.<br>
+Eingaben werden nach Neuladen oder über ‚Eingaben löschen‘ entfernt und nicht dauerhaft gespeichert.<br>
+<br>
+4. Empfänger / Dienstleister (Firebase/Google)<br>
+Zur Bereitstellung von Authentifizierung und ggf. Datenhaltung nutzen wir Google Firebase<br>(Google Ireland Limited bzw. Google LLC als Konzernunternehmen). Firebase wird hierbei typischerweise als Auftragsverarbeiter tätig.<br>
+<br>
+5. Drittlandübermittlung<br>
+Im Rahmen der Nutzung von Firebase kann es zu Datenübermittlungen in Drittländer (z. B. USA) kommen.<br>Wir stützen solche Übermittlungen – soweit erforderlich – auf geeignete Garantien (z. B. Standardvertragsklauseln / entsprechende Mechanismen von Google).<br>
+<br>
+6. Speicherdauer / Löschung<br>
+Wir speichern personenbezogene Daten nur so lange, wie es für die oben genannten Zwecke erforderlich ist:<br>
+<br>
+Registrierungs-/Kontodaten: bis zur Löschung des Benutzerkontos bzw. solange ein aktiver Zugang besteht<br>
+<br>
+Protokoll-/Sicherheitsdaten: 90 Tage<br>
+<br>
+Eingaben zur PDF-Erstellung: bis durch Nutzer gelöscht<br>
+<br>
+7. Rechte der betroffenen Personen<br>
+Betroffene Personen haben – soweit die Voraussetzungen vorliegen – folgende Rechte:<br>
+<br>
+Auskunft (Art. 15 DSGVO)<br>
+<br>
+Berichtigung (Art. 16 DSGVO)<br>
+<br>
+Löschung (Art. 17 DSGVO)<br>
+<br>
+Einschränkung (Art. 18 DSGVO)<br>
+<br>
+Datenübertragbarkeit (Art. 20 DSGVO)<br>
+<br>
+Widerspruch (Art. 21 DSGVO)<br>
+<br>
+8. Beschwerderecht<br>
+Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren.<br>
+<br>
+9. Pflicht zur Bereitstellung von Daten<br>
+Ohne die für Registrierung/Anmeldung erforderlichen Daten ist eine Nutzung des Tools nicht möglich.<br>
+<br>
+10. Automatisierte Entscheidungen / Profiling<br>
+Eine automatisierte Entscheidungsfindung einschließlich Profiling findet nicht statt.<br>
+<br>
+Stand: 27.02.2026<br><br>
+  </div>
+
+  <div class="button-bar">
+    <button onclick="showPage('page-login')">Zurück zum Login</button>
+  </div>
+</div>
+
+<!-- SEITE: IMPRESSUM -->
+<div class="page" id="page-imprint">
+  <h2>Impressum</h2>
+
+  <div class="box" style="text-align:left; white-space:pre-wrap;">
+TGA Systemtechnik GmbH<br>
+Raiffeisenstraße 13<br>
+21641 Apensen<br>
+<br>
+Handelsregister: 210541<br>
+Registergericht: Amtsgericht Stade<br>
+<br>
+Vertreten durch:<br>
+Tilman Thesenfitz-Patsalis, Marcel Zens<br>
+<br>
+Kontakt<br>
+Telefon: 041639102523<br>
+E-Mail: info@tga-nord.de<br>
+<br>
+Angaben zur Berufs­haftpflicht­versicherung<br>
+Name und Sitz des Versicherers:<br>
+R+V Allgemeine Versicherung AG<br>
+Raiffeisenplatz 1<br>
+65189 Wiesbaden<br>
+<br>
+Geltungsraum der Versicherung:<br>
+Weltweit außer USA und Canada<br>
+<br>
+Redaktionell verantwortlich<br>
+Tilman Thesenfitz Patsalis<br>
+Am Walde 18<br>
+21640 Nottensdorf<br>
+<br>
+Verbraucher­streit­beilegung/Universal­schlichtungs­stelle<br>
+Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.<br>
+  </div>
+
+  <div class="button-bar">
+    <button onclick="showPage('page-login')">Zurück zum Login</button>
   </div>
 </div>
 
