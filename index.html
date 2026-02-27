@@ -73,8 +73,16 @@
     <input id="loginUser" type="email" placeholder="E-Mail">
     <input id="loginPass" type="password" placeholder="Passwort">
 
-    <div class="error" id="loginError"></div>
+    <div class="error" id="loginError"></div><br>
 
+<div class="ack-row">
+  <label class="ack-label">
+    <input type="checkbox" id="chkPrivacyAck">
+    <span>Ich habe die Datenschutzerklärung zur Kenntnis genommen.</span>
+  </label>
+</div>
+
+    <button id="btnLogin" onclick="login()">Anmelden</button>
     <button onclick="forgotPassword()">Passwort vergessen</button><br>
     <br>
     <br>
@@ -90,14 +98,8 @@
   <a href="#" class="legal-link" onclick="showPage('page-imprint'); return false;">Impressum</a>
 </div>
 
-<div class="ack-row">
-  <label class="ack-label">
-    <input type="checkbox" id="chkPrivacyAck">
-    <span>Ich habe die Datenschutzerklärung zur Kenntnis genommen.</span>
-  </label>
-</div>
 
-<button id="btnLogin" onclick="login()">Anmelden</button>
+
 
 <!-- SEITE 1.1 Registrierung:  -->
 <div id="page-register" class="page">
