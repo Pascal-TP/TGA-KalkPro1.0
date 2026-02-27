@@ -554,7 +554,7 @@ body.pdf-mode #page-40 .hinweis-row {
   padding: 18px 22px;
   border-radius: 10px;
   box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 /* === Pseudo-disabled Button (klickbar, zeigt aber "gesperrt") === */
@@ -567,7 +567,8 @@ button.btn-disabled:hover{
   background: #4dad32; /* hover-effekt aus */
   transform: none !important;
 }
-.box h3{
-  margin-top: 20px;
-  font-size: 18px;
+/* Datenschutz-Überschriften wirklich fett */
+#page-privacy h3{
+  font-weight: 800 !important;
+  margin: 16px 0 8px;
 }
