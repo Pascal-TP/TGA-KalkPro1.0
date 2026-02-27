@@ -515,27 +515,35 @@ body.pdf-mode #page-40 .hinweis-row {
   margin: 12px 0;
 }
 
-/* Checkbox + Text: kompakter und einzeilig */
+/* Checkbox + Text kompakt */
 .ack-label{
   display: inline-flex;
-  align-items: center;      /* statt align-items:flex-start */
-  gap: 6px;                 /* kleiner Abstand */
-  max-width: 900px;         /* genug Platz für 1 Zeile */
+  align-items: center;
+  gap: 4px;                /* kleiner */
+  max-width: 900px;
   line-height: 1.2;
 }
 
+/* Text einzeilig */
 .ack-label span{
-  white-space: nowrap;      /* 1 Zeile */
+  white-space: nowrap;
 }
 
+/* Checkbox-Abstand kontrollieren */
+.ack-label input[type="checkbox"]{
+  margin: 0;               /* Standard-Margins entfernen */
+  margin-right: 4px;       /* definierter Abstand */
+  transform: translateY(1px); /* optische Feinjustierung */
+}
+
+/* Optional: minimal kleiner machen (wirkt kompakter) */
+.ack-label input[type="checkbox"]{
+  width: 16px;
+  height: 16px;
+}
 /* auf sehr kleinen Displays darf es umbrechen, sonst wird es zu breit */
 @media (max-width: 420px){
   .ack-label span{ white-space: normal; }
-}
-
-/* damit Checkbox nicht „hoch“ sitzt */
-.ack-label input[type="checkbox"]{
-  margin-top: 2px;
 }
 
 /* === Box-Layout für Datenschutz/Impressum === */
