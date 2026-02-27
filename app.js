@@ -406,24 +406,12 @@ const db = getFirestore(fbApp);
 
 // -----------------------------
 // Datenschutz-Checkbox Gate (Login + Registrierung)
+// (ohne Persistenz: nach Reload wieder leer, Haken frei entfernbar)
 // -----------------------------
 function isPrivacyAccepted() {
-  if (sessionStorage.getItem("privacyAck") === "1") return true;
-
   const cb1 = document.getElementById("chkPrivacyAck");
   const cb2 = document.getElementById("chkPrivacyAck2");
-
   return !!(cb1?.checked || cb2?.checked);
-}
-
-function setPrivacyAccepted(val) {
-  sessionStorage.setItem("privacyAck", val ? "1" : "0");
-}
-
-function setPseudoDisabled(btn, disabled) {
-  if (!btn) return;
-  btn.classList.toggle("btn-disabled", disabled);
-  btn.setAttribute("aria-disabled", disabled ? "true" : "false");
 }
 
 function updateAuthButtons() {
@@ -432,32 +420,24 @@ function updateAuthButtons() {
   const btnLogin = document.getElementById("btnLogin");
   const btnRegisterSend = document.getElementById("btnRegisterSend");
 
-  // NICHT disabled setzen -> sonst kein Klick => kein Hinweistext
-  setPseudoDisabled(btnLogin, !ok);
-  setPseudoDisabled(btnRegisterSend, !ok);
+  if (btnLogin) btnLogin.disabled = !ok;
+  if (btnRegisterSend) btnRegisterSend.disabled = !ok;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const cb1 = document.getElementById("chkPrivacyAck");
   const cb2 = document.getElementById("chkPrivacyAck2");
-  const saved = sessionStorage.getItem("privacyAck") === "1";
 
-  if (cb1) cb1.checked = saved;
-  if (cb2) cb2.checked = saved;
+  cb1?.addEventListener("change", updateAuthButtons);
+  cb2?.addEventListener("change", updateAuthButtons);
 
-  const onChange = () => {
-    const ok = !!(cb1?.checked || cb2?.checked);
-    setPrivacyAccepted(ok);
-    if (cb1 && cb1.checked !== ok) cb1.checked = ok;
-    if (cb2 && cb2.checked !== ok) cb2.checked = ok;
-    updateAuthButtons();
-  };
-
-  cb1?.addEventListener("change", onChange);
-  cb2?.addEventListener("change", onChange);
+  // Startzustand: ohne Haken
+  if (cb1) cb1.checked = false;
+  if (cb2) cb2.checked = false;
 
   updateAuthButtons();
 });
+
 // -----------------------------
 // Registrierung anlegen (mit Zufallspasswort)
 // -----------------------------
