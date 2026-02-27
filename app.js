@@ -420,14 +420,21 @@ function setPrivacyAccepted(val) {
   sessionStorage.setItem("privacyAck", val ? "1" : "0");
 }
 
+function setPseudoDisabled(btn, disabled) {
+  if (!btn) return;
+  btn.classList.toggle("btn-disabled", disabled);
+  btn.setAttribute("aria-disabled", disabled ? "true" : "false");
+}
+
 function updateAuthButtons() {
   const ok = isPrivacyAccepted();
 
   const btnLogin = document.getElementById("btnLogin");
   const btnRegisterSend = document.getElementById("btnRegisterSend");
 
-  if (btnLogin) btnLogin.disabled = !ok;
-  if (btnRegisterSend) btnRegisterSend.disabled = !ok;
+  // NICHT disabled setzen -> sonst kein Klick => kein Hinweistext
+  setPseudoDisabled(btnLogin, !ok);
+  setPseudoDisabled(btnRegisterSend, !ok);
 }
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -84,19 +84,20 @@
 <br>
     <br>
 <!-- Buttons/Links zu Datenschutz & Impressum -->
-<div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin: 12px 0;">
-  <button type="button" onclick="showPage('page-privacy')">Datenschutzerklärung</button>
-  <button type="button" onclick="showPage('page-imprint')">Impressum</button>
+<div class="legal-links">
+  <a href="#" class="legal-link" onclick="showPage('page-privacy'); return false;">Datenschutzerklärung</a>
+  <span class="legal-sep">|</span>
+  <a href="#" class="legal-link" onclick="showPage('page-imprint'); return false;">Impressum</a>
 </div>
 
-<label style="display:block; margin: 12px 0; text-align:left; max-width: 420px;">
-  <input type="checkbox" id="chkPrivacyAck">
-  Ich habe die Datenschutzerklärung zur Kenntnis genommen.
-</label>
-
-<!-- WICHTIG: Login-Button bekommt id + disabled -->
-<button id="btnLogin" onclick="login()" disabled>Anmelden</button>
+<div class="ack-row">
+  <label class="ack-label">
+    <input type="checkbox" id="chkPrivacyAck">
+    <span>Ich habe die Datenschutzerklärung zur Kenntnis genommen.</span>
+  </label>
 </div>
+
+<button id="btnLogin" onclick="login()">Anmelden</button>
 
 <!-- SEITE 1.1 Registrierung:  -->
 <div id="page-register" class="page">
@@ -118,17 +119,20 @@
 <br> 
 <br> 
 
-  <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin: 12px 0;">
-  <button type="button" onclick="showPage('page-privacy')">Datenschutzerklärung</button>
-  <button type="button" onclick="showPage('page-imprint')">Impressum</button>
+  <div class="legal-links">
+  <a href="#" class="legal-link" onclick="showPage('page-privacy'); return false;">Datenschutzerklärung</a>
+  <span class="legal-sep">|</span>
+  <a href="#" class="legal-link" onclick="showPage('page-imprint'); return false;">Impressum</a>
 </div>
 
-<label style="display:block; margin: 12px 0; text-align:left; max-width: 520px;">
-  <input type="checkbox" id="chkPrivacyAck2">
-  Ich habe die Datenschutzerklärung zur Kenntnis genommen.
-</label>
+<div class="ack-row">
+  <label class="ack-label">
+    <input type="checkbox" id="chkPrivacyAck2">
+    <span>Ich habe die Datenschutzerklärung zur Kenntnis genommen.</span>
+  </label>
+</div>
 
-<button id="btnRegisterSend" onclick="registerRequest()" disabled>Registrierung absenden</button>
+<button id="btnRegisterSend" onclick="registerRequest()">Registrierung absenden</button>
 <button type="button" onclick="showPage('page-login')">Zurück zum Login</button>
   </div>
 

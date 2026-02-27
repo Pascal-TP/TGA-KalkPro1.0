@@ -482,3 +482,70 @@ body.pdf-mode #page-40 .hinweis-row {
 #page-40 .summary-cell {
   font-size: 11.5px;
 }
+
+/* === Legal Links (Datenschutz/Impressum) === */
+.legal-links{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+
+.legal-link{
+  color: #0b2a4a;
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.legal-link:hover{
+  opacity: 0.85;
+}
+
+.legal-sep{
+  opacity: 0.6;
+}
+
+/* === Checkbox-Block zentriert, Text darin links === */
+.ack-row{
+  display:flex;
+  justify-content:center;
+  margin: 12px 0;
+}
+
+.ack-label{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  text-align:left;
+  max-width: 520px;
+  line-height: 1.35;
+}
+
+/* damit Checkbox nicht „hoch“ sitzt */
+.ack-label input[type="checkbox"]{
+  margin-top: 2px;
+}
+
+/* === Box-Layout für Datenschutz/Impressum === */
+.box{
+  max-width: 1000px;
+  margin: 18px auto;
+  background: #ffffff;
+  padding: 18px 22px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+/* === Pseudo-disabled Button (klickbar, zeigt aber "gesperrt") === */
+button.btn-disabled{
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+}
+button.btn-disabled:hover{
+  background: #4dad32; /* hover-effekt aus */
+  transform: none !important;
+}
