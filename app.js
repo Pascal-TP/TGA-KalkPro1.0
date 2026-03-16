@@ -32,9 +32,32 @@ function clearKomplettFlow() {
   sessionStorage.removeItem(FLOW_KEY);
 }
 
-function startKomplettFlow() {
-  setKomplettFlow();
-  showPage("page-15"); // Einstieg Komplett (Versicherung) – wie bisher
+function updateKomplettIndicator() {
+  const el = document.getElementById("komplett-indicator");
+  if (!el) return;
+
+  const active = isKomplettFlow();
+  el.textContent = active ? "AKTIV" : "AUS";
+  el.classList.toggle("active", active);
+}
+
+function getCurrentVisiblePageId() {
+  const visiblePage = document.querySelector('.page:not(.hidden)');
+  return visiblePage ? visiblePage.id : null;
+}
+
+function toggleKomplettFlow() {
+  if (isKomplettFlow()) {
+    clearKomplettFlow();
+    updateKomplettIndicator();
+
+    const currentPageId = getCurrentVisiblePageId();
+    if (currentPageId) applyFlowUI(currentPageId);
+  } else {
+    setKomplettFlow();
+    updateKomplettIndicator();
+    showPage("page-15");
+  }
 }
 
 function applyFlowUI(pageId) {
@@ -4354,4 +4377,4 @@ window.berechneGesamt24 = berechneGesamt24;
 //window.loadPage13 = loadPage13;
 //window.calcRow13 = calcRow13;
 //window.berechneGesamt13 = berechneGesamt13;
-window.startKomplettFlow = startKomplettFlow;
+window.toggleKomplettFlow = toggleKomplettFlow;
