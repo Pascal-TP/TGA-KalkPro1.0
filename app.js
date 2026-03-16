@@ -1,7 +1,7 @@
 let currentUser = null;
 document.documentElement.classList.add("js");
 function isLoggedIn() {
-  return !!currentUser;
+  return !!auth.currentUser;
 }
 
 function lockAppUI() {
@@ -1918,7 +1918,6 @@ updateKomplettIndicator();
 // Angebots-Summen Objekt zurücksetzen (falls du es im RAM nutzt)
     angebotSummen = {};
 
-    currentUser = null;
     updateAdminUI_();
 
 //document.querySelectorAll('[data-rabatt="angebot"]').forEach(el => {
