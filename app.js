@@ -1,4 +1,16 @@
 let currentUser = null;
+function isLoggedIn() {
+  return !!currentUser;
+}
+
+function lockAppUI() {
+  document.body.classList.add("app-locked");
+}
+
+function unlockAppUI() {
+  document.body.classList.remove("app-locked");
+}
+
 let logoutTimer;
 let remaining = 600;
 let optimiererVerwendet = false;
@@ -134,6 +146,56 @@ function startSplashScreen() {
     showPage("page-login");
   }, 3000);
 }
+
+// -----------------------------
+// Hinweistexte in eigenen Hinweisfenster
+// -----------------------------
+
+function showHinweis(text) {
+
+  const modal = document.getElementById("hinweisModal");
+  const textBox = document.getElementById("hinweisText");
+  const okBtn = document.getElementById("hinweisOk");
+  const cancelBtn = document.getElementById("hinweisCancel");
+
+  textBox.innerText = text;
+
+  cancelBtn.style.display = "none";   // Abbrechen ausblenden
+  okBtn.onclick = closeHinweis;
+
+  modal.style.display = "block";
+}
+
+function closeHinweis() {
+  document.getElementById("hinweisModal").style.display = "none";
+}
+
+function showConfirm(text, onOk) {
+
+  const modal = document.getElementById("hinweisModal");
+  const textBox = document.getElementById("hinweisText");
+  const okBtn = document.getElementById("hinweisOk");
+  const cancelBtn = document.getElementById("hinweisCancel");
+
+  textBox.innerText = text;
+
+  cancelBtn.style.display = "inline-block"; // Abbrechen anzeigen
+
+  okBtn.onclick = () => {
+    modal.style.display = "none";
+    if (typeof onOk === "function") onOk();
+  };
+
+  cancelBtn.onclick = () => {
+    modal.style.display = "none";
+  };
+
+  modal.style.display = "block";
+}
+
+window.showHinweis = showHinweis;
+window.closeHinweis = closeHinweis;
+window.showConfirm = showConfirm;
 
 // -----------------------------
 // PV-Module zählen für Emfpehlung
@@ -296,7 +358,6 @@ function resetStoredInputsOnReload() {
     "page5Data",
     "angebotTyp",
     "angebotSummen",
-
     "page14Data",
     "page142Data",
     "page8Data",
@@ -2092,6 +2153,14 @@ if (!headerInserted) {
         });
 }
 
+function hasAnyPositiveInput(storageKey) {
+  const data = JSON.parse(localStorage.getItem(storageKey) || "{}");
+
+  return Object.values(data).some(v =>
+    (parseFloat(String(v).replace(",", ".")) || 0) > 0
+  );
+}
+
 function isOptimiererSelected() {
   const data = JSON.parse(localStorage.getItem("page8Data") || "{}");
   return Object.values(data).some(v => (parseFloat(String(v).replace(",", ".")) || 0) > 0);
@@ -2107,16 +2176,20 @@ function setupOptimiererHinweis() {
 
     const selected = isOptimiererSelected();
 
-    // Flag für Seite 40 immer aktuell setzen
+    const hasInput23 = hasAnyPositiveInput("page23Data");
+    const hasInput24 = hasAnyPositiveInput("page24Data");
+
+    // Flag für Seite 40
     optimiererVerwendet = selected;
 
-    // IMMER anzeigen, wenn nichts gewählt oder 0
-    if (!selected) {
-      alert(
+    // Hinweis nur wenn KEIN Optimierer UND Mengen vorhanden
+    if (!selected && (hasInput23 || hasInput24)) {
+      showHinweis(
         "Achtung!\n\n" +
         "Sie haben keinen Optimierer ausgewählt!\n"
       );
     }
+
   }, true);
 }
 

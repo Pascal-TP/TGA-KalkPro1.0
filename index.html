@@ -1,982 +1,1058 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>TGA KalkPro1.0</title>
-<link rel="stylesheet" href="style.css">
-<link rel="icon" href="favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>TGA KalkPro1.0</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico">
 </head>
+
 <body>
-<div id="app" class="hidden">
-
-<img src="logo.png" class="logo">
-
-<!-- Countdown -->
-<div id="release-info">Release: V1.0.7</div>
-<div id="timer">Logout in: 10:00</div>
-
-<!-- NEU: Angemeldet als -->
-  <div id="login-info" onclick="toggleUserMenu()"></div>
-
-  <div id="user-actions" class="hidden">
-  <select id="user-action-select" onchange="handleUserAction(this.value)">
-    <option value="">Aktion auswählen…</option>
-    
-    <optgroup label="Aktionen">
-    <option value="clear">Eingaben löschen</option>
-    <option value="changePw">Passwort ändern</option>
-    <option value="logout">⏻ Abmelden</option>
-    </optgroup>
-
-    <option value="nav:page-3">➡️ Auswahl KV / Anfrage</option>
-
-    <optgroup label="DC">
-    <option value="nav:page-24">Flachdach</option>
-    <option value="nav:page-23">Schrägdach</option>
-    <option value="nav:page-8">Optimierer</option>
-    <option value="nav:page-9">Gerüst</option>
-    </optgroup>
-
-    <optgroup label="AC">
-    <option value="nav:page-11">Wechselrichter</option>
-    <option value="nav:page-21">Zubehör Wechselrichter</option>
-    <option value="nav:page-10">Speicher</option>
-    <option value="nav:page-24">Wallbox</option>
-    <option value="nav:page-20">Zählerschränke</option>
-    <option value="nav:page-22">Extras Zählerschränke</option>
-    </optgroup>
-
-    <option value="nav:page-15">➡️ Versicherung</option>
-    <option value="nav:page-14-1">➡️ Downloadbereich</option>
-    
-  </select>
-</div>
-
-</div>
-
-<!-- SEITE 0: STARTSEITE -->
-<div class="page active" id="page-start">
-  
-  <div class="start-slogan">
-    Photovoltaik-Montage<br><br>
-    Von der Planung bis zur Anmeldung - Alles aus einer Hand.
-  </div>
-</div>
-
-
-
-<!-- SEITE 1: LOGIN -->
-<div class="page" id="page-login">
-    <h2>Login</h2>
-
-    <input id="loginUser" type="email" placeholder="E-Mail">
-    <input id="loginPass" type="password" placeholder="Passwort">
-
-    <div class="error" id="loginError"></div><br>
-
-<div class="ack-row">
-  <label class="ack-label">
-    <input type="checkbox" id="chkPrivacyAck">
-    <span>Ich habe die Datenschutzerklärung zur Kenntnis genommen.</span>
-  </label>
-</div>
-
-    <button id="btnLogin" onclick="login()">Anmelden</button>
-    <button onclick="forgotPassword()">Passwort vergessen</button><br>
-    <br>
-    <br>
-    <br>
-    <p><strong>Noch keine Login-Daten?</strong><br>
-    <button onclick="showPage('page-register')">Hier registrieren</button>
-<br>
-    <br>
-<!-- Buttons/Links zu Datenschutz & Impressum -->
-<div class="legal-links">
-  <a href="#" class="legal-link" onclick="showPage('page-privacy'); return false;">Datenschutzerklärung</a>
-  <span class="legal-sep">|</span>
-  <a href="#" class="legal-link" onclick="showPage('page-imprint'); return false;">Impressum</a>
-</div>
-</div>
-
-
-
-<!-- SEITE 1.1 Registrierung:  -->
-<div id="page-register" class="page">
-  <h2>Registrierung</h2>
-
-  <input id="reg-firma" placeholder="Firmenname *">
-  <input id="reg-name" placeholder="Name Ansprechpartner *">
-  <input id="reg-strasse" placeholder="Straße *">
-  <input id="reg-hausnr" placeholder="Hausnummer *">
-  <input id="reg-plz" placeholder="PLZ *">
-  <input id="reg-ort" placeholder="Ort *">
-  <input id="reg-email" placeholder="E-Mail-Adresse *">
-  <input id="reg-tel" placeholder="Telefonnummer *">
-
-  <div id="reg-error" style="color:red; margin-top:8px;"></div>
-  <div id="reg-info" style="color:green; margin-top:8px;"></div><br>
-
-<p>Wir prüfen Ihre Angaben und Sie erhalten innerhalb<br>von 24h eine System-E-Mail für Ihre Passwortvergabe.<br>(Schauen Sie auch in Ihrem Spam-Ordner.)</p>
-<br> 
- 
-<div class="ack-row">
-  <label class="ack-label">
-    <input type="checkbox" id="chkPrivacyAck2">
-    <span>Ich habe die Datenschutzerklärung zur Kenntnis genommen.</span>
-  </label>
-</div>
-
-<button id="btnRegisterSend" onclick="registerRequest()">Registrierung absenden</button>
-<button type="button" onclick="showPage('page-login')">Zurück zum Login</button>
-<br> 
-<br>
-<div class="legal-links">
-  <a href="#" class="legal-link" onclick="showPage('page-privacy'); return false;">Datenschutzerklärung</a>
-  <span class="legal-sep">|</span>
-  <a href="#" class="legal-link" onclick="showPage('page-imprint'); return false;">Impressum</a>
-</div>
-  </div>
-
-<!-- SEITE 1.1 Registrierung:  -->
-<div id="page-admin" class="page">
-  <h2>Adminbereich</h2>
-
-  <div style="margin: 10px 0;">
-    <button onclick="showPage('page-3')">← Zurück</button>
-  </div>
-
-  <h3>Registrierungen (wartend)</h3>
-  <div id="admin-registrations" class="box">
-    <div>Lade Daten…</div>
-  </div>
-</div>
-
-<!-- SEITE: DATENSCHUTZ -->
-<div class="page" id="page-privacy">
-  <h2>Datenschutzerklärung – TGA KalkPro1.0
-</h2>
-
-  <div class="box" style="text-align:left;">
-
-<h3>1. Verantwortlicher</h3>
-Verantwortlich für die Datenverarbeitung im Zusammenhang mit dem Tool „TGA KalkPro1.0“ ist:<br>
-TGA Systemtechnik GmbH<br>
-Raiffeisenstraße 13<br>
-21641 Apensen<br>
-Telefon: 041639102523<br>
-E-Mail: info@tga-nord.de
-
-<h3>2. Zweck und Rechtsgrundlage der Verarbeitung</h3>
-Wir verarbeiten personenbezogene Daten, um die Nutzung des Tools zu ermöglichen, insbesondere:<br>
-
-- Registrierung und Anmeldung von Nutzern<br>
-
-- Bereitstellung der Funktionen des Tools (Kalkulation, PDF-Erstellung)
-Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertrag / vorvertragliche Maßnahmen) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der sicheren Bereitstellung des Tools), soweit anwendbar.
-
-<h3>3. Welche Daten verarbeiten wir?</h3>
-Je nach Nutzung des Tools können folgende Daten verarbeitet werden:<br>
-
-a) Registrierung/Anmeldung (Pflichtangaben)<br>
-
-- E-Mail-Adresse<br>
-
-- Passwort (wird im Regelfall von Firebase als Hash/Authentifizierungsinformation verarbeitet, nicht im Klartext von uns)<br>
-
-- Technische Metadaten zur Anmeldung (z. B. Zeitpunkt der Anmeldung)<br>
-
-b) Nutzungsdaten / technische Daten<br>
-Bei der Nutzung können technisch erforderliche Daten anfallen (z. B. IP-Adresse, Geräte-/Browser-Informationen, Zeitstempel), soweit dies zur Bereitstellung und Sicherheit des Dienstes erforderlich ist.<br>
-
-c) Eingaben im Tool / PDF-Erstellung<br>
-Sofern das Tool Eingabefelder für personenbezogene Angaben enthält (z. B. Name/Adresse), werden diese ausschließlich zur Darstellung/Verarbeitung im Tool und zur Erstellung von PDF-Dokumenten verwendet.
-Eingaben werden nach Neuladen oder über ‚Eingaben löschen‘ entfernt und nicht dauerhaft gespeichert.
-
-<h3>4. Empfänger / Dienstleister (Firebase/Google)</h3>
-Zur Bereitstellung von Authentifizierung und ggf. Datenhaltung nutzen wir Google Firebase (Google Ireland Limited bzw. Google LLC als Konzernunternehmen). Firebase wird hierbei typischerweise als Auftragsverarbeiter tätig.
-
-<h3>5. Drittlandübermittlung</h3>
-Im Rahmen der Nutzung von Firebase kann es zu Datenübermittlungen in Drittländer (z. B. USA) kommen. Wir stützen solche Übermittlungen – soweit erforderlich – auf geeignete Garantien (z. B. Standardvertragsklauseln / entsprechende Mechanismen von Google).
-
-<h3>6. Speicherdauer / Löschung</h3>
-Wir speichern personenbezogene Daten nur so lange, wie es für die oben genannten Zwecke erforderlich ist:<br>
-
-- Registrierungs-/Kontodaten: bis zur Löschung des Benutzerkontos bzw. solange ein aktiver Zugang besteht<br>
-
-- Protokoll-/Sicherheitsdaten: 90 Tage<br>
-
-- Eingaben zur PDF-Erstellung: bis durch Nutzer gelöscht
-
-<h3>7. Rechte der betroffenen Personen</h3>
-Betroffene Personen haben – soweit die Voraussetzungen vorliegen – folgende Rechte:<br>
-
-- Auskunft (Art. 15 DSGVO)<br>
-
-- Berichtigung (Art. 16 DSGVO)<br>
-
-- Löschung (Art. 17 DSGVO)<br>
-
-- Einschränkung (Art. 18 DSGVO)<br>
-
-- Datenübertragbarkeit (Art. 20 DSGVO)<br>
-
-- Widerspruch (Art. 21 DSGVO)<br>
-
-<h3>8. Beschwerderecht</h3>
-Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren.
-
-<h3>9. Pflicht zur Bereitstellung von Daten</h3>
-Ohne die für Registrierung/Anmeldung erforderlichen Daten ist eine Nutzung des Tools nicht möglich.
-
-<h3>10. Automatisierte Entscheidungen / Profiling</h3>
-Eine automatisierte Entscheidungsfindung einschließlich Profiling findet nicht statt.
-
-Stand: 27.02.2026<br><br>
-  </div>
-
-  <div class="button-bar">
-    <button onclick="showPage('page-login')">Zurück zum Login</button>
-  </div>
-</div>
-
-<!-- SEITE: IMPRESSUM -->
-<div class="page" id="page-imprint">
-  <h2>Impressum</h2>
-
-  <div class="box" style="text-align:left;">
-<h3>TGA Systemtechnik GmbH</h3>
-Raiffeisenstraße 13<br>
-21641 Apensen<br>
-<br>
-Handelsregister: 210541<br>
-Registergericht: Amtsgericht Stade<br>
-<br>
-Vertreten durch:<br>
-Tilman Thesenfitz-Patsalis, Marcel Zens<br>
-<br>
-Kontakt:<br>
-Telefon: 041639102523<br>
-E-Mail: info@tga-nord.de<br>
-<br>
-Angaben zur Berufs­haftpflicht­versicherung:<br>
-Name und Sitz des Versicherers:<br>
-R+V Allgemeine Versicherung AG<br>
-Raiffeisenplatz 1<br>
-65189 Wiesbaden<br>
-<br>
-Geltungsraum der Versicherung:<br>
-Weltweit außer USA und Canada<br>
-<br>
-Redaktionell verantwortlich:<br>
-Tilman Thesenfitz Patsalis<br>
-Am Walde 18<br>
-21640 Nottensdorf<br>
-<br>
-Verbraucher­streit­beilegung/Universal­schlichtungs­stelle:<br>
-Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.<br>
-  </div>
-
-  <div class="button-bar">
-    <button onclick="showPage('page-login')">Zurück zum Login</button>
-  </div>
-</div>
-
-
-<!-- SEITE 2: PASSWORT ÄNDERN -->
-<div class="page" id="page-change">
-    <h2>Passwort ändern</h2>
-
-    <input id="oldPass" type="password" placeholder="Altes Passwort">
-    <input id="newPass1" type="password" placeholder="Neues Passwort">
-    <input id="newPass2" type="password" placeholder="Neues Passwort wiederholen"><br><br>
-
-<p><strong>Passwortrichtlinie:</strong> mind. 8 Zeichen, Großbuchstaben, Kleinbuchstaben, Sonderzeichen, numerische Zeichen</p><br><br>
-
-    <div class="error" id="changeError"></div>
-
-    <button onclick="savePassword()">Speichern</button>
-    <button onclick="showPage('page-3')">Abbrechen</button>
-</div>
-
-<!-- SEITE 3: AUSWAHL -->
-<div class="page" id="page-3">
-    <h2>Bitte auswählen</h2>
-
-    <button onclick="showPage('page-4')">KV</button>
-    <button onclick="showPage('page-5')">Anfrage an TGA</button><br>
-    <button onclick="showPage('page-3-1')">Info: Der Weg zur Photovoltaikanlage</button>
-  
-    <p class="hint">
-        KV = Kostenvoranschlag – die schnelle und direkte Ermittlung eines Richtpreises für den Kunden<br><br>
-        Anfrage an TGA – Ermittlung eines Richtpreises für den Kunden, jedoch mit der Möglichkeit ein qualifiziertes Angebot von TGA per Mail anzufragen.<br>
-    </p>
-    
-    <button id="btnExportLog" class="hidden" onclick="exportLoginLog()">Login-Log herunterladen</button>
-    <button id="btnAdmin" class="hidden" onclick="showPage('page-admin')">Adminbereich</button>
-
-</div>
-
-<!-- SEITE 3.1: Info: Der Weg zur Photovoltaikanlage</button -->
-<div class="page" id="page-3-1">
-    <h2>Der Weg zur Photovoltaikanlage</h2>
-
-    <div style="height:90vh; overflow:auto; border:1px solid #ccc;">
-  <iframe
-    src="TGA_Schema.pdf"
-    style="width:100%; height:100%; border:0;"
-  ></iframe>
-</div>
-    <button onclick="showPage('page-3')">Zurück</button>
-</div>
-
-
-<!-- SEITE 4: HAUPTMENÜ -->
-<div class="page" id="page-4">
-    <h2>Hauptmenü</h2>
-
-    <button onclick="showPage('page-6')">DC</button>
-    <button onclick="showPage('page-7')">AC</button><br><br>
-    <button class="btn-komplett" onclick="startKomplettFlow()">Komplettleistung</button>
-<br><p>Wenn Sie die <strong>Komplettleistung</strong> auswählen, werden Sie Schritt für Schritt durch alle benötigten Punkte geführt.<br>
-Der <strong>blaue „Weiter“-Button</strong> signalisiert, dass Sie sich im geführten Komplett-Bereich befinden.<br>
-Durch Betätigen von <strong>F5 (Seite neu laden)</strong> oder der Aktion <strong>„Eingaben löschen“</strong> werden alle Eingaben zurückgesetzt.<br>
-Wenn Sie ins <strong>Hauptmenü zurückkehren</strong> oder den Bereich verlassen, bleiben Ihre Eingaben erhalten und<br>
-Sie können die Konfiguration jederzeit an beliebiger Stelle fortsetzen.</p>
-<br>
-<br>
-<br>
-    <button onclick="showPage('page-14-1')">Downloadbereich</button>
-<br>
-<br>
-    <button onclick="showPage('page-3')">Zurück zur Auswahl "KV oder Anfrage"</button>
-
-</div>
-
-<!-- SEITE 5: ANFRAGE AN TGA -->
-<div class="page" id="page-5">
-    <h2>Anfrage an TGA</h2><br>
-
-    <p class="hint">
-        <strong>Bauvorhaben:</strong><br>
-    </p>
-    <div class="input-field">
-        <input id="bv-contact" placeholder="Kontakt / Ansprechpartner">
-    </div>
-    <div class="input-field">
-        <input id="bv-strasse" placeholder="Straße, Hausnummer">
-    </div>
-    <div class="input-field">
-        <input id="bv-ort" placeholder="PLZ, Ort">
-    </div>
-<p class="hint">
-        <strong>Kontakt SHK:</strong><br>
-    </p>
-    <div class="input-field">
-        <input id="shk-contact" placeholder="SHK Ansprechpartner">
-    </div>
-    <div class="input-field">
-        <input id="shk-email" type="email" placeholder="SHK E-Mail">
-    </div>
-    <div class="input-field">
-        <input id="shk-phone" placeholder="SHK Telefon-Nr.">
-    </div>
-<p class="hint">
-        <strong>Gewünschter Ausführungstermin:</strong><br>
-    </p>
-    <div class="input-field">
-        <input id="execution-date" type="date" placeholder="Gewünschter Ausführungstermin">
-    </div>
-
-<p class="hint">
-    <strong>Ausführung - Dachpfanne:</strong><br>
-</p>
-<div class="input-field">
-  <select id="dachpfanne-ausfuehrung">
-    <option value="" selected disabled>Auswahl</option>
-    <option value="Pappdocken">Pappdocken</option>
-    <option value="in Mörtel">in Mörtel</option>
-    <option value="verschraubt">verschraubt</option>
-    <option value="aktueller Standard">aktueller Standard</option>
-    <option value="unbekannt">unbekannt</option>
-  </select>
-</div>
-
-<p class="hint">
-    <strong>Liegen Zeichnungen / Pläne vom Dach vor?</strong><br>
-    Wenn ja: Bitte hängen Sie die Pläne der E-Mail an.<br>
-    Wenn nein: Alternativ hängen Sie bitte Fotos des ganzen Daches / der gesamten Fläche der E-Mail an.<br>
-</p>
-<div class="input-field">
-  <select id="zeichnung-plaene">
-    <option value="" selected disabled>Auswahl</option>
-    <option value="ja">ja</option>
-    <option value="nein">nein</option>
-  </select>
-</div>
-
-<p class="hint">
-    <strong>Wo befindet sich der Zählerschrank?</strong><br>
-    (Fotos vom geöffneten Zählerschrank der E-Mail bitte anhängen.)<br>
-</p>
-<div class="input-field">
-        <input id="zaehlerschrank" placeholder="Standort Zählerschrank">
-    </div>
-
-<p class="hint">
-   <strong>Nennen Sie bitte den Aufstellungsort von Wechselrichter und Speiher:</strong><br>
-    (Fotos an der E-Mail bitte anhängen.)<br>
-</p>
-<div class="input-field">
-        <input id="wechselrichter_speicher" placeholder="Standort Wechselrichter + Speicher">
-    </div>
-
-<p class="hint">
-    <strong>Aktueller Jahresstrombedarf in kWh:</strong><br>
-</p>
-<div class="input-field">
-        <input id="jahresstrombedarf" placeholder="kWh">
-    </div>
-
-<p class="hint">
-    <strong>Strombedarf Heizsystem in kWh:</strong><br>
-    (bei Umstellung auf Wärmepumpe bitte zusätzlich den voraussichtlichen Strombedarf angeben.)<br>
-</p>
-<div class="input-field">
-        <input id="waermepumpe_strombedarf" placeholder="kWh">
-    </div>
-
-<p class="hint">
-    <strong>Ist eine Wallbox angedacht?</strong><br>
-</p>
-<div class="input-field">
-  <select id="wallbox">
-    <option value="" selected disabled>Auswahl</option>
-    <option value="ja - E-Auto">ja - E-Auto</option>
-    <option value="ja - Plug-in Hybrid">ja - Plug-in Hybrid</option>
-    <option value="nein">nein</option>
-  </select>
-</div>
-
-    <div class="error" id="page5-error" style="color:darkred; margin:10px;"></div>
-
-    <div class="button-bar">
-        <button onclick="submitPage5()">Eingabe und Weiter</button>
-        <button onclick="direktZumAngebot()">Eingabe und Direkt zum Angebot</button>
-    </div>
-</div>
-
-<!-- SEITE 6: MENÜ DC -->
-<div class="page" id="page-6">
-    <h2>Menü DC</h2>
-
-    <!-- Auswahlbuttons untereinander -->
-    <div>
-        <button onclick="showPage('page-24')">Flachdach</button><br>
-        <button onclick="showPage('page-23')">Schrägdach</button><br>
-    </div>
-
-    <!-- Navigationsbuttons nebeneinander -->
-    <div style="margin-top:40px;">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-    </div>
-</div>
-
-<!-- SEITE 7: MENÜ AC -->
-<div class="page" id="page-7">
-    <h2>Menü AC</h2>
-
-    <!-- Auswahlbuttons untereinander -->
-    <div>
-        <button onclick="showPage('page-11')">Wechselrichter</button><br>
-        <button onclick="showPage('page-10')">Speicher</button><br>
-        <button onclick="showPage('page-18')">Wallbox</button><br>
-        <button onclick="showPage('page-20')">Zählerschrank</button><br>
-     </div>
-
-    <!-- Navigationsbuttons nebeneinander -->
-    <div style="margin-top:40px;">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        
-    </div>
-</div>
-
-<!-- SEITE 14: Wechselrichter strang -->
-<div class="page" id="page-14">
-    <h2>Wechselrichter "strang"</h2>
-
-    <div id="page14-content" class="price-table"></div>
-
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button id="btnWeiter21Normal" onclick="direktZumAngebot()">Direkt zum Angebot</button>
-        <button
-          id="btnWeiter14Komplett"
-          class="btn-komplett hidden"
-          onclick="showPage('page-18')">Weiter</button>
-
-      </div>
-</div>
-
-<!-- SEITE 14.1: Downloadbereich -->
-<div class="page" id="page-14-1">
-    <h2>Download - Datenblätter / Checklisten / Infos</h2>
-
-   <a href="Fronius Symo Gen24 Plus_Datenblatt.pdf" target="_blank">
-  Datenblatt – Fronius Symo Gen24 Plus
-</a><br><br>
-
-<a href="BYD Battery-Box Premium HVS-HVM.pdf" target="_blank">
-  Datenblatt – BYD Battery-Box Premium HVS-HVM
-</a><br><br>
-
-<a href="2026-01-28-Gesamtpaket PV-TGA.pdf" target="_blank">
-  Info – Gesamtpaket Photovoltaik
-</a><br><br>
-
-<a href="TGA_Schema.pdf" target="_blank">
-  Info – Ihr Weg zur eigenen Photovoltaikanlage
-</a><br><br>
-
-<a href="Zählerschrank Checkliste.pdf" target="_blank">
-  Checkliste – Zählerschrank
-</a><br><br>
-
-    <br><br>
-
-    <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-</div>
-
-                                                                              <!-- SEITE 14.3:   -->
-<div class="page" id="page-14-3">
-
-       <div id="content-14-3" class="price-table"></div>
-
-<div class="button-bar">
-                <button onclick="showPage('page-10')">Zurück</button>
-                <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
-               </div>
-</div>
-
-<!-- SEITE 40: KOSTENVORANSCHLAG / ANFRAGE -->
-<div class="page" id="page-40">
-    <h2 id="page40-title">Kostenvoranschlag</h2>
-
-    <!-- Anfrage-Daten (nur bei Anfrage sichtbar) -->
-    <div id="anfrage-daten" style="display:none; margin:20px auto; max-width:1100px; text-align:left;">
-    <div class="subtitle">Anfrage-Daten</div>
-    <div id="anfrage-daten-content"></div>
-    <hr style="margin:20px 0;">
-    </div>
-
-    <!-- Zusammenfassung der Mengen -->
-    <div id="summary-content"></div>
-
-    <!-- Gesamtsumme / Angebotspreis -->
-    <div id="angebotspreis" class="gesamt">Gesamtpreis: 0,00 €</div>
-    <!--<div id="angebotspreisRabatt" class="gesamt rabatt">Gesamtpreis abzgl. SHK-Rabatt (15%): 0,00 €</div>-->
-
-    <div style="text-align:center; margin-bottom:20px;">(netto, freibleibend)</div>
-
-<div id="optimierer-hinweis-print" style="display:none; margin-top:20px; color:darkred; font-weight:600;">
-  Achtung!<br>
-  Sie haben keinen Optimierer ausgewählt!
-</div>
-
-
-
-<!-- Allgemeine Hinweise aus CSV -->
-    <div id="hinweise-content"></div>
-
-<!-- Buttons -->
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button onclick="printPage40()">Drucken / speichern als PDF</button>
-        <button onclick="sendMailPage40()">Senden als Text-Mail</button>
-        <button onclick="sharePdf()">PDF download</button>
-     </div>
-</div>
-
-<!-- SEITE 41: Hinweis fehlende Anfrage-Daten -->
-<div class="page" id="page-41">
-    <h2>Hinweis</h2>
-
-    <p>
-        Für eine Anfrage an TGA müssen zuerst die Kontaktdaten vollständig ausgefüllt werden.
-    </p>
-
-    <div class="button-bar">
-        <button onclick="showPage('page-5')">Zur Anfrage</button>
-        <button onclick="showPage('page-40')">KV anzeigen</button><br>
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-    </div>
-</div>
-
-<!-- SEITE 15: Versicherung -->
-<div class="page" id="page-15">
-    <h2>12 Monate Rundum-Versicherung inklusive!</h2>
-
-    <img src="bild17.png" class="Bild_Versicherung">
-
-    <p><strong>Ihre neue PV-Anlage ist ab Inbetriebnahme für 12 Monate automatisch versichert – ohne Zusatzkosten!</strong>
-    <br>
-    <br>
-    <strong>Dank ALL-RISK Deckung sind alle Bestandsteile wie...</strong>
-    <br>
-     → Modul<br>
-     → Wallbox<br>
-     → Wechselrichter<br>
-     → Verkabelung<br>
-     → Speicher<br>
-     → etc.<br>
-     <strong>...gegen Schäden jeglicher Art geschützt.</strong>
-     <br>
-     <br>
-     <strong>Nutzungsausfall</strong><br>
-     → Zusätzlich sichern wir Sie gegen Nutzungsausfall mit einer Ausfallentschädigung i.H.v. 1,50 € pro kWp und Tag ab. 
-     <br>
-     <br>
-     Sie genießen sorgenfreie Energie – wir kümmern uns um den Rest!
-     <br>
-     <br>
-     </p>
-
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button id="btnWeiter15Normal" onclick="showPage('page-6')">Weiter</button>
-        <button
-          id="btnWeiter15Komplett"
-          class="btn-komplett hidden"
-          onclick="showPage('page-6')">Weiter</button>
-         </div>
-</div>
-
-
-
-<!-- SEITE 14.2: Wechselrichter "hyprid" -->
-<div class="page" id="page-14-2">
-<h2>Wechselrichter "hyprid"</h2>
-
-    <div id="content-14-2" class="price-table"></div>
-
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button id="btnWeiter142Normal" onclick="showPage('page-21')">Weiter</button>
-        <button
-          id="btnWeiter142Komplett"
-          class="btn-komplett hidden"
-          onclick="showPage('page-21')">Weiter</button>
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
-    </div>
-</div>
-
-<!-- SEITE 8: Optimierer -->
-<div class="page" id="page-8">
-    <h2>Optimierer</h2>
-
-    <div id="content-8" class="price-table"></div>
-
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button id="btnWeiter8Normal" onclick="direktZumAngebot()">Direkt zum Angebot</button>
-        <button
-          id="btnWeiter8Komplett"
-          class="btn-komplett hidden"
-          onclick="showPage('page-9')">Weiter</button>
+    <div id="app" class="hidden">
+
+        <img src="logo.png" class="logo">
+
+        <!-- Countdown -->
+        <div id="release-info">Release: V1.0.7</div>
+        <div id="timer">Logout in: 10:00</div>
+
+        <!-- NEU: Angemeldet als -->
+        <div id="login-info" onclick="toggleUserMenu()"></div>
+
+        <div id="user-actions" class="hidden">
+            <select id="user-action-select" onchange="handleUserAction(this.value)">
+                <option value="">Aktion auswählen…</option>
+
+                <optgroup label="Aktionen">
+                    <option value="clear">Eingaben löschen</option>
+                    <option value="changePw">Passwort ändern</option>
+                    <option value="logout">⏻ Abmelden</option>
+                </optgroup>
+
+                <option value="nav:page-3">➡️ Auswahl KV / Anfrage</option>
+
+                <optgroup label="DC">
+                    <option value="nav:page-24">Flachdach</option>
+                    <option value="nav:page-23">Schrägdach</option>
+                    <option value="nav:page-8">Optimierer</option>
+                    <option value="nav:page-9">Gerüst</option>
+                </optgroup>
+
+                <optgroup label="AC">
+                    <option value="nav:page-11">Wechselrichter</option>
+                    <option value="nav:page-21">Zubehör Wechselrichter</option>
+                    <option value="nav:page-10">Speicher</option>
+                    <option value="nav:page-24">Wallbox</option>
+                    <option value="nav:page-20">Zählerschränke</option>
+                    <option value="nav:page-22">Extras Zählerschränke</option>
+                </optgroup>
+
+                <option value="nav:page-15">➡️ Versicherung</option>
+                <option value="nav:page-14-1">➡️ Downloadbereich</option>
+
+            </select>
         </div>
-</div>
 
-<!-- SEITE 18: Wallbox -->
-<div class="page" id="page-18">
-    <h2>Wallbox</h2>
+    </div>
 
-    <div id="content-18" class="price-table"></div>
+    <!-- SEITE 0: STARTSEITE -->
+    <div class="page active" id="page-start">
 
-    <div class="button-bar">
+        <div class="start-slogan">
+            Photovoltaik-Montage<br><br>
+            Von der Planung bis zur Anmeldung - Alles aus einer Hand.
+        </div>
+    </div>
+
+
+
+    <!-- SEITE 1: LOGIN -->
+    <div class="page" id="page-login">
+        <h2>Login</h2>
+
+        <input id="loginUser" type="email" placeholder="E-Mail">
+        <input id="loginPass" type="password" placeholder="Passwort">
+
+        <div class="error" id="loginError"></div><br>
+
+        <div class="ack-row">
+            <label class="ack-label">
+                <input type="checkbox" id="chkPrivacyAck">
+                <span>Ich habe die Datenschutzerklärung zur Kenntnis genommen.</span>
+            </label>
+        </div>
+
+        <button id="btnLogin" onclick="login()">Anmelden</button>
+        <button onclick="forgotPassword()">Passwort vergessen</button><br>
+        <br>
+        <br>
+        <br>
+        <p><strong>Noch keine Login-Daten?</strong><br>
+            <button onclick="showPage('page-register')">Hier registrieren</button>
+            <br>
+            <br>
+            <!-- Buttons/Links zu Datenschutz & Impressum -->
+        <div class="legal-links">
+            <a href="#" class="legal-link" onclick="showPage('page-privacy'); return false;">Datenschutzerklärung</a>
+            <span class="legal-sep">|</span>
+            <a href="#" class="legal-link" onclick="showPage('page-imprint'); return false;">Impressum</a>
+        </div>
+    </div>
+
+
+
+    <!-- SEITE 1.1 Registrierung:  -->
+    <div id="page-register" class="page">
+        <h2>Registrierung</h2>
+
+        <input id="reg-firma" placeholder="Firmenname *">
+        <input id="reg-name" placeholder="Name Ansprechpartner *">
+        <input id="reg-strasse" placeholder="Straße *">
+        <input id="reg-hausnr" placeholder="Hausnummer *">
+        <input id="reg-plz" placeholder="PLZ *">
+        <input id="reg-ort" placeholder="Ort *">
+        <input id="reg-email" placeholder="E-Mail-Adresse *">
+        <input id="reg-tel" placeholder="Telefonnummer *">
+
+        <div id="reg-error" style="color:red; margin-top:8px;"></div>
+        <div id="reg-info" style="color:green; margin-top:8px;"></div><br>
+
+        <p>Wir prüfen Ihre Angaben und Sie erhalten innerhalb<br>von 24h eine System-E-Mail für Ihre
+            Passwortvergabe.<br>(Schauen Sie auch in Ihrem Spam-Ordner.)</p>
+        <br>
+
+        <div class="ack-row">
+            <label class="ack-label">
+                <input type="checkbox" id="chkPrivacyAck2">
+                <span>Ich habe die Datenschutzerklärung zur Kenntnis genommen.</span>
+            </label>
+        </div>
+
+        <button id="btnRegisterSend" onclick="registerRequest()">Registrierung absenden</button>
+        <button type="button" onclick="showPage('page-login')">Zurück zum Login</button>
+        <br>
+        <br>
+        <div class="legal-links">
+            <a href="#" class="legal-link" onclick="showPage('page-privacy'); return false;">Datenschutzerklärung</a>
+            <span class="legal-sep">|</span>
+            <a href="#" class="legal-link" onclick="showPage('page-imprint'); return false;">Impressum</a>
+        </div>
+    </div>
+
+    <!-- SEITE 1.1 Registrierung:  -->
+    <div id="page-admin" class="page">
+        <h2>Adminbereich</h2>
+
+        <div style="margin: 10px 0;">
+            <button onclick="showPage('page-3')">← Zurück</button>
+        </div>
+
+        <h3>Registrierungen (wartend)</h3>
+        <div id="admin-registrations" class="box">
+            <div>Lade Daten…</div>
+        </div>
+    </div>
+
+    <!-- SEITE: ALLGEMEINE HINWEISE -->
+    <div class="page" id="page-hinweis">
+        <h2>Allgemeine Hinweise</h2>
+
+        <div class="box" style="text-align:left;">
+
+            <h3>Preisbasis:</h3>
+            - Wir gewähren Ihnen eine Preisbindung von 6 Wochen ab Angebotsabgabe auf die zunächst angebotenen
+            Materialien. Sollte es innerhalb dieses Zeitraumes zu einer außerordentlichen Erhöhung der Materialpreise um
+            >10% kommen, verliert die Preisbindung ihre Gültigkeit.<br>
+            - Die angebotenen Leistungs-Positionen stellen lediglich einen Vorschlag dar, ohne planerische Hoheit. Bitte
+            entsprechend prüfen, ggf. einen Fachplaner (z.B. Architekten, Statiker, Akustiker) hinzuziehen. Etwaige
+            Kosten sind nicht Teil unsere Leistung und nicht im Angebot enthalten.<br>
+            - Anfallende Nebenarbeiten führen wir zum Stundenlohn von 69,00 EUR durch.<br>
+            - Die angegebenen Material- und Montagepreise gelten nur bei Beauftragung sämtlicher aufgeführter
+            Positionen. Bei Veränderung der Massen oder Entfall von einzelnen Positionen behalten wir uns vor, das
+            Angebot neu zu kalkulieren.<br>
+            - Von uns erbrachte Leistungen welche Aufgrund von Entfall einzelner Positionen oder Nichtbeauftragung nicht
+            mehr refinanziert werden können, werden wir im Stundennachweis (Bauleiter 84,00 EUR/Std. //Monteur 69,00
+            EUR/Std.) und mit Fahrtkosten abrechnen.<br>
+            - Für bauseits gestellte Materialien wird keine Garantie / Haftung übernommen.<br>
+
+            <h3>Informationen zu Errichtung von Photovoltaikanlagen:</h3>
+            - Im Zuge der Installation der PV-Anlage muss in den meisten Fällen der Zählerschrank getauscht werden, um
+            aktuellen Forderungen gerecht zu werden. Hierbei kommt es zu einem temporären Ausfall der Stromversorgung.
+            Die genaue Dauer ist individuell und kann nicht genau benannt werden. Details können mit den Monteuren vor
+            Ort abgestimmt werden.<br>
+            - Zur Anmeldung der PV-Anlage sowie der Beauftragung eines erforderlichen Austausches des Zählers durch den
+            Netzbetreiber werden vom Anlagenbetreiber gewisse Dokumente und Vollmachten benötigt. Die Unterlagen müssen
+            kurzfristig nach Beauftragung durch den Auftraggeber zur Verfügung gestellt werden. Nach Erhalt der
+            Unterlagen wird die Anlage angemeldet. Der Austausch des Zählers sowie die
+            Terminierung der Maßnahme erfolgt eigenständig durch den Netzbetreiber und kann nicht durch den
+            Auftragnehmer beeinflusst bzw. beschleunigt werden.<br>
+            - Um die Anmeldung der PV-Anlage abschließen zu können, benötigen wir nach dem Zählertausch Fotos von Ihrem
+            Zählerschrank (Gesamter Zählerschrank mit geöffneten Türen, Zählerstand 1.8.0 und 2.8.0 im Display) unter
+            Angabe des Datums, bitte senden Sie diese an info@tga-nord.de.<br>
+            - Die Registrierung im Marktstammdatenregister muss eigenständig durch den Endkunden erfolgen.<br>
+            - Für die Montage der Photovoltaikmodule muss in der Regel die Arbeitsstelle auf dem Dach durch ein Gerüst
+            gesichert werden. Des Weiteren muss ein sicherer Platz zur Lagerung der Module auf dem Dach oder dem Gerüst
+            geschaffen werden. Dies muss Bauseitig erfolgen. Nach vorheriger Absprache können diese Arbeiten auch von
+            uns kostenpflichtig übernommen werden.<br>
+            - Wenn Veränderungen am Bestandsteil der Elektroanlage von uns vorgenommen werden, wird die Anlage vor
+            Wiederinbetriebnahme durch eine Sichtprüfung und elektrotechnischen Messungen auf Mängel überprüft. Sollten
+            im Zuge dessen Fehler auftauchen, behalten wir es uns vor, für die betroffenen Anlagenteile keine Haftung zu
+            übernehmen. Grundsätzlich ist uns, wenn vorhanden, das Prüf/Messprotokoll der Elektrofachkraft die zuletzt
+            Änderungen an der Elektroanlage ausgeführt hat, vorzulegen. <br>
+            - Bei Nachrüstung eines Fehlerstromschutzschalters in älteren Stromkreisen kann es aufgrund eines alten
+            Installationsstandards zu Komplikationen führen, die eine Fehlersuche nach sich ziehen. Diese Fehlersuche
+            ist nicht Bestandteil des Angebotes und wird nach tatsächlichem Aufwand berechnet.<br>
+
+            Stand: April 2025<br><br>
+        </div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-login')">Zurück zum Login</button>
+        </div>
+    </div>
+
+
+    <!-- SEITE: DATENSCHUTZ -->
+    <div class="page" id="page-privacy">
+        <h2>Datenschutzerklärung – TGA KalkPro1.0
+        </h2>
+
+        <div class="box" style="text-align:left;">
+
+            <h3>1. Verantwortlicher</h3>
+            Verantwortlich für die Datenverarbeitung im Zusammenhang mit dem Tool „TGA KalkPro1.0“ ist:<br>
+            TGA Systemtechnik GmbH<br>
+            Raiffeisenstraße 13<br>
+            21641 Apensen<br>
+            Telefon: 041639102523<br>
+            E-Mail: info@tga-nord.de
+
+            <h3>2. Zweck und Rechtsgrundlage der Verarbeitung</h3>
+            Wir verarbeiten personenbezogene Daten, um die Nutzung des Tools zu ermöglichen, insbesondere:<br>
+
+            - Registrierung und Anmeldung von Nutzern<br>
+
+            - Bereitstellung der Funktionen des Tools (Kalkulation, PDF-Erstellung)
+            Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertrag / vorvertragliche Maßnahmen) bzw. Art. 6 Abs. 1 lit.
+            f DSGVO (berechtigtes Interesse an der sicheren Bereitstellung des Tools), soweit anwendbar.
+
+            <h3>3. Welche Daten verarbeiten wir?</h3>
+            Je nach Nutzung des Tools können folgende Daten verarbeitet werden:<br>
+
+            a) Registrierung/Anmeldung (Pflichtangaben)<br>
+
+            - E-Mail-Adresse<br>
+
+            - Passwort (wird im Regelfall von Firebase als Hash/Authentifizierungsinformation verarbeitet, nicht im
+            Klartext von uns)<br>
+
+            - Technische Metadaten zur Anmeldung (z. B. Zeitpunkt der Anmeldung)<br>
+
+            b) Nutzungsdaten / technische Daten<br>
+            Bei der Nutzung können technisch erforderliche Daten anfallen (z. B. IP-Adresse,
+            Geräte-/Browser-Informationen, Zeitstempel), soweit dies zur Bereitstellung und Sicherheit des Dienstes
+            erforderlich ist.<br>
+
+            c) Eingaben im Tool / PDF-Erstellung<br>
+            Sofern das Tool Eingabefelder für personenbezogene Angaben enthält (z. B. Name/Adresse), werden diese
+            ausschließlich zur Darstellung/Verarbeitung im Tool und zur Erstellung von PDF-Dokumenten verwendet.
+            Eingaben werden nach Neuladen oder über ‚Eingaben löschen‘ entfernt und nicht dauerhaft gespeichert.
+
+            <h3>4. Empfänger / Dienstleister (Firebase/Google)</h3>
+            Zur Bereitstellung von Authentifizierung und ggf. Datenhaltung nutzen wir Google Firebase (Google Ireland
+            Limited bzw. Google LLC als Konzernunternehmen). Firebase wird hierbei typischerweise als
+            Auftragsverarbeiter tätig.
+
+            <h3>5. Drittlandübermittlung</h3>
+            Im Rahmen der Nutzung von Firebase kann es zu Datenübermittlungen in Drittländer (z. B. USA) kommen. Wir
+            stützen solche Übermittlungen – soweit erforderlich – auf geeignete Garantien (z. B.
+            Standardvertragsklauseln / entsprechende Mechanismen von Google).
+
+            <h3>6. Speicherdauer / Löschung</h3>
+            Wir speichern personenbezogene Daten nur so lange, wie es für die oben genannten Zwecke erforderlich
+            ist:<br>
+
+            - Registrierungs-/Kontodaten: bis zur Löschung des Benutzerkontos bzw. solange ein aktiver Zugang
+            besteht<br>
+
+            - Protokoll-/Sicherheitsdaten: 90 Tage<br>
+
+            - Eingaben zur PDF-Erstellung: bis durch Nutzer gelöscht
+
+            <h3>7. Rechte der betroffenen Personen</h3>
+            Betroffene Personen haben – soweit die Voraussetzungen vorliegen – folgende Rechte:<br>
+
+            - Auskunft (Art. 15 DSGVO)<br>
+
+            - Berichtigung (Art. 16 DSGVO)<br>
+
+            - Löschung (Art. 17 DSGVO)<br>
+
+            - Einschränkung (Art. 18 DSGVO)<br>
+
+            - Datenübertragbarkeit (Art. 20 DSGVO)<br>
+
+            - Widerspruch (Art. 21 DSGVO)<br>
+
+            <h3>8. Beschwerderecht</h3>
+            Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren.
+
+            <h3>9. Pflicht zur Bereitstellung von Daten</h3>
+            Ohne die für Registrierung/Anmeldung erforderlichen Daten ist eine Nutzung des Tools nicht möglich.
+
+            <h3>10. Automatisierte Entscheidungen / Profiling</h3>
+            Eine automatisierte Entscheidungsfindung einschließlich Profiling findet nicht statt.
+
+            Stand: 27.02.2026<br><br>
+        </div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-login')">Zurück zum Login</button>
+        </div>
+    </div>
+
+    <!-- SEITE: IMPRESSUM -->
+    <div class="page" id="page-imprint">
+        <h2>Impressum</h2>
+
+        <div class="box" style="text-align:left;">
+            <h3>TGA Systemtechnik GmbH</h3>
+            Raiffeisenstraße 13<br>
+            21641 Apensen<br>
+            <br>
+            Handelsregister: 210541<br>
+            Registergericht: Amtsgericht Stade<br>
+            <br>
+            Vertreten durch:<br>
+            Tilman Thesenfitz-Patsalis, Marcel Zens<br>
+            <br>
+            Kontakt:<br>
+            Telefon: 041639102523<br>
+            E-Mail: info@tga-nord.de<br>
+            <br>
+            Angaben zur Berufs­haftpflicht­versicherung:<br>
+            Name und Sitz des Versicherers:<br>
+            R+V Allgemeine Versicherung AG<br>
+            Raiffeisenplatz 1<br>
+            65189 Wiesbaden<br>
+            <br>
+            Geltungsraum der Versicherung:<br>
+            Weltweit außer USA und Canada<br>
+            <br>
+            Redaktionell verantwortlich:<br>
+            Tilman Thesenfitz Patsalis<br>
+            Am Walde 18<br>
+            21640 Nottensdorf<br>
+            <br>
+            Verbraucher­streit­beilegung/Universal­schlichtungs­stelle:<br>
+            Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+            Verbraucherschlichtungsstelle teilzunehmen.<br>
+        </div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-login')">Zurück zum Login</button>
+        </div>
+    </div>
+
+
+    <!-- SEITE 2: PASSWORT ÄNDERN -->
+    <div class="page" id="page-change">
+        <h2>Passwort ändern</h2>
+
+        <input id="oldPass" type="password" placeholder="Altes Passwort">
+        <input id="newPass1" type="password" placeholder="Neues Passwort">
+        <input id="newPass2" type="password" placeholder="Neues Passwort wiederholen"><br><br>
+
+        <p><strong>Passwortrichtlinie:</strong> mind. 8 Zeichen, Großbuchstaben, Kleinbuchstaben, Sonderzeichen,
+            numerische Zeichen</p><br><br>
+
+        <div class="error" id="changeError"></div>
+
+        <button onclick="savePassword()">Speichern</button>
+        <button onclick="showPage('page-3')">Abbrechen</button>
+    </div>
+
+    <!-- SEITE 3: AUSWAHL -->
+    <div class="page" id="page-3">
+        <h2>Bitte auswählen</h2>
+
+        <button onclick="showPage('page-4')">KV</button>
+        <button onclick="showPage('page-5')">Anfrage an TGA</button><br>
+        <button onclick="showPage('page-3-1')">Info: Der Weg zur Photovoltaikanlage</button>
+
+        <p class="hint">
+            KV = Kostenvoranschlag – die schnelle und direkte Ermittlung eines Richtpreises für den Kunden<br><br>
+            Anfrage an TGA – Ermittlung eines Richtpreises für den Kunden, jedoch mit der Möglichkeit ein qualifiziertes
+            Angebot von TGA per Mail anzufragen.<br>
+        </p>
+
+        <button id="btnExportLog" class="hidden" onclick="exportLoginLog()">Login-Log herunterladen</button>
+        <button id="btnAdmin" class="hidden" onclick="showPage('page-admin')">Adminbereich</button>
+
+    </div>
+
+    <!-- SEITE 3.1: Info: Der Weg zur Photovoltaikanlage</button -->
+    <div class="page" id="page-3-1">
+        <h2>Der Weg zur Photovoltaikanlage</h2>
+
+        <div style="height:90vh; overflow:auto; border:1px solid #ccc;">
+            <iframe src="TGA_Schema.pdf" style="width:100%; height:100%; border:0;"></iframe>
+        </div>
+        <button onclick="showPage('page-3')">Zurück</button>
+    </div>
+
+
+    <!-- SEITE 4: HAUPTMENÜ -->
+    <div class="page" id="page-4">
+        <h2>Hauptmenü</h2>
+
+        <button onclick="showPage('page-6')">DC</button>
+        <button onclick="showPage('page-7')">AC</button><br><br>
+        <p class="hint">
+            <strong>_________________________________</strong><br><br>
+        </p>
+
+        <button class="btn-komplett" onclick="toggleKomplettFlow()">Komplettleistung</button>
+        <span id="komplett-indicator" class="flow-indicator">AUS</span>
+        <br>
+        <p>Wenn Sie die <strong>Komplettleistung</strong> auswählen, werden Sie Schritt für Schritt durch alle
+            benötigten Punkte geführt.<br>
+            Der <strong>blaue „Weiter“-Button</strong> signalisiert, dass Sie sich im geführten Komplett-Bereich
+            befinden.<br>
+            Durch Betätigen von <strong>F5 (Seite neu laden)</strong> oder der Aktion <strong>„Eingaben
+                löschen“</strong> werden alle Eingaben zurückgesetzt.<br>
+            Wenn Sie ins <strong>Hauptmenü zurückkehren</strong> oder den Bereich verlassen, bleiben Ihre Eingaben
+            erhalten und<br>
+            Sie können die Konfiguration jederzeit an beliebiger Stelle fortsetzen.</p>
+        <br>
+        <br>
+        <p class="hint">
+            <strong>_________________________________</strong><br><br>
+        </p>
+        <br>
+        <button onclick="showPage('page-35')">Dienstleistungen</button>
+        <button onclick="showPage('page-36')">Zuschläge</button>
+        <button onclick="showPage('page-14-1')">Downloadbereich</button>
+        <br>
+        <br>
+        <button onclick="showPage('page-3')">Zurück zur Auswahl "KV oder Anfrage"</button>
+
+    </div>
+
+    <!-- SEITE 5: ANFRAGE AN TGA -->
+    <div class="page" id="page-5">
+        <h2>Anfrage an TGA</h2><br>
+
+        <p class="hint">
+            <strong>Bauvorhaben:</strong><br>
+        </p>
+        <div class="input-field">
+            <input id="bv-contact" placeholder="Kontakt / Ansprechpartner">
+        </div>
+        <div class="input-field">
+            <input id="bv-strasse" placeholder="Straße, Hausnummer">
+        </div>
+        <div class="input-field">
+            <input id="bv-ort" placeholder="PLZ, Ort">
+        </div>
+        <p class="hint">
+            <strong>Kontakt SHK:</strong><br>
+        </p>
+        <div class="input-field">
+            <input id="shk-contact" placeholder="SHK Ansprechpartner">
+        </div>
+        <div class="input-field">
+            <input id="shk-email" type="email" placeholder="SHK E-Mail">
+        </div>
+        <div class="input-field">
+            <input id="shk-phone" placeholder="SHK Telefon-Nr.">
+        </div>
+        <p class="hint">
+            <strong>Gewünschter Ausführungstermin:</strong><br>
+        </p>
+        <div class="input-field">
+            <input id="execution-date" type="date" placeholder="Gewünschter Ausführungstermin">
+        </div>
+
+        <p class="hint">
+            <strong>Ausführung - Dachpfanne:</strong><br>
+        </p>
+        <div class="input-field">
+            <select id="dachpfanne-ausfuehrung">
+                <option value="" selected disabled>Auswahl</option>
+                <option value="Pappdocken">Pappdocken</option>
+                <option value="in Mörtel">in Mörtel</option>
+                <option value="verschraubt">verschraubt</option>
+                <option value="aktueller Standard">aktueller Standard</option>
+                <option value="unbekannt">unbekannt</option>
+            </select>
+        </div>
+
+        <p class="hint">
+            <strong>Liegen Zeichnungen / Pläne vom Dach vor?</strong><br>
+            Wenn ja: Bitte hängen Sie die Pläne der E-Mail an.<br>
+            Wenn nein: Alternativ hängen Sie bitte Fotos des ganzen Daches / der gesamten Fläche der E-Mail an.<br>
+        </p>
+        <div class="input-field">
+            <select id="zeichnung-plaene">
+                <option value="" selected disabled>Auswahl</option>
+                <option value="ja">ja</option>
+                <option value="nein">nein</option>
+            </select>
+        </div>
+
+        <p class="hint">
+            <strong>Wo befindet sich der Zählerschrank?</strong><br>
+            (Fotos vom geöffneten Zählerschrank der E-Mail bitte anhängen.)<br>
+        </p>
+        <div class="input-field">
+            <input id="zaehlerschrank" placeholder="Standort Zählerschrank">
+        </div>
+
+        <p class="hint">
+            <strong>Nennen Sie bitte den Aufstellungsort von Wechselrichter und Speiher:</strong><br>
+            (Fotos an der E-Mail bitte anhängen.)<br>
+        </p>
+        <div class="input-field">
+            <input id="wechselrichter_speicher" placeholder="Standort Wechselrichter + Speicher">
+        </div>
+
+        <p class="hint">
+            <strong>Aktueller Jahresstrombedarf in kWh:</strong><br>
+        </p>
+        <div class="input-field">
+            <input id="jahresstrombedarf" placeholder="kWh">
+        </div>
+
+        <p class="hint">
+            <strong>Strombedarf Heizsystem in kWh:</strong><br>
+            (bei Umstellung auf Wärmepumpe bitte zusätzlich den voraussichtlichen Strombedarf angeben.)<br>
+        </p>
+        <div class="input-field">
+            <input id="waermepumpe_strombedarf" placeholder="kWh">
+        </div>
+
+        <p class="hint">
+            <strong>Ist eine Wallbox angedacht?</strong><br>
+        </p>
+        <div class="input-field">
+            <select id="wallbox">
+                <option value="" selected disabled>Auswahl</option>
+                <option value="ja - E-Auto">ja - E-Auto</option>
+                <option value="ja - Plug-in Hybrid">ja - Plug-in Hybrid</option>
+                <option value="nein">nein</option>
+            </select>
+        </div>
+
+        <div class="error" id="page5-error" style="color:darkred; margin:10px;"></div>
+
+        <div class="button-bar">
+            <button onclick="submitPage5()">Eingabe und Weiter</button>
+            <button onclick="direktZumAngebot()">Eingabe und Direkt zum Angebot</button>
+        </div>
+    </div>
+
+    <!-- SEITE 6: MENÜ DC -->
+    <div class="page" id="page-6">
+        <h2>Menü DC</h2>
+
+        <!-- Auswahlbuttons untereinander -->
+        <div>
+            <button onclick="showPage('page-24')">Flachdach</button><br>
+            <button onclick="showPage('page-23')">Schrägdach</button><br>
+        </div>
+
+        <!-- Navigationsbuttons nebeneinander -->
+        <div style="margin-top:40px;">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+        </div>
+    </div>
+
+    <!-- SEITE 7: MENÜ AC -->
+    <div class="page" id="page-7">
+        <h2>Menü AC</h2>
+
+        <!-- Auswahlbuttons untereinander -->
+        <div>
+            <button onclick="showPage('page-11')">Wechselrichter</button><br>
+            <button onclick="showPage('page-10')">Speicher</button><br>
+            <button onclick="showPage('page-18')">Wallbox</button><br>
+            <button onclick="showPage('page-20')">Zählerschrank</button><br>
+        </div>
+
+        <!-- Navigationsbuttons nebeneinander -->
+        <div style="margin-top:40px;">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+
+        </div>
+    </div>
+
+    <!-- SEITE 14: Wechselrichter strang -->
+    <div class="page" id="page-14">
+        <h2>Wechselrichter "strang"</h2>
+
+        <div id="page14-content" class="price-table"></div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button id="btnWeiter21Normal" onclick="direktZumAngebot()">Direkt zum Angebot</button>
+            <button id="btnWeiter14Komplett" class="btn-komplett hidden" onclick="showPage('page-18')">Weiter</button>
+
+        </div>
+    </div>
+
+    <!-- SEITE 14.1: Downloadbereich -->
+    <div class="page" id="page-14-1">
+        <h2>Download - Datenblätter / Checklisten / Infos</h2>
+
+        <a href="2002800194 Jinko JKM460N-48HL4M-DB Datenblatt DE.pdf" target="_blank">
+            Datenblatt – TigerNeo 48HL4M-DB Jinko
+        </a><br><br>
+
+        <a href="Fronius Symo Gen24 Plus_Datenblatt.pdf" target="_blank">
+            Datenblatt – Fronius Symo Gen24 Plus
+        </a><br><br>
+
+        <a href="BYD Battery-Box Premium HVS-HVM.pdf" target="_blank">
+            Datenblatt – BYD Battery-Box Premium HVS-HVM
+        </a><br><br>
+
+        <a href="2026-01-28-Gesamtpaket PV-TGA.pdf" target="_blank">
+            Info – Gesamtpaket Photovoltaik
+        </a><br><br>
+
+        <a href="TGA_Schema.pdf" target="_blank">
+            Info – Ihr Weg zur eigenen Photovoltaikanlage
+        </a><br><br>
+
+        <a href="Zählerschrank Checkliste.pdf" target="_blank">
+            Checkliste – Zählerschrank
+        </a><br><br>
+
+        <a href="Allgemeine Hinweise.pdf" target="_blank">
+            Info - Allgemeine Hinweise
+        </a><br><br>
+
+        <br><br>
+
         <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        
-        <button id="btnWeiter18Normal" onclick="direktZumAngebot()">Direkt zum Angebot</button>
-        <button
-          id="btnWeiter18Komplett"
-          class="btn-komplett hidden"
-          onclick="showPage('page-20')">Weiter</button>
-
     </div>
-</div>
 
-<!-- SEITE 20: Zählerschrank -->
-<div class="page" id="page-20">
-    <h2>Zählerschrank</h2>
+    <!-- SEITE 14.3:   -->
+    <div class="page" id="page-14-3">
 
-    <div id="content-20" class="price-table"></div>
+        <div id="content-14-3" class="price-table"></div>
 
-    <div class="button-bar">
+        <div class="button-bar">
+            <button onclick="showPage('page-10')">Zurück</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
+    </div>
+
+    <!-- SEITE 40: KOSTENVORANSCHLAG / ANFRAGE -->
+    <div class="page" id="page-40">
+        <h2 id="page40-title">Kostenvoranschlag</h2>
+
+        <!-- Anfrage-Daten (nur bei Anfrage sichtbar) -->
+        <div id="anfrage-daten" style="display:none; margin:20px auto; max-width:1100px; text-align:left;">
+            <div class="subtitle">Anfrage-Daten</div>
+            <div id="anfrage-daten-content"></div>
+            <hr style="margin:20px 0;">
+        </div>
+
+        <!-- Zusammenfassung der Mengen -->
+        <div id="summary-content"></div>
+
+        <!-- Gesamtsumme / Angebotspreis -->
+        <div id="angebotspreis" class="gesamt">Gesamtpreis: 0,00 €</div>
+        <!--<div id="angebotspreisRabatt" class="gesamt rabatt">Gesamtpreis abzgl. SHK-Rabatt (15%): 0,00 €</div>-->
+
+        <div style="text-align:center; margin-bottom:20px;">(netto, freibleibend)</div>
+
+        <div id="optimierer-hinweis-print" style="display:none; margin-top:20px; color:darkred; font-weight:600;">
+            Achtung!<br>
+            Sie haben keinen Optimierer ausgewählt!
+        </div>
+
+
+
+        <!-- Allgemeine Hinweise aus CSV -->
+        <div id="hinweise-content"></div>
+
+        <!-- Buttons -->
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button onclick="printPage40()">Drucken / speichern als PDF</button>
+            <button onclick="sendMailPage40()">Senden als Text-Mail</button>
+            <button onclick="sharePdf()">PDF download</button>
+        </div>
+    </div>
+
+    <!-- SEITE 41: Hinweis fehlende Anfrage-Daten -->
+    <div class="page" id="page-41">
+        <h2>Hinweis</h2>
+
+        <p>
+            Für eine Anfrage an TGA müssen zuerst die Kontaktdaten vollständig ausgefüllt werden.
+        </p>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-5')">Zur Anfrage</button>
+            <button onclick="showPage('page-40')">KV anzeigen</button><br>
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+        </div>
+    </div>
+
+    <!-- SEITE 15: Versicherung -->
+    <div class="page" id="page-15">
+        <h2>12 Monate Rundum-Versicherung inklusive!</h2>
+
+        <img src="bild17.png" class="Bild_Versicherung">
+
+        <p><strong>Ihre neue PV-Anlage ist ab Inbetriebnahme für 12 Monate automatisch versichert – ohne
+                Zusatzkosten!</strong>
+            <br>
+            <br>
+            <strong>Dank ALL-RISK Deckung sind alle Bestandsteile wie...</strong>
+            <br>
+            → Modul<br>
+            → Wallbox<br>
+            → Wechselrichter<br>
+            → Verkabelung<br>
+            → Speicher<br>
+            → etc.<br>
+            <strong>...gegen Schäden jeglicher Art geschützt.</strong>
+            <br>
+            <br>
+            <strong>Nutzungsausfall</strong><br>
+            → Zusätzlich sichern wir Sie gegen Nutzungsausfall mit einer Ausfallentschädigung i.H.v. 1,50 € pro kWp und
+            Tag ab.
+            <br>
+            <br>
+            Sie genießen sorgenfreie Energie – wir kümmern uns um den Rest!
+            <br>
+            <br>
+        </p>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button id="btnWeiter15Normal" onclick="showPage('page-6')">Weiter</button>
+            <button id="btnWeiter15Komplett" class="btn-komplett hidden" onclick="showPage('page-6')">Weiter</button>
+        </div>
+    </div>
+
+
+
+    <!-- SEITE 14.2: Wechselrichter "hyprid" -->
+    <div class="page" id="page-14-2">
+        <h2>Wechselrichter "hyprid"</h2>
+
+        <div id="content-14-2" class="price-table"></div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button id="btnWeiter142Normal" onclick="showPage('page-21')">Weiter</button>
+            <button id="btnWeiter142Komplett" class="btn-komplett hidden" onclick="showPage('page-21')">Weiter</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
+    </div>
+
+    <!-- SEITE 8: Optimierer -->
+    <div class="page" id="page-8">
+        <h2>Optimierer</h2>
+
+        <div id="content-8" class="price-table"></div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button id="btnWeiter8Normal" onclick="direktZumAngebot()">Direkt zum Angebot</button>
+            <button id="btnWeiter8Komplett" class="btn-komplett hidden" onclick="showPage('page-9')">Weiter</button>
+        </div>
+    </div>
+
+    <!-- SEITE 18: Wallbox -->
+    <div class="page" id="page-18">
+        <h2>Wallbox</h2>
+
+        <div id="content-18" class="price-table"></div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+
+            <button id="btnWeiter18Normal" onclick="direktZumAngebot()">Direkt zum Angebot</button>
+            <button id="btnWeiter18Komplett" class="btn-komplett hidden" onclick="showPage('page-20')">Weiter</button>
+
+        </div>
+    </div>
+
+    <!-- SEITE 20: Zählerschrank -->
+    <div class="page" id="page-20">
+        <h2>Zählerschrank</h2>
+
+        <div id="content-20" class="price-table"></div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button id="btnWeiter20Normal" onclick="showPage('page-22')">Weiter</button>
+            <button id="btnWeiter20Komplett" class="btn-komplett hidden" onclick="showPage('page-22')">Weiter</button>
+
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
+    </div>
+
+    <!-- SEITE 21: Zubehör -->
+    <div class="page" id="page-21">
+        <h2>Zubehör</h2><br>
+        <strong style="color: red;">Hinweis: Notstrom-Optionen sind erst ab 6 kW verfügbar.</strong><br>
+        <div id="content-21" class="price-table"></div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button id="btnWeiter21Normal" onclick="direktZumAngebot()">Direkt zum Angebot</button>
+            <button id="btnWeiter21Komplett" class="btn-komplett hidden" onclick="showPage('page-10')">Weiter</button>
+        </div>
+    </div>
+
+    <!-- SEITE 22: Extras (Zählerschrank) -->
+    <div class="page" id="page-22">
+        <h2>Extras</h2>
+
+        <div id="content-22" class="price-table"></div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button id="btnWeiter22Normal" onclick="direktZumAngebot()">Direkt zum Angebot</button>
+            <button id="btnWeiter22Komplett" class="btn-komplett hidden" onclick="direktZumAngebot()">Direkt zum
+                Angebot</button>
+        </div>
+    </div>
+
+    <!-- SEITE 9: Gerüst -->
+    <div class="page" id="page-9">
+        <h2>Gerüst</h2>
+
+        <div id="content-9" class="price-table"></div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button id="btnWeiter9Normal" onclick="showPage('page-11')">Weiter</button>
+            <button id="btnWeiter9Komplett" class="btn-komplett hidden" onclick="showPage('page-11')">Weiter</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
+    </div>
+
+    <!-- SEITE 10: Speicher -->
+    <div class="page" id="page-10">
+        <h2>Speicher</h2>
+
+        <div id="content-10" class="price-table"></div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button id="btnWeiter10Normal" onclick="direktZumAngebot()">Direkt zum Angebot</button>
+            <button id="btnWeiter10Komplett" class="btn-komplett hidden" onclick="showPage('page-18')">Weiter</button>
+
+        </div>
+    </div>
+
+    <!-- SEITE 11: MENÜ Wechselrichter -->
+    <div class="page" id="page-11">
+        <h2>Menü Wechselrichter</h2>
+
+        <!-- Auswahlbuttons untereinander -->
+        <div>
+            <button onclick="showPage('page-14')">Typ "strang"</button><br>
+            <button onclick="showPage('page-14-2')">Typ "hybrid"</button><br>
+        </div>
+
+        <!-- Navigationsbuttons nebeneinander -->
+        <div style="margin-top:40px;">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+        </div>
+    </div>
+
+    <!-- SEITE 23: Schrägdach -->
+    <div class="page" id="page-23">
+        <h2>Schrägdach</h2>
+
+        <div id="content-23" class="price-table"></div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button id="btnWeiter23Normal" onclick="showPage('page-8')">Weiter</button>
+            <button id="btnWeiter23Komplett" class="btn-komplett hidden" onclick="showPage('page-8')">Weiter</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
+    </div>
+
+    <!-- SEITE 24: Flachdach -->
+    <div class="page" id="page-24">
+        <h2>Flachdach</h2>
+
+        <div id="content-24" class="price-table"></div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+
+            <button id="btnWeiter24Normal" onclick="showPage('page-8')">Weiter</button>
+            <button id="btnWeiter24Komplett" class="btn-komplett hidden" onclick="showPage('page-8')">Weiter</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
+    </div>
+
+    <!-- SEITE 25:  -->
+    <div class="page" id="page-25">
+        <h2> </h2>
+
+        <div id="content-25" class="price-table"></div>
+
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button onclick="showPage('page-20')">Weiter</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
+    </div>
+
+    <!-- SEITE 26:  -->
+    <div class="page" id="page-26">
+        <h2> </h2>
+
+        <button onclick="showPage('page-27')">Handelsmarke</button>
+        <button onclick="showPage('page-28')">Uponor</button>
+        <br><br>
+
         <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-       <button id="btnWeiter20Normal" onclick="showPage('page-22')">Weiter</button>
-        <button
-          id="btnWeiter20Komplett"
-          class="btn-komplett hidden"
-          onclick="showPage('page-22')">Weiter</button>
-
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
-    </div>
-</div>
-
-<!-- SEITE 21: Zubehör -->
-<div class="page" id="page-21">
-    <h2>Zubehör</h2><br>
-<strong style="color: red;">Hinweis: Notstrom-Optionen sind erst ab 6 kW verfügbar.</strong><br>
-    <div id="content-21" class="price-table"></div>
-
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button id="btnWeiter21Normal" onclick="direktZumAngebot()">Direkt zum Angebot</button>
-        <button
-          id="btnWeiter21Komplett"
-          class="btn-komplett hidden"
-          onclick="showPage('page-10')">Weiter</button>
-    </div>
-</div>
-
-<!-- SEITE 22: Extras (Zählerschrank) -->
-<div class="page" id="page-22">
-    <h2>Extras</h2>
-
-    <div id="content-22" class="price-table"></div>
-
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-         <button id="btnWeiter22Normal" onclick="direktZumAngebot()">Direkt zum Angebot</button>
-        <button
-          id="btnWeiter22Komplett"
-          class="btn-komplett hidden"
-          onclick="direktZumAngebot()">Direkt zum Angebot</button>
-    </div>
-</div>
-
-<!-- SEITE 9: Gerüst -->
-<div class="page" id="page-9">
-    <h2>Gerüst</h2>
-
-    <div id="content-9" class="price-table"></div>
-
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>       
-        <button id="btnWeiter9Normal" onclick="showPage('page-11')">Weiter</button>
-        <button
-          id="btnWeiter9Komplett"
-          class="btn-komplett hidden"
-          onclick="showPage('page-11')">Weiter</button>
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
-    </div>
-</div>
-
-<!-- SEITE 10: Speicher -->
-<div class="page" id="page-10">
-    <h2>Speicher</h2>
-
-    <div id="content-10" class="price-table"></div>
-
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button id="btnWeiter10Normal" onclick="direktZumAngebot()">Direkt zum Angebot</button>
-        <button
-          id="btnWeiter10Komplett"
-          class="btn-komplett hidden"
-          onclick="showPage('page-18')">Weiter</button>
-
-    </div>
-</div>
-
-<!-- SEITE 11: MENÜ Wechselrichter -->
-<div class="page" id="page-11">
-    <h2>Menü Wechselrichter</h2>
-
-    <!-- Auswahlbuttons untereinander -->
-    <div>
-        <button onclick="showPage('page-14')">Typ "strang"</button><br>
-        <button onclick="showPage('page-14-2')">Typ "hybrid"</button><br>
     </div>
 
-    <!-- Navigationsbuttons nebeneinander -->
-    <div style="margin-top:40px;">
+    <!-- SEITE 29:  -->
+    <div class="page" id="page-29">
+        <h2> </h2>
+
+        <button onclick="showPage('page-30')">Handelsmarke</button>
+        <button onclick="showPage('page-31')">Uponor</button>
+        <button onclick="showPage('page-32')">Roth</button>
+        <br><br>
+
         <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
     </div>
-</div>
 
-<!-- SEITE 23: Schrägdach -->
-<div class="page" id="page-23">
-    <h2>Schrägdach</h2>
+    <!-- SEITE 27:  -->
+    <div class="page" id="page-27">
+        <h2> </h2>
 
-    <div id="content-23" class="price-table"></div>
+        <div id="content-27" class="price-table"></div>
 
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>        
-        <button id="btnWeiter23Normal" onclick="showPage('page-8')">Weiter</button>
-        <button
-          id="btnWeiter23Komplett"
-          class="btn-komplett hidden"
-          onclick="showPage('page-8')">Weiter</button>
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button onclick="showPage('page-18')">Weiter</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
     </div>
-</div>
 
-<!-- SEITE 24: Flachdach -->
-<div class="page" id="page-24">
-    <h2>Flachdach</h2>
+    <!-- SEITE 28:  -->
+    <div class="page" id="page-28">
+        <h2> </h2>
 
-    <div id="content-24" class="price-table"></div>
+        <div id="content-28" class="price-table"></div>
 
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        
-        <button id="btnWeiter24Normal" onclick="showPage('page-8')">Weiter</button>
-        <button
-          id="btnWeiter24Komplett"
-          class="btn-komplett hidden"
-          onclick="showPage('page-8')">Weiter</button>
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button onclick="showPage('page-18')">Weiter</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
     </div>
-</div>
 
-                                                                         <!-- SEITE 25:  -->
-<div class="page" id="page-25">
-    <h2>Aufbau 25mm (XPS)</h2>
+    <!-- SEITE 30:  -->
+    <div class="page" id="page-30">
+        <h2> </h2>
 
-    <div id="content-25" class="price-table"></div>
+        <div id="content-30" class="price-table"></div>
 
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button onclick="showPage('page-20')">Weiter</button>
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button onclick="showPage('page-18')">Weiter</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
     </div>
-</div>
 
-                                                                                <!-- SEITE 26:  -->
-<div class="page" id="page-26">
-    <h2>Auswahl Marke Klettsystem</h2>
+    <!-- SEITE 31:  -->
+    <div class="page" id="page-31">
+        <h2> </h2>
 
-    <button onclick="showPage('page-27')">Handelsmarke</button>
-    <button onclick="showPage('page-28')">Uponor</button>
-    <br><br>
+        <div id="content-31" class="price-table"></div>
 
-    <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-</div>
-
-                                                                               <!-- SEITE 29:  -->
-<div class="page" id="page-29">
-    <h2>Auswahl Marke Noppensystem</h2>
-
-    <button onclick="showPage('page-30')">Handelsmarke</button>
-    <button onclick="showPage('page-31')">Uponor</button>
-    <button onclick="showPage('page-32')">Roth</button>
-    <br><br>
-
-    <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-</div>
-
-                                                                         <!-- SEITE 27:  -->
-<div class="page" id="page-27">
-    <h2>Klettsystem Handelsmarke</h2>
-
-    <div id="content-27" class="price-table"></div>
-
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button onclick="showPage('page-18')">Weiter</button>
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button onclick="showPage('page-18')">Weiter</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
     </div>
-</div>
 
-                                                                       <!-- SEITE 28:  -->
-<div class="page" id="page-28">
-    <h2>Klettsystem Uponor</h2>
+    <!-- SEITE 32:  -->
+    <div class="page" id="page-32">
+        <h2> </h2>
 
-    <div id="content-28" class="price-table"></div>
+        <div id="content-32" class="price-table"></div>
 
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button onclick="showPage('page-18')">Weiter</button>
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button onclick="showPage('page-18')">Weiter</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
     </div>
-</div>
 
-                                                                         <!-- SEITE 30:  -->
-<div class="page" id="page-30">
-    <h2>Noppensystem Handelsmarke</h2>
+    <!-- SEITE 33:  -->
+    <div class="page" id="page-33">
+        <h2> </h2>
 
-    <div id="content-30" class="price-table"></div>
+        <div id="content-33" class="price-table"></div>
 
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button onclick="showPage('page-18')">Weiter</button>
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button onclick="showPage('page-20')">Weiter</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
     </div>
-</div>
 
-                                                                             <!-- SEITE 31:  -->
-<div class="page" id="page-31">
-    <h2>Noppensystem Uponor</h2>
+    <!-- SEITE 13:  -->
+    <div class="page" id="page-13">
+        <h2> </h2>
 
-    <div id="content-31" class="price-table"></div>
+        <div id="content-13" class="price-table"></div>
 
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button onclick="showPage('page-18')">Weiter</button>
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        <div class="button-bar">
+            <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
+            <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+        </div>
     </div>
-</div>
 
-                                                                          <!-- SEITE 32:  -->
-<div class="page" id="page-32">
-    <h2>Noppensystem Roth</h2>
-
-    <div id="content-32" class="price-table"></div>
-
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button onclick="showPage('page-18')">Weiter</button>
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+    <!-- Eieruhr auf Seite 40 -->
+    <div id="loader40" class="loader hidden">
+        <div class="spinner"></div>
+        <div class="loader-text">Ausgabe wird erstellt…</div>
     </div>
-</div>
 
-                                                                          <!-- SEITE 33:  -->
-<div class="page" id="page-33">
-    <h2>Industrieboden</h2>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-    <div id="content-33" class="price-table"></div>
-
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button onclick="showPage('page-20')">Weiter</button>
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
     </div>
-</div>
 
-									<!-- SEITE 13:  -->
-<div class="page" id="page-13">
-    <h2>          </h2>
+    <script type="module" src="app.js"></script>
 
-    <div id="content-13" class="price-table"></div>
+    <!-- Hinweisfenster -->
 
-    <div class="button-bar">
-        <button onclick="showPage('page-4')">Zurück zum Hauptmenü</button>
-        <button onclick="direktZumAngebot()">Direkt zum Angebot</button>
+    <div id="hinweisModal" class="modal">
+        <div class="modal-content">
+            <p id="hinweisText"></p>
+
+            <div id="hinweisButtons">
+                <button type="button" id="hinweisOk">OK</button>
+                <button type="button" id="hinweisCancel">Abbrechen</button>
+            </div>
+        </div>
     </div>
-</div>
-
-<!-- Eieruhr auf Seite 40 -->
-<div id="loader40" class="loader hidden">
-  <div class="spinner"></div>
-  <div class="loader-text">Ausgabe wird erstellt…</div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-</div>
-
-<script type="module" src="app.js"></script>
-
 
 </body>
+
 </html>

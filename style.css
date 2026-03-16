@@ -27,6 +27,12 @@ body {
     display: block;
 }
 
+/* Ohne JS (html hat keine Klasse "js") sollen KEINE Seiten sichtbar sein */
+html:not(.js) .page,
+html:not(.js) .page.active {
+  display: none !important;
+}
+
 input {
     display: block;
     margin: 10px auto;
@@ -174,7 +180,7 @@ button:active {
 }
 
 /* ================================
-   Allgemeine Hinweise (ndf4.csv)
+   Allgemeine Hinweise (tga12.csv)
 ================================ */
 #hinweise-content {
     text-align: left;
@@ -197,6 +203,39 @@ button:active {
 }
 .hidden {
   display: none !important;
+}
+
+/* No-JS Hinweis: standardmäßig sichtbar */
+.no-js-message {
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 14px 16px;
+  background: #fff6d5;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Wenn JS aktiv ist, No-JS Meldung ausblenden */
+html.js .no-js-message {
+  display: none;
+}
+
+html:not(.js) .page,
+html:not(.js) .page.active {
+  display: none !important;
+}
+
+/* Wenn App gelockt ist: alles verstecken */
+/* … außer öffentliche Seiten */
+body.app-locked .page {
+  display: none !important;
+}
+
+body.app-locked #page-login.active,
+body.app-locked #page-start.active,
+body.app-locked #page-hinweis.active {
+  display: block !important;
 }
 
 .gesamt.rabatt {
@@ -571,4 +610,55 @@ button.btn-disabled:hover{
 #page-privacy h3{
   font-weight: 800 !important;
   margin: 16px 0 8px;
+}
+
+/* Allg.Hinweise-Überschriften wirklich fett */
+#page-hinweis h3 {
+  font-weight: 800 !important;
+  margin: 16px 0 8px;
+}
+
+/* Pflichtfelder */
+.required {
+    border: 2px solid #e74c3c;
+    background-color: #fff6f6;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  margin: 15% auto;
+  width: 400px;
+  text-align: center;
+  border-radius: 6px;
+}
+.modal-content button {
+  cursor: pointer;
+}
+.flow-indicator {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  background: #d9d9d9;
+  color: #333;
+  vertical-align: middle;
+}
+
+.flow-indicator.active {
+  background: #4dad32;
+  color: #fff;
 }
