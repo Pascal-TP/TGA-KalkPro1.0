@@ -620,6 +620,14 @@ function renderTableHeaderWithImage(imgSrc = "bild3.jpg") {
 
 async function showPage(id, fromHistory = false) {
   
+// Ohne Login nur diese Seiten erlauben:
+  const publicPages = new Set(["page-login", "page-start", "page-change", "page-hinweis"]);
+
+  if (!isLoggedIn() && !publicPages.has(id)) {
+    console.warn("Blocked navigation (not logged in):", id);
+    id = "page-login";
+  }
+
 // letzte Seite merken (nur für dieses Tab/Fenster)
   sessionStorage.setItem("lastPage", id);
 
