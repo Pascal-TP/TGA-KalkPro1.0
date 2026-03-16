@@ -1918,7 +1918,6 @@ optimiererVerwendet = false;
 // Angebots-Summen Objekt zurücksetzen (falls du es im RAM nutzt)
     angebotSummen = {};
 
-    currentUser = null;
     updateAdminUI_();
 
 //document.querySelectorAll('[data-rabatt="angebot"]').forEach(el => {
