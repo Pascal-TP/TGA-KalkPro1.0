@@ -1,4 +1,5 @@
 let currentUser = null;
+document.documentElement.classList.add("js");
 function isLoggedIn() {
   return !!currentUser;
 }
@@ -432,6 +433,7 @@ const auth = getAuth(fbApp);
   // 3) Listener erst DANACH
 const app = document.getElementById("app");  
 onAuthStateChanged(auth, user => {
+currentUser = user || null;
 
   const actions = document.getElementById("user-actions");
   const info = document.getElementById("login-info");
@@ -621,7 +623,14 @@ function renderTableHeaderWithImage(imgSrc = "bild3.jpg") {
 async function showPage(id, fromHistory = false) {
   
 // Ohne Login nur diese Seiten erlauben:
-  const publicPages = new Set(["page-login", "page-start", "page-change", "page-hinweis"]);
+  const publicPages = new Set([
+  "page-login",
+  "page-start",
+  "page-register",
+  "page-privacy",
+  "page-imprint",
+  "page-hinweis"
+]);
 
   if (!isLoggedIn() && !publicPages.has(id)) {
     console.warn("Blocked navigation (not logged in):", id);
@@ -744,6 +753,13 @@ if (!approved) {
   loginError.innerText = `Login fehlgeschlagen: ${e?.code || "unknown"}\n${e?.message || ""}`;
 }
 }
+
+function toggleUserMenu() {
+  const actions = document.getElementById("user-actions");
+  if (!actions) return;
+  actions.classList.toggle("hidden");
+}
+window.toggleUserMenu = toggleUserMenu;
 
 async function logout() {
   try {
