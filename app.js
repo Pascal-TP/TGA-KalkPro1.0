@@ -848,9 +848,11 @@ function handleUserAction(val) {
     return;
   }
 
-  if (val === "clear") {const ok = confirm("Alle Eingaben wirklich löschen?");
-  if (ok) clearInputs();
-  }
+  if (val === "clear") {
+  showConfirm("Alle Eingaben wirklich löschen?", () => {
+    clearInputs();
+  });
+}
   if (val === "changePw") goToChange();
   if (val === "logout") logout();
 
