@@ -13,14 +13,12 @@ Beschreibung_fett;Leistungen:;;
 ;- Anschluss an die Zähleranlage;;
 ;- Inbetriebnahme;;
 ;- Restmaterial-/Verpackungsmüllentsorgung;;
-;- Anmeldung und Registrierung im Marktstammdatenregister;;
+;-  Anmeldung und Registrierung im Marktstammdatenregister;;
 ;;;
-H66TG2430 01;Wechselrichter 3.0 (3,0 kW);€/Stk.;3646,4
-H66TG2435 01;Wechselrichter 4.0 (4,0 kW);€/Stk.;3886,8
-H66TG2440 01;Wechselrichter 5.0 (5,0 kW);€/Stk.;3941,2
-H66TG2445 01;Wechselrichter 6.0 (6,0 kW);€/Stk.;4160,6
-H66TG2450 01;Wechselrichter 7.0 (8,0 kW);€/Stk.;4742,1
-H66TG2455 01;Wechselrichter 10.0 (10,0 kW);€/Stk.;4908,8
-XXXXXXXXXX;Wechselrichter 15.0 (15,0 kW);€/Stk.;5228,9
-;;;
-;;;
+;Wechselrichter 3.0 (3,0 kW);€/Stk.;99999,99
+;Wechselrichter 4.0 (4,0 kW);€/Stk.;99999,99
+;Wechselrichter 5.0 (5,0 kW);€/Stk.;99999,99
+;Wechselrichter 6.0 (6,0 kW);€/Stk.;99999,99
+;Wechselrichter 7.0 (8,0 kW);€/Stk.;99999,99
+;Wechselrichter 10.0 (10,0 kW);€/Stk.;99999,99
+;Wechselrichter 15.0 (15,0 kW);€/Stk.;99999,99

@@ -5,14 +5,14 @@ Beschreibung_fett;Materialien:;;
 ;- Speicher BYD Battery-Box Premium;;
 ;- Notwendiges Kleinmaterial und Leitungen;;
 Beschreibung_fett;Leistungen:;;
-;- Montage und Anschluss Speicher;;
+;-  Montage und Anschluss Speicher;;
 ;- Inbetriebnahme;;
 ;- Restmaterial-/Verpackungsmüllentsorgung;;
 ;;;
-H66TG3100 01;BYD-Speicher 5,1 kWh HVS Modul;€/Stk.;4133,8
-H66TG3105 01;BYD-Speicher 7,7 kWh HVS Modul;€/Stk.;5454
-H66TG3110 01;BYD-Speicher 10,2 kWh HVS Modul;€/Stk.;6774,1
-H66TG3115 01;BYD-Speicher 12,8 kWh HVS Modul;€/Stk.;8094,3
-100BKG126;BYD-Speicher 16,6 kWh HVM Modul;€/Stk.;9414,4
-100BKG124;BYD-Speicher 19,3 kWh HVM Modul;€/Stk.;10734,6
-100BKG125;BYD-Speicher 22,1 kWh HVM Modul;€/Stk.;12054,7
+;BYD-Speicher 5,1 kWh HVS Modul;€/Stk.;2905,37
+;BYD-Speicher 7,7 kWh HVS Modul;€/Stk.;3834,6
+;BYD-Speicher 10,2 kWh HVS Modul;€/Stk.;4763,83
+;BYD-Speicher 12,8 kWh HVS Modul;€/Stk.;5693,06
+;BYD-Speicher 16,6 kWh HVM Modul;€/Stk.;99999,99
+;BYD-Speicher 19,3 kWh HVM Modul;€/Stk.;99999,99
+;BYD-Speicher 22,1 kWh HVM Modul;€/Stk.;99999,99

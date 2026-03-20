@@ -8,7 +8,7 @@ Beschreibung_fett;Materialien:;;;
 Beschreibung_fett;Leistungen:;;;
 ;- Bestückung und Verdrahtung des Zählerschranks mit FI-Schutzschalter Typ B und Leitungsschutzschalter;;;
 ;;;;
-H66TG3015 01;Vorbereitung Wärmepumpenanschluss;€/Stk.;708,6;15
+;Vorbereitung Wärmepumpenanschluss;€/Stk.;602,29;15
 ;;;;
 Untertitel;Ansteuerung Wärmepumpe Smart Grid;;;
 Beschreibung_fett;Materialien:;;;
@@ -26,6 +26,4 @@ Beschreibung_fett;Leistungen:;;;
 Beschreibung_fett;In Leistung nicht enthalten:;;;
 ;- Die Verdrahtung und Programmierung an der Wärmepumpe können wir nicht vornehmen, sodass der zuständige Heizungsbauer vorzugsweise am selben Tag vor Ort sein sollte.;;;
 ;;;;
-H66TG3045 01;Smart Grid;€/Stk.;248,6;16
-;;;;
-;;;;
+;Smart Grid;€/Stk.;198,06;16
