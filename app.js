@@ -491,6 +491,20 @@ currentUser = user || null;
 const db = getFirestore(fbApp);
 
 // -----------------------------
+// Admin-Liste
+// -----------------------------
+const ADMIN_EMAILS = [
+  "pascal.gasch@tpholding.de",
+  "marcel.zens@tpholding.de",
+  "julian.kniep@tga-nord.de"
+];
+
+function isAdminUser() {
+  const email = (auth.currentUser?.email || "").toLowerCase();
+  return ADMIN_EMAILS.includes(email);
+}
+
+// -----------------------------
 // Datenschutz-Checkbox Gate (Login + Registrierung)
 // (ohne Persistenz: nach Reload wieder leer, Haken frei entfernbar)
 // -----------------------------
@@ -890,12 +904,12 @@ async function savePassword() {
 }
 
 async function exportLoginLog() {
-  const adminEmail = "pascal.gasch@tpholding.de";
-  const userEmail = auth.currentUser?.email || "";
-  if (userEmail.toLowerCase() !== adminEmail.toLowerCase()) {
-    alert("Keine Berechtigung.");
-    return;
-  }
+  const isAdmin = isAdminUser();
+
+if (!isAdmin) {
+  alert("Keine Berechtigung.");
+  return;
+}
 
   const { getDocs, query, orderBy } = await import(
     "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
@@ -931,8 +945,12 @@ window.exportLoginLog = exportLoginLog;
 // -----------------------------
 
 async function loadPendingUsers() {
-  const adminEmail = "pascal.gasch@tpholding.de";
-  if ((auth.currentUser?.email || "").toLowerCase() !== adminEmail.toLowerCase()) return [];
+  const isAdmin = isAdminUser();
+
+if (!isAdmin) {
+  alert("Keine Berechtigung.");
+  return;
+}
 
   const q = query(collection(db, "users"), where("approved", "==", false));
   const snap = await getDocs(q);
@@ -943,11 +961,12 @@ async function loadPendingUsers() {
 }
 
 async function approveUser(uid, email) {
-  const adminEmail = "pascal.gasch@tpholding.de";
-  if ((auth.currentUser?.email || "").toLowerCase() !== adminEmail.toLowerCase()) {
-    alert("Keine Berechtigung.");
-    return;
-  }
+  const isAdmin = isAdminUser();
+
+if (!isAdmin) {
+  alert("Keine Berechtigung.");
+  return;
+}
 
   // ✅ udoc holen
   const uref = doc(db, "users", uid);
@@ -982,8 +1001,7 @@ window.approveUser = approveUser;
 
 
 function updateAdminUI_() {
-  const adminEmail = "pascal.gasch@tpholding.de";
-  const isAdmin = (auth.currentUser?.email || "").toLowerCase() === adminEmail.toLowerCase();
+  const isAdmin = isAdminUser();
 
   const btn = document.getElementById("btnExportLog");
   if (btn) btn.classList.toggle("hidden", !isAdmin);
@@ -1001,8 +1019,7 @@ async function loadAdminPage() {
   if (!box) return;
 
   // nur Admin
-  const adminEmail = "pascal.gasch@tpholding.de";
-  const isAdmin = (auth.currentUser?.email || "").toLowerCase() === adminEmail.toLowerCase();
+  const isAdmin = isAdminUser();
 
   if (!isAdmin) {
     box.innerHTML = "<div>Keine Berechtigung.</div>";
